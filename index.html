@@ -925,7 +925,7 @@
                 <p class="text-slate-400 mb-6 text-sm sm:text-base">아래 양식을 작성해주시면 빠르게 연락드리겠습니다.</p>
                 
                 <!-- Netlify Form -->
-                <form netlify action='/?success=true' class='space-y-4' method='POST' name='견적문의' onsubmit='handleFormSubmit(event)'>
+                <form netlify class='space-y-4' method='POST' name='견적문의' data-netlify='true' onsubmit='handleFormSubmit(event)'>
                     <!-- Honeypot field for spam protection -->
                     <input type="hidden" name="form-name" value="견적문의">
                     <p class="hidden">
@@ -1197,26 +1197,50 @@
         });
 
         // Handle form submission
-        function handleFormSubmit(event) {
+        async function handleFormSubmit(event) {
+            event.preventDefault();
             const form = event.target;
             
             // For local testing
             if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-                event.preventDefault();
                 alert('로컬 환경에서는 폼 제출이 작동하지 않습니다.\n배포 후 Netlify에서 nexokorea@gmail.com으로 이메일 알림을 설정해주세요.');
                 closeContactModal();
                 return false;
             }
             
-            // On Netlify, let the form submit normally
-            // Netlify will handle the submission and redirect
-            // We'll show success message after redirect or use URL parameter
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.get('success') === 'true') {
-                showSuccessMessage();
+            // Show loading state
+            const submitButton = form.querySelector('button[type="submit"]');
+            const originalButtonText = submitButton.innerHTML;
+            submitButton.disabled = true;
+            submitButton.innerHTML = '<span class="animate-spin">⏳</span> 전송 중...';
+            
+            try {
+                // Create FormData
+                const formData = new FormData(form);
+                
+                // Submit to Netlify
+                const response = await fetch('/', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: new URLSearchParams(formData).toString()
+                });
+                
+                if (response.ok) {
+                    // Show success message
+                    showSuccessMessage();
+                    // Reset form
+                    form.reset();
+                } else {
+                    throw new Error('폼 제출에 실패했습니다.');
+                }
+            } catch (error) {
+                console.error('Form submission error:', error);
+                alert('문의 전송 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+                submitButton.disabled = false;
+                submitButton.innerHTML = originalButtonText;
             }
             
-            return true;
+            return false;
         }
 
         // Show success message if redirected from form submission
@@ -1249,13 +1273,8 @@
             }
         }
 
-        // Check for success parameter on page load
+        // Initialize on page load
         document.addEventListener('DOMContentLoaded', () => {
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.get('success') === 'true') {
-                showSuccessMessage();
-            }
-            
             // Initialize reviews
             initReviews().catch(console.error);
         });
