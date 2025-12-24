@@ -164,10 +164,10 @@
             </p>
             <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mb-8 sm:mb-12 px-2">
                 <button onclick="openContactModal()" class="px-6 sm:px-8 py-3 sm:py-4 bg-nexo-cyan text-nexo-navy font-bold rounded-full text-base sm:text-lg hover:bg-white transition-all shadow-[0_0_30px_rgba(6,182,212,0.3)] flex items-center justify-center gap-2 group">
-                    무료 시연 신청하기
+                    전자칠판 견적문의
                     <i data-lucide="arrow-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
                 </button>
-                <a href="https://blog.naver.com/nexokorea" target="_blank" class="px-6 sm:px-8 py-3 sm:py-4 bg-slate-800/50 backdrop-blur border border-slate-600 text-white font-bold rounded-full text-base sm:text-lg hover:bg-slate-700 transition-all">
+                <a href="https://blog.naver.com/PostList.naver?blogId=nexokorea&from=postList&categoryNo=25" target="_blank" class="px-6 sm:px-8 py-3 sm:py-4 bg-slate-800/50 backdrop-blur border border-slate-600 text-white font-bold rounded-full text-base sm:text-lg hover:bg-slate-700 transition-all">
                     제품 상세보기
                 </a>
             </div>
@@ -228,69 +228,72 @@
                     <thead>
                         <tr class="bg-nexo-navy">
                             <th class="px-6 py-4 text-left text-nexo-cyan font-bold">사양</th>
-                            <th class="px-6 py-4 text-center font-bold">NX-S Series</th>
-                            <th class="px-6 py-4 text-center font-bold">NX-H Series</th>
-                            <th class="px-6 py-4 text-center font-bold">NX-P Series</th>
+                            <th class="px-6 py-4 text-center font-bold text-slate-500 opacity-60">NX-S Series</th>
+                            <th class="px-6 py-4 text-center font-bold text-nexo-cyan bg-nexo-cyan/10 border-2 border-nexo-cyan relative">
+                                NX-H Series
+                                <span class="absolute top-0 right-0 bg-nexo-orange text-white text-xs px-2 py-1 rounded-bl-lg">추천</span>
+                            </th>
+                            <th class="px-6 py-4 text-center font-bold text-slate-500 opacity-60">NX-P Series</th>
                         </tr>
                     </thead>
                     <tbody class="text-sm">
                         <tr class="border-b border-slate-700">
                             <td class="px-6 py-4 text-slate-300">크기</td>
-                            <td class="px-6 py-4 text-center text-slate-400">-</td>
-                            <td class="px-6 py-4 text-center text-white">65", 75", 86"</td>
-                            <td class="px-6 py-4 text-center text-white">65", 75", 86"</td>
+                            <td class="px-6 py-4 text-center text-slate-500 opacity-60">-</td>
+                            <td class="px-6 py-4 text-center text-white font-bold bg-nexo-cyan/5">65", 75", 86"</td>
+                            <td class="px-6 py-4 text-center text-slate-500 opacity-60">65", 75", 86"</td>
                         </tr>
                         <tr class="border-b border-slate-700">
                             <td class="px-6 py-4 text-slate-300">CPU</td>
-                            <td class="px-6 py-4 text-center text-white">Quad-Core MaliG52</td>
-                            <td class="px-6 py-4 text-center text-white">Octa-Core</td>
-                            <td class="px-6 py-4 text-center text-white">Octa-Core</td>
+                            <td class="px-6 py-4 text-center text-slate-500 opacity-60">Quad-Core MaliG52</td>
+                            <td class="px-6 py-4 text-center text-white font-bold bg-nexo-cyan/5">Octa-Core</td>
+                            <td class="px-6 py-4 text-center text-slate-500 opacity-60">Octa-Core</td>
                         </tr>
                         <tr class="border-b border-slate-700">
                             <td class="px-6 py-4 text-slate-300">내장 OS</td>
-                            <td class="px-6 py-4 text-center text-white">Android 14.0</td>
-                            <td class="px-6 py-4 text-center text-white">Android 13.0 (15.0 Up)</td>
-                            <td class="px-6 py-4 text-center text-white">Android 15.0</td>
+                            <td class="px-6 py-4 text-center text-slate-500 opacity-60">Android 14.0</td>
+                            <td class="px-6 py-4 text-center text-white font-bold bg-nexo-cyan/5">Android 13.0 (15.0 Up)</td>
+                            <td class="px-6 py-4 text-center text-slate-500 opacity-60">Android 15.0</td>
                         </tr>
                         <tr class="border-b border-slate-700">
                             <td class="px-6 py-4 text-slate-300">RAM/ROM</td>
-                            <td class="px-6 py-4 text-center text-white">8GB/128GB</td>
-                            <td class="px-6 py-4 text-center text-white">16GB/256GB</td>
-                            <td class="px-6 py-4 text-center text-white">32GB/512GB</td>
+                            <td class="px-6 py-4 text-center text-slate-500 opacity-60">8GB/128GB</td>
+                            <td class="px-6 py-4 text-center text-white font-bold bg-nexo-cyan/5">16GB/256GB</td>
+                            <td class="px-6 py-4 text-center text-slate-500 opacity-60">32GB/512GB</td>
                         </tr>
                         <tr class="border-b border-slate-700">
                             <td class="px-6 py-4 text-slate-300">해상도</td>
-                            <td class="px-6 py-4 text-center text-white" colspan="3">UHD 4K, 3840×2160P</td>
+                            <td class="px-6 py-4 text-center text-slate-500 opacity-60" colspan="3">UHD 4K, 3840×2160P</td>
                         </tr>
                         <tr class="border-b border-slate-700">
                             <td class="px-6 py-4 text-slate-300">밝기</td>
-                            <td class="px-6 py-4 text-center text-white">350nits</td>
-                            <td class="px-6 py-4 text-center text-white">450nits</td>
-                            <td class="px-6 py-4 text-center text-white">450nits</td>
+                            <td class="px-6 py-4 text-center text-slate-500 opacity-60">350nits</td>
+                            <td class="px-6 py-4 text-center text-white font-bold bg-nexo-cyan/5">450nits</td>
+                            <td class="px-6 py-4 text-center text-slate-500 opacity-60">450nits</td>
                         </tr>
                         <tr class="border-b border-slate-700">
                             <td class="px-6 py-4 text-slate-300">스피커</td>
-                            <td class="px-6 py-4 text-center text-white">20W×2</td>
-                            <td class="px-6 py-4 text-center text-white">20W×2 + 20W Subwoofer</td>
-                            <td class="px-6 py-4 text-center text-white">20W×2 + 20W Subwoofer</td>
+                            <td class="px-6 py-4 text-center text-slate-500 opacity-60">20W×2</td>
+                            <td class="px-6 py-4 text-center text-white font-bold bg-nexo-cyan/5">20W×2 + 20W Subwoofer</td>
+                            <td class="px-6 py-4 text-center text-slate-500 opacity-60">20W×2 + 20W Subwoofer</td>
                         </tr>
                         <tr class="border-b border-slate-700">
                             <td class="px-6 py-4 text-slate-300">내장 카메라</td>
-                            <td class="px-6 py-4 text-center text-slate-400">-</td>
-                            <td class="px-6 py-4 text-center text-white">4800만화소 AI 카메라</td>
-                            <td class="px-6 py-4 text-center text-white">4800만화소 AI 카메라</td>
+                            <td class="px-6 py-4 text-center text-slate-500 opacity-60">-</td>
+                            <td class="px-6 py-4 text-center text-white font-bold bg-nexo-cyan/5">4800만화소 AI 카메라</td>
+                            <td class="px-6 py-4 text-center text-slate-500 opacity-60">4800만화소 AI 카메라</td>
                         </tr>
                         <tr class="border-b border-slate-700">
                             <td class="px-6 py-4 text-slate-300">터치센서</td>
-                            <td class="px-6 py-4 text-center text-slate-400">-</td>
-                            <td class="px-6 py-4 text-center text-white">50포인트 멀티 터치</td>
-                            <td class="px-6 py-4 text-center text-white">50포인트 멀티 터치</td>
+                            <td class="px-6 py-4 text-center text-slate-500 opacity-60">-</td>
+                            <td class="px-6 py-4 text-center text-white font-bold bg-nexo-cyan/5">50포인트 멀티 터치</td>
+                            <td class="px-6 py-4 text-center text-slate-500 opacity-60">50포인트 멀티 터치</td>
                         </tr>
                         <tr>
                             <td class="px-6 py-4 text-slate-300">추가기능</td>
-                            <td class="px-6 py-4 text-center text-white">Wi-Fi 5, NFC</td>
-                            <td class="px-6 py-4 text-center text-white">Wi-Fi 6, NFC, 대화형AI, 지문인식</td>
-                            <td class="px-6 py-4 text-center text-white">Wi-Fi 6, NFC, 대화형AI, 지문인식</td>
+                            <td class="px-6 py-4 text-center text-slate-500 opacity-60">Wi-Fi 5, NFC</td>
+                            <td class="px-6 py-4 text-center text-white font-bold bg-nexo-cyan/5">Wi-Fi 6, NFC, 대화형AI, 지문인식</td>
+                            <td class="px-6 py-4 text-center text-slate-500 opacity-60">Wi-Fi 6, NFC, 대화형AI, 지문인식</td>
                         </tr>
                     </tbody>
                 </table>
@@ -471,22 +474,6 @@
                         <img src="images/math-3d-graph.png" alt="스마트 수학 툴 - 3D 그래프" class="w-full h-full object-contain" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=&quot;text-slate-500 text-sm&quot;>3D 수학 그래프 이미지</div>';">
                     </div>
                 </div>
-            </div>
-
-            <!-- Open AI Section -->
-            <div class="bg-gradient-to-r from-nexo-navy to-slate-800 rounded-2xl p-8 border border-slate-700 mb-12">
-                <div class="flex items-center gap-4 mb-6">
-                    <div class="w-16 h-16 bg-nexo-orange/20 rounded-xl flex items-center justify-center">
-                        <i data-lucide="sparkles" class="w-8 h-8 text-nexo-orange"></i>
-                    </div>
-                    <div>
-                        <h4 class="text-2xl font-bold text-white">Open AI</h4>
-                        <p class="text-slate-400 text-sm">대화형 AI Assistant</p>
-                    </div>
-                </div>
-                <p class="text-slate-300 mb-4">
-                    즉시 질문에 답변, 수학 문제 단계별 제안, 외국어 발음 및 문법 도움, 실시간 피드백으로 맞춤형 학습 제공.
-                </p>
             </div>
 
             <!-- Video Gallery Section -->
@@ -1045,9 +1032,9 @@
                     <span>© 2024 NEXO KOREA Corp. All rights reserved.</span>
                 </div>
                 <div class="flex space-x-6">
-                    <a href="https://blog.naver.com/nexokorea" target="_blank" class="hover:text-white">이용약관</a>
-                    <a href="https://blog.naver.com/nexokorea" target="_blank" class="hover:text-white">개인정보처리방침</a>
-                    <a href="https://blog.naver.com/nexokorea" target="_blank" class="hover:text-white">고객센터</a>
+                    
+                    <a href="https://www.nexokorea.com/bbs/page.php?hid=privacy" target="_blank" class="hover:text-white">개인정보처리방침</a>
+                    <a href="https://www.nexokorea.com/bbs/board.php?bo_table=m05_01" target="_blank" class="hover:text-white">고객센터</a>
                 </div>
             </div>
         </div>
