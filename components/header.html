@@ -1,0 +1,47 @@
+<!-- Navigation -->
+<nav class="fixed w-full z-50 glass-nav border-b border-slate-800 transition-all duration-300" id="navbar">
+    <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+        <a href="index.html" class="text-2xl font-black tracking-tighter hover:text-nexo-cyan transition-colors">
+            NEXO <span class="text-nexo-cyan">KOREA</span>
+        </a>
+        
+        <div class="hidden md:flex items-center space-x-8 text-sm font-bold text-slate-300">
+            <a href="index.html" class="hover:text-white transition-colors">홈</a>
+            <a href="product.html" class="hover:text-white transition-colors">제품소개</a>
+            <a href="video.html" class="hover:text-white transition-colors">동영상</a>
+            <a href="resources.html" class="hover:text-white transition-colors">기술자료</a>
+            <a href="manual.html" class="hover:text-white transition-colors">사용매뉴얼</a>
+            <a href="contact.html" class="px-6 py-2.5 bg-nexo-cyan text-nexo-navy rounded-full hover:bg-white hover:scale-105 transition-all shadow-[0_0_15px_rgba(6,182,212,0.4)]">
+                구매문의
+            </a>
+        </div>
+
+        <button class="md:hidden text-white" onclick="toggleMobileMenu()" id="mobileMenuBtn">
+            <i data-lucide="menu" class="w-8 h-8"></i>
+        </button>
+    </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div id="mobile-menu" class="fixed inset-0 z-40 md:hidden hidden">
+    <div class="fixed inset-0 bg-black/70 backdrop-blur-sm" onclick="closeMobileMenu()"></div>
+    <div class="fixed top-0 right-0 h-full w-80 bg-nexo-navy border-l border-slate-800 shadow-2xl transform transition-transform duration-300">
+        <div class="p-6">
+            <div class="flex justify-between items-center mb-8">
+                <span class="text-2xl font-black text-nexo-cyan">NEXO KOREA</span>
+                <button onclick="closeMobileMenu()" class="text-slate-400 hover:text-white">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            <nav class="space-y-4">
+                <a href="index.html" class="block px-4 py-3 text-white hover:bg-slate-800 rounded-lg transition-colors" onclick="closeMobileMenu()">홈</a>
+                <a href="product.html" class="block px-4 py-3 text-white hover:bg-slate-800 rounded-lg transition-colors" onclick="closeMobileMenu()">제품소개</a>
+                <a href="video.html" class="block px-4 py-3 text-white hover:bg-slate-800 rounded-lg transition-colors" onclick="closeMobileMenu()">동영상</a>
+                <a href="resources.html" class="block px-4 py-3 text-white hover:bg-slate-800 rounded-lg transition-colors" onclick="closeMobileMenu()">기술자료</a>
+                <a href="manual.html" class="block px-4 py-3 text-white hover:bg-slate-800 rounded-lg transition-colors" onclick="closeMobileMenu()">사용매뉴얼</a>
+                <a href="contact.html" class="block px-4 py-3 bg-nexo-cyan text-nexo-navy font-bold rounded-lg hover:bg-white transition-colors text-center" onclick="closeMobileMenu()">구매문의</a>
+            </nav>
+        </div>
+    </div>
+</div>
+
