@@ -16,7 +16,7 @@
     
     <!-- 아이콘: Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    
+
     <!-- 공통 컴포넌트 로드 스크립트 -->
     <script src="components/components.js" defer></script>
 
@@ -155,13 +155,17 @@
             </div>
 
             <!-- Key Features Badges -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-4 max-w-5xl mx-auto">
+                <div class="bg-slate-900/80 backdrop-blur border border-slate-700 rounded-xl p-4 sm:p-6">
+                    <div class="text-3xl sm:text-4xl font-black text-nexo-cyan mb-2">zero</div>
+                    <div class="text-xs sm:text-sm text-slate-400">빛반사율<br class="hidden sm:block">(최고등급)</div>
+                </div>
                 <div class="bg-slate-900/80 backdrop-blur border border-slate-700 rounded-xl p-4 sm:p-6">
                     <div class="text-3xl sm:text-4xl font-black text-nexo-cyan mb-2">4K</div>
                     <div class="text-xs sm:text-sm text-slate-400">UHD 해상도</div>
                 </div>
                 <div class="bg-slate-900/80 backdrop-blur border border-slate-700 rounded-xl p-4 sm:p-6">
-                    <div class="text-3xl sm:text-4xl font-black text-nexo-cyan mb-2">0.1s</div>
+                    <div class="text-3xl sm:text-4xl font-black text-nexo-cyan mb-2">1ms</div>
                     <div class="text-xs sm:text-sm text-slate-400">터치 반응속도</div>
                 </div>
                 <div class="bg-slate-900/80 backdrop-blur border border-slate-700 rounded-xl p-4 sm:p-6">
@@ -203,13 +207,13 @@
                     필요한 정보를 선택하여 자세히 확인하세요
                 </p>
             </div>
-            
+
             <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6 sm:gap-8">
                 <!-- 제품소개 카드 -->
                 <a href="product.html" class="group relative bg-slate-800/50 backdrop-blur border border-slate-700 rounded-2xl p-8 sm:p-10 hover:border-nexo-cyan hover:scale-105 hover:shadow-2xl transition-all duration-300 flex flex-col items-center text-center">
                     <div class="w-16 h-16 sm:w-20 sm:h-20 bg-nexo-cyan/20 rounded-full flex items-center justify-center mb-6 group-hover:bg-nexo-cyan/30 transition-colors">
                         <i data-lucide="package" class="w-8 h-8 sm:w-10 sm:h-10 text-nexo-cyan"></i>
-                    </div>
+            </div>
                     <h3 class="text-xl sm:text-2xl font-bold text-white mb-3 group-hover:text-nexo-cyan transition-colors">
                         제품소개
                     </h3>
@@ -284,19 +288,19 @@
             <div class="p-6 sm:p-8">
                 <h2 class="text-2xl font-bold text-white mb-6">관리자 로그인</h2>
                 <form id="adminLoginForm" class="space-y-4">
-                    <div>
+                            <div>
                         <label for="adminPassword" class="block text-sm font-medium text-slate-300 mb-2">비밀번호</label>
                         <input type="password" id="adminPassword" required
                                class="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-nexo-cyan focus:ring-2 focus:ring-nexo-cyan/20 transition-colors"
                                placeholder="관리자 비밀번호를 입력하세요">
-                    </div>
+                            </div>
                     <button type="submit" class="w-full px-6 py-3 bg-nexo-cyan text-nexo-navy font-bold rounded-lg hover:bg-white transition-all">
                         로그인
                     </button>
                 </form>
-            </div>
-        </div>
-    </div>
+                        </div>
+                    </div>
+                </div>
 
     <!-- Admin Review Management Modal -->
     <div id="adminReviewModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/70 backdrop-blur-sm overflow-y-auto">
@@ -307,7 +311,7 @@
                 <button id="closeReviewModal" class="text-slate-400 hover:text-white transition-colors bg-slate-800 hover:bg-slate-700 rounded-full p-2">
                     <i data-lucide="x" class="w-6 h-6"></i>
                 </button>
-            </div>
+                            </div>
             <div class="p-6 sm:p-8">
                 <!-- Add Review Form -->
                 <div class="bg-slate-800 rounded-xl p-6 mb-6 border border-slate-700">
@@ -329,14 +333,14 @@
                                     <option value="2">⭐⭐ (2점)</option>
                                     <option value="1">⭐ (1점)</option>
                                 </select>
-                            </div>
                         </div>
+                    </div>
                         <div>
                             <label for="reviewText" class="block text-sm font-medium text-slate-300 mb-2">후기 내용 *</label>
                             <textarea id="reviewText" rows="4" required
                                       class="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-nexo-cyan resize-none"
                                       placeholder="후기 내용을 입력하세요"></textarea>
-                        </div>
+                    </div>
                         <div>
                             <label for="reviewImage" class="block text-sm font-medium text-slate-300 mb-2">후기 사진 (선택, 최대 3개)</label>
                             <input type="file" id="reviewImage" accept="image/*" multiple
@@ -344,16 +348,16 @@
                             <p class="text-xs text-slate-500 mt-1">JPG, PNG 형식, 최대 5MB, 최대 3개까지 선택 가능</p>
                             <div id="imagePreview" class="mt-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 hidden">
                                 <!-- Preview images will be inserted here -->
-                            </div>
-                        </div>
+                </div>
+            </div>
                         <button type="submit" class="w-full px-6 py-3 bg-nexo-cyan text-nexo-navy font-bold rounded-lg hover:bg-white transition-all">
                             후기 추가
                         </button>
                     </form>
-                </div>
+                    </div>
 
                 <!-- Existing Reviews List -->
-                <div>
+                    <div>
                     <h3 class="text-lg font-bold text-white mb-4">등록된 후기</h3>
                     <div id="adminReviewsList" class="space-y-3">
                         <!-- Reviews will be listed here -->
@@ -569,7 +573,7 @@
             <!-- Close Button -->
             <button id="closeModal" class="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors z-10">
                 <i data-lucide="x" class="w-6 h-6"></i>
-            </button>
+                    </button>
             
             <!-- Modal Content -->
             <div class="p-6 sm:p-8">
@@ -598,8 +602,8 @@
                         <input type="text" id="company" name="company" 
                                class="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-nexo-cyan focus:ring-2 focus:ring-nexo-cyan/20 transition-colors"
                                placeholder="회사 또는 기관명을 입력해주세요">
-                    </div>
-                    
+                </div>
+
                     <!-- Phone -->
                     <div>
                         <label for="phone" class="block text-sm font-medium text-slate-300 mb-2">연락처 *</label>
@@ -614,8 +618,8 @@
                         <input type="email" id="email" name="email" required 
                                class="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-nexo-cyan focus:ring-2 focus:ring-nexo-cyan/20 transition-colors"
                                placeholder="example@email.com">
-                    </div>
-                    
+                </div>
+
                     <!-- Product Interest -->
                     <div>
                         <label for="product" class="block text-sm font-medium text-slate-300 mb-2">관심 제품</label>
@@ -635,8 +639,8 @@
                         <textarea id="address" name="address" rows="3" 
                                   class="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-nexo-cyan focus:ring-2 focus:ring-nexo-cyan/20 transition-colors resize-none"
                                   placeholder="설치 예정 주소를 입력해주세요 (예: 서울시 강남구 테헤란로 123)"></textarea>
-                    </div>
-                    
+                </div>
+
                     <!-- Message -->
                     <div>
                         <label for="message" class="block text-sm font-medium text-slate-300 mb-2">문의 내용 *</label>
@@ -651,12 +655,12 @@
                                 class="w-full px-6 py-4 bg-nexo-cyan text-nexo-navy font-bold rounded-lg hover:bg-white transition-all shadow-lg shadow-nexo-cyan/20 hover:shadow-nexo-cyan/40 flex items-center justify-center gap-2">
                             문의하기
                             <i data-lucide="send" class="w-5 h-5"></i>
-                        </button>
+                    </button>
                     </div>
                 </form>
+                </div>
             </div>
         </div>
-    </div>
 
     <!-- Navigation Cards Section -->
     <section class="py-16 sm:py-24 bg-nexo-dark">
@@ -721,7 +725,7 @@
                 <a href="manual.html" class="group relative bg-slate-800/50 backdrop-blur border border-slate-700 rounded-2xl p-6 sm:p-8 hover:border-nexo-cyan hover:scale-105 hover:shadow-2xl transition-all duration-300 flex flex-col items-center text-center">
                     <div class="w-14 h-14 sm:w-16 sm:h-16 bg-nexo-cyan/20 rounded-full flex items-center justify-center mb-4 group-hover:bg-nexo-cyan/30 transition-colors">
                         <i data-lucide="book-open" class="w-7 h-7 sm:w-8 sm:h-8 text-nexo-cyan"></i>
-                    </div>
+                </div>
                     <h5 class="text-lg sm:text-xl font-bold text-white mb-2 group-hover:text-nexo-cyan transition-colors">
                         사용매뉴얼
                     </h5>
@@ -729,8 +733,8 @@
                         사용 매뉴얼 다운로드
                     </p>
                 </a>
+                </div>
             </div>
-        </div>
     </section>
 
     <!-- Footer Placeholder (동적으로 로드됨) -->
@@ -766,13 +770,13 @@
                                 const otherIcon = otherBtn ? otherBtn.querySelector('i') : null;
                                 
                                 if (otherContent) {
-                                    otherContent.classList.add('hidden');
+                        otherContent.classList.add('hidden');
                                 }
                                 if (otherIcon) {
-                                    otherIcon.style.transform = 'rotate(0deg)';
+                        otherIcon.style.transform = 'rotate(0deg)';
                                 }
                                 if (otherBtn) {
-                                    otherBtn.classList.remove('text-nexo-cyan');
+                        otherBtn.classList.remove('text-nexo-cyan');
                                 }
                             }
                         });
@@ -781,9 +785,9 @@
                         if (isHidden) {
                             content.classList.remove('hidden');
                             if (icon) {
-                                icon.style.transform = 'rotate(180deg)';
+                    icon.style.transform = 'rotate(180deg)';
                             }
-                            btn.classList.add('text-nexo-cyan');
+                    btn.classList.add('text-nexo-cyan');
                         } else {
                             content.classList.add('hidden');
                             if (icon) {
