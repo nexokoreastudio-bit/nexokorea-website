@@ -17,6 +17,9 @@
     <!-- 아이콘: Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
+    <!-- 공통 컴포넌트 로드 스크립트 -->
+    <script src="components/components.js" defer></script>
+
     <script>
         tailwind.config = {
             theme: {
@@ -117,74 +120,66 @@
             }
         }
     </style>
+    <link rel="stylesheet" href="theme.css">
+    <script>document.documentElement.setAttribute("data-theme", localStorage.getItem("nexo-theme") || "light");</script>
 </head>
 <body class="bg-nexo-navy text-white font-sans overflow-x-hidden">
 
-    <!-- Navigation -->
-    <nav class="fixed w-full z-50 glass-nav border-b border-slate-800 transition-all duration-300" id="navbar">
-        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
-            <a href="https://blog.naver.com/nexokorea" target="_blank" class="text-2xl font-black tracking-tighter hover:text-nexo-cyan transition-colors">
-                NEXO <span class="text-nexo-cyan">KOREA</span>
-            </a>
-            
-            <div class="hidden md:flex items-center space-x-8 text-sm font-bold text-slate-300">
-                <a href="#products" class="hover:text-white transition-colors">제품소개</a>
-                <a href="#features" class="hover:text-white transition-colors">주요기능</a>
-                <a href="#applications" class="hover:text-white transition-colors">Application</a>
-                <a href="#solution" class="hover:text-white transition-colors">솔루션</a>
-                <a href="#customers" class="hover:text-white transition-colors">고객사</a>
-                <button onclick="openContactModal()" class="px-6 py-2.5 bg-nexo-cyan text-nexo-navy rounded-full hover:bg-white hover:scale-105 transition-all shadow-[0_0_15px_rgba(6,182,212,0.4)]">
-                    문의하기
-                </button>
-            </div>
-
-            <button class="md:hidden text-white" onclick="toggleMobileMenu()">
-                <i data-lucide="menu" class="w-8 h-8"></i>
-            </button>
-        </div>
-    </nav>
+    <!-- Header Placeholder (동적으로 로드됨) -->
+    <div id="header-placeholder"></div>
 
     <!-- Hero Section -->
-    <section class="relative min-h-screen sm:h-screen min-h-[600px] sm:min-h-[800px] flex items-center justify-center overflow-hidden pt-20 pb-12 sm:pb-0">
-        <div class="absolute inset-0 z-0">
-            <img src="images/hero-bg.jpg" alt="NEXO Smart Board" class="w-full h-full object-cover opacity-30" onerror="this.src='https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2301&auto=format&fit=crop'">
-            <div class="absolute inset-0 bg-gradient-to-t from-nexo-navy via-nexo-navy/80 to-transparent"></div>
-        </div>
+    <section class="relative overflow-hidden pt-28 sm:pt-32 pb-12 bg-slate-900">
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 w-full">
+            <!-- 텍스트 + 버튼 상단 -->
+            <div class="text-center mb-10 sm:mb-14">
+                <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black leading-[1.2] sm:leading-tight mb-6 fade-in break-keep">
+                    <span class="block mb-2">스마트 오피스와</span>
+                    <span class="block mb-2">미래 교육의</span>
+                    <span class="text-nexo-cyan glow-text block">혁신을 시작하세요</span>
+                </h1>
+                <p class="text-base sm:text-lg md:text-xl text-slate-400 mb-8 max-w-2xl mx-auto font-light leading-relaxed">
+                    <span class="block mb-1">수업, 화상회의, 발표, 행사 등</span>
+                    <span class="block mb-2">모든 업무에 활용 가능한</span>
+                    <span class="text-nexo-cyan font-bold block">NEXO NX-Series</span>
+                </p>
+                <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
+                    <button onclick="openContactModal()" class="px-6 sm:px-8 py-3 sm:py-4 bg-nexo-cyan text-nexo-navy font-bold rounded-full text-base sm:text-lg hover:bg-white transition-all shadow-[0_0_30px_rgba(6,182,212,0.3)] flex items-center justify-center gap-2 group">
+                        전자칠판 견적문의
+                        <i data-lucide="arrow-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
+                    </button>
+                    <a href="https://blog.naver.com/PostList.naver?blogId=nexokorea&from=postList&categoryNo=25" target="_blank" class="px-6 sm:px-8 py-3 sm:py-4 bg-slate-800/50 backdrop-blur border border-slate-600 text-white font-bold rounded-full text-base sm:text-lg hover:bg-slate-700 transition-all text-center">
+                        제품 상세보기
+                    </a>
+                </div>
+            </div>
 
-        <div class="relative z-10 text-center px-4 sm:px-6 max-w-5xl mx-auto">
-            <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black leading-[1.2] sm:leading-tight mb-6 fade-in break-keep">
-                <span class="block mb-2">스마트 오피스와</span>
-                <span class="block mb-2">미래 교육의</span>
-                <span class="text-nexo-cyan glow-text block">혁신을 시작하세요</span>
-            </h1>
-            <p class="text-base sm:text-lg md:text-xl text-slate-400 mb-8 sm:mb-10 max-w-2xl mx-auto font-light leading-relaxed px-2">
-                <span class="block mb-1">수업, 화상회의, 발표, 행사 등</span>
-                <span class="block mb-2">모든 업무에 활용 가능한</span>
-                <span class="text-nexo-cyan font-bold block">NEXO NX-Series</span>
-            </p>
-            <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mb-8 sm:mb-12 px-2">
-                <button onclick="openContactModal()" class="px-6 sm:px-8 py-3 sm:py-4 bg-nexo-cyan text-nexo-navy font-bold rounded-full text-base sm:text-lg hover:bg-white transition-all shadow-[0_0_30px_rgba(6,182,212,0.3)] flex items-center justify-center gap-2 group">
-                    전자칠판 견적문의
-                    <i data-lucide="arrow-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
-                </button>
-                <a href="https://blog.naver.com/PostList.naver?blogId=nexokorea&from=postList&categoryNo=25" target="_blank" class="px-6 sm:px-8 py-3 sm:py-4 bg-slate-800/50 backdrop-blur border border-slate-600 text-white font-bold rounded-full text-base sm:text-lg hover:bg-slate-700 transition-all">
-                    제품 상세보기
-                </a>
+            <!-- 전자칠판 제품 이미지 -->
+            <div class="flex justify-center mb-10 sm:mb-14">
+                <img src="images/nexo-nh.png" alt="NEXO 전자칠판" class="w-full max-w-3xl drop-shadow-2xl">
             </div>
 
             <!-- Key Features Badges -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
+            <div class="grid grid-cols-2 md:grid-cols-6 gap-4 max-w-6xl mx-auto">
+                <div class="bg-slate-900/80 backdrop-blur border border-slate-700 rounded-xl p-4 sm:p-6">
+                    <div class="text-3xl sm:text-4xl font-black text-nexo-cyan mb-2">zero</div>
+                    <div class="text-xs sm:text-sm text-slate-400">빛반사율<br class="hidden sm:block">(최고등급)</div>
+                </div>
                 <div class="bg-slate-900/80 backdrop-blur border border-slate-700 rounded-xl p-4 sm:p-6">
                     <div class="text-3xl sm:text-4xl font-black text-nexo-cyan mb-2">4K</div>
                     <div class="text-xs sm:text-sm text-slate-400">UHD 해상도</div>
                 </div>
                 <div class="bg-slate-900/80 backdrop-blur border border-slate-700 rounded-xl p-4 sm:p-6">
-                    <div class="text-3xl sm:text-4xl font-black text-nexo-cyan mb-2">0.1s</div>
+                    <div class="text-3xl sm:text-4xl font-black text-nexo-cyan mb-2">1ms</div>
                     <div class="text-xs sm:text-sm text-slate-400">터치 반응속도</div>
                 </div>
                 <div class="bg-slate-900/80 backdrop-blur border border-slate-700 rounded-xl p-4 sm:p-6">
                     <div class="text-3xl sm:text-4xl font-black text-nexo-cyan mb-2">9개</div>
                     <div class="text-xs sm:text-sm text-slate-400">동시 미러링</div>
+                </div>
+                <div class="bg-slate-900/80 backdrop-blur border border-slate-700 rounded-xl p-4 sm:p-6">
+                    <div class="text-3xl sm:text-4xl font-black text-nexo-cyan mb-2">AS</div>
+                    <div class="text-xs sm:text-sm text-slate-400">24hr 전화대기</div>
                 </div>
                 <div class="bg-slate-900/80 backdrop-blur border border-slate-700 rounded-xl p-4 sm:p-6">
                     <div class="text-3xl sm:text-4xl font-black text-nexo-cyan mb-2">99%</div>
@@ -210,353 +205,89 @@
         </div>
     </section>
 
-    <!-- Product Series Section -->
-    <section id="products" class="py-24 bg-slate-900">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="text-center mb-12 sm:mb-16">
-                <h2 class="text-nexo-cyan font-bold tracking-widest text-xs sm:text-sm mb-2">PRODUCT LINEUP</h2>
-                <h3 class="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4 px-2">NEXO NX-Series</h3>
-                <p class="text-sm sm:text-base text-slate-400 max-w-2xl mx-auto px-4 leading-relaxed">
-                    <span class="block mb-1">초고화질 4K UHD 디스플레이와 멀티 터치 기능이 결합된</span>
-                    <span class="block">NEXO 스마트디스플레이는 시각적으로 매력적인 학습 및 업무환경을 제공합니다.</span>
-                </p>
-            </div>
-
-            <!-- Product Comparison Table -->
-            <div class="overflow-x-auto">
-                <table class="w-full border-collapse bg-slate-800 rounded-xl overflow-hidden">
-                    <thead>
-                        <tr class="bg-nexo-navy">
-                            <th class="px-6 py-4 text-left text-nexo-cyan font-bold">사양</th>
-                            <th class="px-6 py-4 text-center font-bold text-slate-500 opacity-60">NX-S Series</th>
-                            <th class="px-6 py-4 text-center font-bold text-nexo-cyan bg-nexo-cyan/10 border-2 border-nexo-cyan relative">
-                                NX-H Series
-                                <span class="absolute top-0 right-0 bg-nexo-orange text-white text-xs px-2 py-1 rounded-bl-lg">추천</span>
-                            </th>
-                            <th class="px-6 py-4 text-center font-bold text-slate-500 opacity-60">NX-P Series</th>
-                        </tr>
-                    </thead>
-                    <tbody class="text-sm">
-                        <tr class="border-b border-slate-700">
-                            <td class="px-6 py-4 text-slate-300">크기</td>
-                            <td class="px-6 py-4 text-center text-slate-500 opacity-60">-</td>
-                            <td class="px-6 py-4 text-center text-white font-bold bg-nexo-cyan/5">65", 75", 86"</td>
-                            <td class="px-6 py-4 text-center text-slate-500 opacity-60">65", 75", 86"</td>
-                        </tr>
-                        <tr class="border-b border-slate-700">
-                            <td class="px-6 py-4 text-slate-300">CPU</td>
-                            <td class="px-6 py-4 text-center text-slate-500 opacity-60">Quad-Core MaliG52</td>
-                            <td class="px-6 py-4 text-center text-white font-bold bg-nexo-cyan/5">Octa-Core</td>
-                            <td class="px-6 py-4 text-center text-slate-500 opacity-60">Octa-Core</td>
-                        </tr>
-                        <tr class="border-b border-slate-700">
-                            <td class="px-6 py-4 text-slate-300">내장 OS</td>
-                            <td class="px-6 py-4 text-center text-slate-500 opacity-60">Android 14.0</td>
-                            <td class="px-6 py-4 text-center text-white font-bold bg-nexo-cyan/5">Android 13.0 (15.0 Up)</td>
-                            <td class="px-6 py-4 text-center text-slate-500 opacity-60">Android 15.0</td>
-                        </tr>
-                        <tr class="border-b border-slate-700">
-                            <td class="px-6 py-4 text-slate-300">RAM/ROM</td>
-                            <td class="px-6 py-4 text-center text-slate-500 opacity-60">8GB/128GB</td>
-                            <td class="px-6 py-4 text-center text-white font-bold bg-nexo-cyan/5">16GB/256GB</td>
-                            <td class="px-6 py-4 text-center text-slate-500 opacity-60">32GB/512GB</td>
-                        </tr>
-                        <tr class="border-b border-slate-700">
-                            <td class="px-6 py-4 text-slate-300">해상도</td>
-                            <td class="px-6 py-4 text-center text-slate-500 opacity-60" colspan="3">UHD 4K, 3840×2160P</td>
-                        </tr>
-                        <tr class="border-b border-slate-700">
-                            <td class="px-6 py-4 text-slate-300">밝기</td>
-                            <td class="px-6 py-4 text-center text-slate-500 opacity-60">350nits</td>
-                            <td class="px-6 py-4 text-center text-white font-bold bg-nexo-cyan/5">450nits</td>
-                            <td class="px-6 py-4 text-center text-slate-500 opacity-60">450nits</td>
-                        </tr>
-                        <tr class="border-b border-slate-700">
-                            <td class="px-6 py-4 text-slate-300">스피커</td>
-                            <td class="px-6 py-4 text-center text-slate-500 opacity-60">20W×2</td>
-                            <td class="px-6 py-4 text-center text-white font-bold bg-nexo-cyan/5">20W×2 + 20W Subwoofer</td>
-                            <td class="px-6 py-4 text-center text-slate-500 opacity-60">20W×2 + 20W Subwoofer</td>
-                        </tr>
-                        <tr class="border-b border-slate-700">
-                            <td class="px-6 py-4 text-slate-300">내장 카메라</td>
-                            <td class="px-6 py-4 text-center text-slate-500 opacity-60">-</td>
-                            <td class="px-6 py-4 text-center text-white font-bold bg-nexo-cyan/5">4800만화소 AI 카메라</td>
-                            <td class="px-6 py-4 text-center text-slate-500 opacity-60">4800만화소 AI 카메라</td>
-                        </tr>
-                        <tr class="border-b border-slate-700">
-                            <td class="px-6 py-4 text-slate-300">터치센서</td>
-                            <td class="px-6 py-4 text-center text-slate-500 opacity-60">-</td>
-                            <td class="px-6 py-4 text-center text-white font-bold bg-nexo-cyan/5">50포인트 멀티 터치</td>
-                            <td class="px-6 py-4 text-center text-slate-500 opacity-60">50포인트 멀티 터치</td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 text-slate-300">추가기능</td>
-                            <td class="px-6 py-4 text-center text-slate-500 opacity-60">Wi-Fi 5, NFC</td>
-                            <td class="px-6 py-4 text-center text-white font-bold bg-nexo-cyan/5">Wi-Fi 6, NFC, 대화형AI, 지문인식</td>
-                            <td class="px-6 py-4 text-center text-slate-500 opacity-60">Wi-Fi 6, NFC, 대화형AI, 지문인식</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </section>
-
-    <!-- Key Features Section -->
-    <section id="features" class="py-24 bg-nexo-dark relative">
-        <div class="absolute top-0 right-0 w-96 h-96 bg-nexo-cyan rounded-full blur-[150px] opacity-10 pointer-events-none"></div>
-
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="text-center mb-20">
-                <h2 class="text-nexo-cyan font-bold tracking-widest text-sm mb-2">KEY FEATURES</h2>
-                <h3 class="text-4xl font-bold text-white mb-4">압도적인 기술력의 차이</h3>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-                <!-- Feature 1 -->
-                <div class="group p-6 rounded-2xl bg-slate-900 border border-slate-800 hover:border-nexo-cyan/50 hover:bg-slate-800/80 transition-all duration-300 hover:-translate-y-2">
-                    <div class="w-14 h-14 bg-slate-800 rounded-xl flex items-center justify-center mb-4 group-hover:bg-nexo-cyan group-hover:text-nexo-navy transition-colors text-nexo-cyan">
-                        <i data-lucide="monitor" class="w-7 h-7"></i>
-                    </div>
-                    <h4 class="text-lg font-bold mb-2 text-white">압도적 4K UHD 해상도</h4>
-                    <p class="text-slate-400 leading-relaxed text-sm">
-                        Ultra HD Direct type LED 패널 사용. FHD보다 월등한 선명도, 450cd/m² 밝기.
-                    </p>
-                </div>
-
-                <!-- Feature 2 -->
-                <div class="group p-6 rounded-2xl bg-slate-900 border border-slate-800 hover:border-nexo-cyan/50 hover:bg-slate-800/80 transition-all duration-300 hover:-translate-y-2">
-                    <div class="w-14 h-14 bg-slate-800 rounded-xl flex items-center justify-center mb-4 group-hover:bg-nexo-cyan group-hover:text-nexo-navy transition-colors text-nexo-cyan">
-                        <i data-lucide="smartphone" class="w-7 h-7"></i>
-                    </div>
-                    <h4 class="text-lg font-bold mb-2 text-white">Android OS 기본탑재</h4>
-                    <p class="text-slate-400 leading-relaxed text-sm">
-                        Windows 호환. 최적화된 성능과 강화된 보안기능으로 누구나 쉽게 사용.
-                    </p>
-                </div>
-
-                <!-- Feature 3 -->
-                <div class="group p-6 rounded-2xl bg-slate-900 border border-slate-800 hover:border-nexo-cyan/50 hover:bg-slate-800/80 transition-all duration-300 hover:-translate-y-2">
-                    <div class="w-14 h-14 bg-slate-800 rounded-xl flex items-center justify-center mb-4 group-hover:bg-nexo-cyan group-hover:text-nexo-navy transition-colors text-nexo-cyan">
-                        <i data-lucide="shield" class="w-7 h-7"></i>
-                    </div>
-                    <h4 class="text-lg font-bold mb-2 text-white">무반사 고강도 강화유리</h4>
-                    <p class="text-slate-400 leading-relaxed text-sm">
-                        무반사·9등급 고강도 강화유리, ZERO-GAP bonding. 경도9H로 스크래치 ZERO.
-                    </p>
-                </div>
-
-                <!-- Feature 4 -->
-                <div class="group p-6 rounded-2xl bg-slate-900 border border-slate-800 hover:border-nexo-cyan/50 hover:bg-slate-800/80 transition-all duration-300 hover:-translate-y-2">
-                    <div class="w-14 h-14 bg-slate-800 rounded-xl flex items-center justify-center mb-4 group-hover:bg-nexo-cyan group-hover:text-nexo-navy transition-colors text-nexo-cyan">
-                        <i data-lucide="cast" class="w-7 h-7"></i>
-                    </div>
-                    <h4 class="text-lg font-bold mb-2 text-white">실시간 화면 녹화 및 미러링</h4>
-                    <p class="text-slate-400 leading-relaxed text-sm">
-                        E-share를 통한 양방향 최대 9개 동시 미러링. 카메라/고성능 마이크 탑재.
-                    </p>
-                </div>
-            </div>
-
-            <!-- Additional Features -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="group p-8 rounded-3xl bg-slate-900 border border-slate-800 hover:border-nexo-cyan/50 hover:bg-slate-800/80 transition-all duration-300">
-                    <div class="w-16 h-16 bg-slate-800 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-nexo-cyan group-hover:text-nexo-navy transition-colors text-nexo-cyan">
-                        <i data-lucide="pen-tool" class="w-8 h-8"></i>
-                    </div>
-                    <h4 class="text-xl font-bold mb-3 text-white">종이 같은 필기감</h4>
-                    <p class="text-slate-400 leading-relaxed text-sm">
-                        딜레이 없는 0.01초 반응 속도. 실제 펜처럼 씁니다. Zero Bonding 기술로 화면과 펜 사이 간격 제로.
-                    </p>
-                </div>
-
-                <div class="group p-8 rounded-3xl bg-slate-900 border border-slate-800 hover:border-nexo-cyan/50 hover:bg-slate-800/80 transition-all duration-300">
-                    <div class="w-16 h-16 bg-slate-800 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-nexo-cyan group-hover:text-nexo-navy transition-colors text-nexo-cyan">
-                        <i data-lucide="brain" class="w-8 h-8"></i>
-                    </div>
-                    <h4 class="text-xl font-bold mb-3 text-white">대화형 AI 기능 탑재</h4>
-                    <p class="text-slate-400 leading-relaxed text-sm">
-                        통합 AI Assistant (Google Assistant, DeepSeek) 탑재. 교안생성, 편집 및 실시간 Q&A와 맞춤학습 가능.
-                    </p>
-                </div>
-
-                <div class="group p-8 rounded-3xl bg-slate-900 border border-slate-800 hover:border-nexo-cyan/50 hover:bg-slate-800/80 transition-all duration-300">
-                    <div class="w-16 h-16 bg-slate-800 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-nexo-cyan group-hover:text-nexo-navy transition-colors text-nexo-cyan">
-                        <i data-lucide="smartphone" class="w-8 h-8"></i>
-                    </div>
-                    <h4 class="text-xl font-bold mb-3 text-white">폰 공유 솔루션</h4>
-                    <p class="text-slate-400 leading-relaxed text-sm">
-                        실시간 사진/동영상 공유. 학습 및 회의에 필요한 자료를 전자칠판에 실시간으로 띄워 활용 (Quick SHARE).
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Application Section -->
-    <section id="applications" class="py-24 bg-slate-900">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="text-center mb-16">
-                <h2 class="text-nexo-cyan font-bold tracking-widest text-sm mb-2">APPLICATION</h2>
-                <h3 class="text-4xl font-bold text-white mb-4">기본 Application</h3>
-                <p class="text-slate-400 max-w-2xl mx-auto">
-                    사전 설치된 앱과 NEXO 인터랙티브 화이트보드용으로 개발된 Umind, Ucut, URecord, U-series 앱을 제공하며,<br>
-                    App Store에서 추가 앱을 다운로드할 수 있습니다.
-                </p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-                <!-- UMIND Whiteboard -->
-                <div class="bg-slate-800 rounded-2xl overflow-hidden border border-slate-700">
-                    <div class="p-8">
-                        <div class="flex items-center gap-4 mb-6">
-                            <div class="w-16 h-16 bg-nexo-cyan/20 rounded-xl flex items-center justify-center">
-                                <i data-lucide="layout" class="w-8 h-8 text-nexo-cyan"></i>
-                            </div>
-                            <div>
-                                <h4 class="text-2xl font-bold text-white">UMIND 판서</h4>
-                                <p class="text-slate-400 text-sm">NX Series 판서 소프트웨어</p>
-                            </div>
-                        </div>
-                        <p class="text-slate-300 mb-4">
-                            무한 판서, 제스처 인식(지우개). 누구나 1분이면 마스터하는 쉬운 사용법.
-                        </p>
-                        <ul class="space-y-2 text-sm text-slate-400 mb-6">
-                            <li class="flex items-center gap-2">
-                                <i data-lucide="check" class="w-4 h-4 text-nexo-cyan"></i>
-                                WPS_PDF / UMIND 화이트보드 활용 (PDF, PPT, DOC, Excel 지원)
-                            </li>
-                            <li class="flex items-center gap-2">
-                                <i data-lucide="check" class="w-4 h-4 text-nexo-cyan"></i>
-                                수학/과학: 2D, 3D 함수 그래프 및 과학 콘텐츠 제공
-                            </li>
-                            <li class="flex items-center gap-2">
-                                <i data-lucide="check" class="w-4 h-4 text-nexo-cyan"></i>
-                                영어/국어: 웹 비디오, 웹 사진 기능으로 YouTube 활용
-                            </li>
-                            <li class="flex items-center gap-2">
-                                <i data-lucide="check" class="w-4 h-4 text-nexo-cyan"></i>
-                                분할화면: 한 화면에서 두 가지 작업 동시 수행
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="w-full min-h-80 bg-slate-900 flex items-center justify-center overflow-hidden">
-                        <img src="images/umind-math-formula.png" alt="UMIND 판서 - 수학 공식" class="w-full h-full object-contain" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=&quot;text-slate-500 text-sm&quot;>UMIND 판서 화면 이미지</div>';">
-                    </div>
-                </div>
-
-                <!-- Smart Math Tool -->
-                <div class="bg-slate-800 rounded-2xl overflow-hidden border border-slate-700">
-                    <div class="p-8">
-                        <div class="flex items-center gap-4 mb-6">
-                            <div class="w-16 h-16 bg-nexo-cyan/20 rounded-xl flex items-center justify-center">
-                                <i data-lucide="calculator" class="w-8 h-8 text-nexo-cyan"></i>
-                            </div>
-                            <div>
-                                <h4 class="text-2xl font-bold text-white">스마트 수학 툴</h4>
-                                <p class="text-slate-400 text-sm">수학 학원 필수 기능</p>
-                            </div>
-                        </div>
-                        <p class="text-slate-300 mb-4">
-                            손글씨 수식인식, 2D/3D 그래프 자동 변환. 복잡한 도형 그리기, 넥소와 함께라면 1초면 끝납니다.
-                        </p>
-                        <ul class="space-y-2 text-sm text-slate-400 mb-6">
-                            <li class="flex items-center gap-2">
-                                <i data-lucide="check" class="w-4 h-4 text-nexo-cyan"></i>
-                                3D 그래프 시각화 및 회전 기능
-                            </li>
-                            <li class="flex items-center gap-2">
-                                <i data-lucide="check" class="w-4 h-4 text-nexo-cyan"></i>
-                                학생들의 집중도 향상
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="w-full min-h-80 bg-slate-900 flex items-center justify-center overflow-hidden">
-                        <img src="images/math-3d-graph.png" alt="스마트 수학 툴 - 3D 그래프" class="w-full h-full object-contain" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=&quot;text-slate-500 text-sm&quot;>3D 수학 그래프 이미지</div>';">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Video Gallery Section -->
-            <div class="mt-16">
-                <h3 class="text-2xl font-bold text-white mb-8 text-center">제품 데모 영상</h3>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div class="bg-slate-800 rounded-2xl overflow-hidden border border-slate-700">
-                        <div class="relative w-full" style="padding-bottom: 177.78%;">
-                            <iframe 
-                                class="absolute top-0 left-0 w-full h-full" 
-                                src="https://www.youtube.com/embed/DycCGxWEzeM" 
-                                title="NEXO 제품 데모 영상 1" 
-                                frameborder="0" 
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                                allowfullscreen>
-                            </iframe>
-                        </div>
-                    </div>
-                    <div class="bg-slate-800 rounded-2xl overflow-hidden border border-slate-700">
-                        <div class="relative w-full" style="padding-bottom: 177.78%;">
-                            <iframe 
-                                class="absolute top-0 left-0 w-full h-full" 
-                                src="https://www.youtube.com/embed/FsphbXxgkak" 
-                                title="NEXO 제품 데모 영상 2" 
-                                frameborder="0" 
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                                allowfullscreen>
-                            </iframe>
-                        </div>
-                    </div>
-                    <div class="bg-slate-800 rounded-2xl overflow-hidden border border-slate-700">
-                        <div class="relative w-full" style="padding-bottom: 177.78%;">
-                            <iframe 
-                                class="absolute top-0 left-0 w-full h-full" 
-                                src="https://www.youtube.com/embed/nKYE16PydzQ" 
-                                title="NEXO 제품 데모 영상 3" 
-                                frameborder="0" 
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                                allowfullscreen>
-                            </iframe>
-                        </div>
-                    </div>
-                    <div class="bg-slate-800 rounded-2xl overflow-hidden border border-slate-700">
-                        <div class="relative w-full" style="padding-bottom: 177.78%;">
-                            <iframe 
-                                class="absolute top-0 left-0 w-full h-full" 
-                                src="https://www.youtube.com/embed/Ofl5GWPY2lQ" 
-                                title="NEXO 제품 데모 영상 4" 
-                                frameborder="0" 
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                                allowfullscreen>
-                            </iframe>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Customer Reviews Section -->
-    <section id="reviews" class="py-24 bg-slate-900">
+    <!-- Link Cards Section -->
+    <section class="py-24 bg-slate-900">
         <div class="max-w-7xl mx-auto px-4 sm:px-6">
-            <div class="text-center mb-12">
-                <h2 class="text-nexo-cyan font-bold tracking-widest text-sm mb-2">CUSTOMER REVIEWS</h2>
-                <h3 class="text-3xl sm:text-4xl font-bold text-white mb-4">실제 고객 후기</h3>
-                <p class="text-slate-400 max-w-2xl mx-auto">
-                    NEXO를 사용하시는 고객님들의 생생한 후기를 확인해보세요.
+            <div class="text-center mb-12 sm:mb-16">
+                <h2 class="text-3xl sm:text-4xl md:text-5xl font-black mb-4 text-white">
+                    더 알아보기
+                </h2>
+                <p class="text-base sm:text-lg text-slate-400 max-w-2xl mx-auto">
+                    필요한 정보를 선택하여 자세히 확인하세요
                 </p>
             </div>
 
-            <!-- Reviews Container -->
-            <div id="reviewsContainer" class="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
-                <!-- Reviews will be dynamically loaded here -->
+            <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6 sm:gap-8">
+                <!-- 제품소개 카드 -->
+                <a href="product.html" class="group relative bg-slate-800/50 backdrop-blur border border-slate-700 rounded-2xl p-8 sm:p-10 hover:border-nexo-cyan hover:scale-105 hover:shadow-2xl transition-all duration-300 flex flex-col items-center text-center">
+                    <div class="w-16 h-16 sm:w-20 sm:h-20 bg-nexo-cyan/20 rounded-full flex items-center justify-center mb-6 group-hover:bg-nexo-cyan/30 transition-colors">
+                        <i data-lucide="package" class="w-8 h-8 sm:w-10 sm:h-10 text-nexo-cyan"></i>
             </div>
+                    <h3 class="text-xl sm:text-2xl font-bold text-white mb-3 group-hover:text-nexo-cyan transition-colors">
+                        제품소개
+                    </h3>
+                    <p class="text-sm sm:text-base text-slate-400 leading-relaxed">
+                        NX-Series 제품 사양과 기능을 확인하세요
+                    </p>
+                </a>
 
-            <!-- Empty State -->
-            <div id="emptyReviews" class="text-center py-12 text-slate-500">
-                <i data-lucide="message-square" class="w-16 h-16 mx-auto mb-4 opacity-50"></i>
-                <p>아직 등록된 후기가 없습니다.</p>
+                <!-- 동영상 카드 -->
+                <a href="video.html" class="group relative bg-slate-800/50 backdrop-blur border border-slate-700 rounded-2xl p-8 sm:p-10 hover:border-nexo-cyan hover:scale-105 hover:shadow-2xl transition-all duration-300 flex flex-col items-center text-center">
+                    <div class="w-16 h-16 sm:w-20 sm:h-20 bg-nexo-cyan/20 rounded-full flex items-center justify-center mb-6 group-hover:bg-nexo-cyan/30 transition-colors">
+                        <i data-lucide="play-circle" class="w-8 h-8 sm:w-10 sm:h-10 text-nexo-cyan"></i>
+                    </div>
+                    <h3 class="text-xl sm:text-2xl font-bold text-white mb-3 group-hover:text-nexo-cyan transition-colors">
+                        동영상
+                    </h3>
+                    <p class="text-sm sm:text-base text-slate-400 leading-relaxed">
+                        제품 소개 및 사용 영상을 시청하세요
+                    </p>
+                </a>
+
+                <!-- 기술자료 카드 -->
+                <a href="resources.html" class="group relative bg-slate-800/50 backdrop-blur border border-slate-700 rounded-2xl p-8 sm:p-10 hover:border-nexo-cyan hover:scale-105 hover:shadow-2xl transition-all duration-300 flex flex-col items-center text-center">
+                    <div class="w-16 h-16 sm:w-20 sm:h-20 bg-nexo-cyan/20 rounded-full flex items-center justify-center mb-6 group-hover:bg-nexo-cyan/30 transition-colors">
+                        <i data-lucide="file-text" class="w-8 h-8 sm:w-10 sm:h-10 text-nexo-cyan"></i>
+                    </div>
+                    <h3 class="text-xl sm:text-2xl font-bold text-white mb-3 group-hover:text-nexo-cyan transition-colors">
+                        기술자료
+                    </h3>
+                    <p class="text-sm sm:text-base text-slate-400 leading-relaxed">
+                        사양서, 카탈로그 등 기술 자료를 다운로드하세요
+                    </p>
+                </a>
+
+                <!-- 사용매뉴얼 카드 -->
+                <a href="manual.html" class="group relative bg-slate-800/50 backdrop-blur border border-slate-700 rounded-2xl p-8 sm:p-10 hover:border-nexo-cyan hover:scale-105 hover:shadow-2xl transition-all duration-300 flex flex-col items-center text-center">
+                    <div class="w-16 h-16 sm:w-20 sm:h-20 bg-nexo-cyan/20 rounded-full flex items-center justify-center mb-6 group-hover:bg-nexo-cyan/30 transition-colors">
+                        <i data-lucide="book-open" class="w-8 h-8 sm:w-10 sm:h-10 text-nexo-cyan"></i>
+                    </div>
+                    <h3 class="text-xl sm:text-2xl font-bold text-white mb-3 group-hover:text-nexo-cyan transition-colors">
+                        사용매뉴얼
+                    </h3>
+                    <p class="text-sm sm:text-base text-slate-400 leading-relaxed">
+                        모델별 사용 매뉴얼을 다운로드하세요
+                    </p>
+                </a>
+
+                <!-- 구매문의 카드 -->
+                <a href="contact.html" class="group relative bg-slate-800/50 backdrop-blur border border-slate-700 rounded-2xl p-8 sm:p-10 hover:border-nexo-cyan hover:scale-105 hover:shadow-2xl transition-all duration-300 flex flex-col items-center text-center">
+                    <div class="w-16 h-16 sm:w-20 sm:h-20 bg-nexo-cyan/20 rounded-full flex items-center justify-center mb-6 group-hover:bg-nexo-cyan/30 transition-colors">
+                        <i data-lucide="shopping-cart" class="w-8 h-8 sm:w-10 sm:h-10 text-nexo-cyan"></i>
+                    </div>
+                    <h3 class="text-xl sm:text-2xl font-bold text-white mb-3 group-hover:text-nexo-cyan transition-colors">
+                        구매문의
+                    </h3>
+                    <p class="text-sm sm:text-base text-slate-400 leading-relaxed">
+                        견적 문의 및 구매 상담을 받으세요
+                    </p>
+                </a>
             </div>
         </div>
     </section>
 
+    <!-- 기존 섹션들은 제거됨 (product.html 등으로 이동 예정) -->
+    
     <!-- Admin Login Modal -->
     <div id="adminLoginModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/70 backdrop-blur-sm">
         <div class="relative w-full max-w-md mx-4 bg-slate-900 rounded-2xl border border-slate-700 shadow-2xl">
@@ -566,19 +297,19 @@
             <div class="p-6 sm:p-8">
                 <h2 class="text-2xl font-bold text-white mb-6">관리자 로그인</h2>
                 <form id="adminLoginForm" class="space-y-4">
-                    <div>
+                            <div>
                         <label for="adminPassword" class="block text-sm font-medium text-slate-300 mb-2">비밀번호</label>
                         <input type="password" id="adminPassword" required
                                class="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-nexo-cyan focus:ring-2 focus:ring-nexo-cyan/20 transition-colors"
                                placeholder="관리자 비밀번호를 입력하세요">
-                    </div>
+                            </div>
                     <button type="submit" class="w-full px-6 py-3 bg-nexo-cyan text-nexo-navy font-bold rounded-lg hover:bg-white transition-all">
                         로그인
                     </button>
                 </form>
-            </div>
-        </div>
-    </div>
+                        </div>
+                    </div>
+                </div>
 
     <!-- Admin Review Management Modal -->
     <div id="adminReviewModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/70 backdrop-blur-sm overflow-y-auto">
@@ -589,7 +320,7 @@
                 <button id="closeReviewModal" class="text-slate-400 hover:text-white transition-colors bg-slate-800 hover:bg-slate-700 rounded-full p-2">
                     <i data-lucide="x" class="w-6 h-6"></i>
                 </button>
-            </div>
+                            </div>
             <div class="p-6 sm:p-8">
                 <!-- Add Review Form -->
                 <div class="bg-slate-800 rounded-xl p-6 mb-6 border border-slate-700">
@@ -611,14 +342,14 @@
                                     <option value="2">⭐⭐ (2점)</option>
                                     <option value="1">⭐ (1점)</option>
                                 </select>
-                            </div>
                         </div>
+                    </div>
                         <div>
                             <label for="reviewText" class="block text-sm font-medium text-slate-300 mb-2">후기 내용 *</label>
                             <textarea id="reviewText" rows="4" required
                                       class="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-nexo-cyan resize-none"
                                       placeholder="후기 내용을 입력하세요"></textarea>
-                        </div>
+                    </div>
                         <div>
                             <label for="reviewImage" class="block text-sm font-medium text-slate-300 mb-2">후기 사진 (선택, 최대 3개)</label>
                             <input type="file" id="reviewImage" accept="image/*" multiple
@@ -626,16 +357,16 @@
                             <p class="text-xs text-slate-500 mt-1">JPG, PNG 형식, 최대 5MB, 최대 3개까지 선택 가능</p>
                             <div id="imagePreview" class="mt-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 hidden">
                                 <!-- Preview images will be inserted here -->
-                            </div>
-                        </div>
+                </div>
+            </div>
                         <button type="submit" class="w-full px-6 py-3 bg-nexo-cyan text-nexo-navy font-bold rounded-lg hover:bg-white transition-all">
                             후기 추가
                         </button>
                     </form>
-                </div>
+                    </div>
 
                 <!-- Existing Reviews List -->
-                <div>
+                    <div>
                     <h3 class="text-lg font-bold text-white mb-4">등록된 후기</h3>
                     <div id="adminReviewsList" class="space-y-3">
                         <!-- Reviews will be listed here -->
@@ -759,7 +490,7 @@
     </section>
 
     <!-- Customers Section -->
-    <section id="customers" class="py-24 bg-nexo-dark">
+    <section id="customers" class="py-24 bg-slate-900">
         <div class="max-w-7xl mx-auto px-6">
             <div class="text-center mb-16">
                 <h2 class="text-nexo-cyan font-bold tracking-widest text-sm mb-2">CUSTOMERS</h2>
@@ -773,28 +504,28 @@
 
             <!-- Customer Logos Grid -->
             <div class="grid grid-cols-3 md:grid-cols-6 lg:grid-cols-8 gap-6">
-                <div class="bg-white rounded-xl p-3 border-4 border-gray-400/70 flex items-center justify-center h-32 md:h-40 lg:h-44 shadow-2xl shadow-slate-900/40 ring-2 ring-white/80">
+                <div class="bg-white rounded-2xl p-4 border border-slate-200 flex items-center justify-center h-28 md:h-32 lg:h-36 shadow-md hover:shadow-xl hover:border-blue-300 hover:-translate-y-1 transition-all duration-300">
                     <img src="images/1.png" alt="고객사" class="w-full h-full object-contain" onerror="this.style.display='none'; this.parentElement.innerHTML='<span class=&quot;text-slate-400 text-xs text-center&quot;>고객사 로고</span>';">
                 </div>
-                <div class="bg-white rounded-xl p-3 border-4 border-gray-400/70 flex items-center justify-center h-32 md:h-40 lg:h-44 shadow-2xl shadow-slate-900/40 ring-2 ring-white/80">
+                <div class="bg-white rounded-2xl p-4 border border-slate-200 flex items-center justify-center h-28 md:h-32 lg:h-36 shadow-md hover:shadow-xl hover:border-blue-300 hover:-translate-y-1 transition-all duration-300">
                     <img src="images/2.png" alt="고객사" class="w-full h-full object-contain" onerror="this.style.display='none'; this.parentElement.innerHTML='<span class=&quot;text-slate-400 text-xs text-center&quot;>고객사 로고</span>';">
                 </div>
-                <div class="bg-white rounded-xl p-3 border-4 border-gray-400/70 flex items-center justify-center h-32 md:h-40 lg:h-44 shadow-2xl shadow-slate-900/40 ring-2 ring-white/80">
+                <div class="bg-white rounded-2xl p-4 border border-slate-200 flex items-center justify-center h-28 md:h-32 lg:h-36 shadow-md hover:shadow-xl hover:border-blue-300 hover:-translate-y-1 transition-all duration-300">
                     <img src="images/3.png" alt="고객사" class="w-full h-full object-contain" onerror="this.style.display='none'; this.parentElement.innerHTML='<span class=&quot;text-slate-400 text-xs text-center&quot;>고객사 로고</span>';">
                 </div>
-                <div class="bg-white rounded-xl p-3 border-4 border-gray-400/70 flex items-center justify-center h-32 md:h-40 lg:h-44 shadow-2xl shadow-slate-900/40 ring-2 ring-white/80">
+                <div class="bg-white rounded-2xl p-4 border border-slate-200 flex items-center justify-center h-28 md:h-32 lg:h-36 shadow-md hover:shadow-xl hover:border-blue-300 hover:-translate-y-1 transition-all duration-300">
                     <img src="images/4.png" alt="고객사" class="w-full h-full object-contain" onerror="this.style.display='none'; this.parentElement.innerHTML='<span class=&quot;text-slate-400 text-xs text-center&quot;>고객사 로고</span>';">
                 </div>
-                <div class="bg-white rounded-xl p-3 border-4 border-gray-400/70 flex items-center justify-center h-32 md:h-40 lg:h-44 shadow-2xl shadow-slate-900/40 ring-2 ring-white/80">
+                <div class="bg-white rounded-2xl p-4 border border-slate-200 flex items-center justify-center h-28 md:h-32 lg:h-36 shadow-md hover:shadow-xl hover:border-blue-300 hover:-translate-y-1 transition-all duration-300">
                     <img src="images/5.png" alt="고객사" class="w-full h-full object-contain" onerror="this.style.display='none'; this.parentElement.innerHTML='<span class=&quot;text-slate-400 text-xs text-center&quot;>고객사 로고</span>';">
                 </div>
-                <div class="bg-white rounded-xl p-3 border-4 border-gray-400/70 flex items-center justify-center h-32 md:h-40 lg:h-44 shadow-2xl shadow-slate-900/40 ring-2 ring-white/80">
+                <div class="bg-white rounded-2xl p-4 border border-slate-200 flex items-center justify-center h-28 md:h-32 lg:h-36 shadow-md hover:shadow-xl hover:border-blue-300 hover:-translate-y-1 transition-all duration-300">
                     <img src="images/6.png" alt="고객사" class="w-full h-full object-contain" onerror="this.style.display='none'; this.parentElement.innerHTML='<span class=&quot;text-slate-400 text-xs text-center&quot;>고객사 로고</span>';">
                 </div>
-                <div class="bg-white rounded-xl p-3 border-4 border-gray-400/70 flex items-center justify-center h-32 md:h-40 lg:h-44 shadow-2xl shadow-slate-900/40 ring-2 ring-white/80">
+                <div class="bg-white rounded-2xl p-4 border border-slate-200 flex items-center justify-center h-28 md:h-32 lg:h-36 shadow-md hover:shadow-xl hover:border-blue-300 hover:-translate-y-1 transition-all duration-300">
                     <img src="images/7.png" alt="고객사" class="w-full h-full object-contain" onerror="this.style.display='none'; this.parentElement.innerHTML='<span class=&quot;text-slate-400 text-xs text-center&quot;>고객사 로고</span>';">
                 </div>
-                <div class="bg-white rounded-xl p-3 border-4 border-gray-400/70 flex items-center justify-center h-32 md:h-40 lg:h-44 shadow-2xl shadow-slate-900/40 ring-2 ring-white/80">
+                <div class="bg-white rounded-2xl p-4 border border-slate-200 flex items-center justify-center h-28 md:h-32 lg:h-36 shadow-md hover:shadow-xl hover:border-blue-300 hover:-translate-y-1 transition-all duration-300">
                     <img src="images/8.png" alt="고객사" class="w-full h-full object-contain" onerror="this.style.display='none'; this.parentElement.innerHTML='<span class=&quot;text-slate-400 text-xs text-center&quot;>고객사 로고</span>';">
                 </div>
             </div>
@@ -845,66 +576,13 @@
         </div>
     </section>
 
-    <!-- FAQ Section -->
-    <section id="faq" class="py-16 sm:py-24 bg-nexo-dark">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6">
-            <h3 class="text-2xl sm:text-3xl font-bold text-center mb-10 sm:mb-16">자주 묻는 질문</h3>
-            
-            <div class="space-y-4">
-                <div class="border border-slate-800 rounded-xl bg-slate-900 overflow-hidden">
-                    <button class="faq-btn w-full px-4 sm:px-6 py-4 sm:py-5 text-left flex justify-between items-center hover:bg-slate-800 transition-colors">
-                        <span class="font-bold text-base sm:text-lg pr-2">Q. 노트북이나 스마트폰 연결이 잘 되나요?</span>
-                        <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 transition-transform duration-300 flex-shrink-0"></i>
-                    </button>
-                    <div class="faq-content hidden px-4 sm:px-6 py-4 sm:py-5 border-t border-slate-800 text-slate-300 bg-slate-900/50 leading-relaxed text-sm sm:text-base">
-                        <p class="mb-2"><strong class="text-white">A.</strong> 네, 물론입니다. 다양한 기기와의 폭넓은 호환성을 자랑합니다. 대부분의 노트북(Windows, Mac OS)과 스마트폰/태블릿(Android, iOS)을 문제없이 연결하실 수 있습니다.</p>
-                        <p>HDMI나 USB-C 케이블을 이용한 안정적이고 빠른 유선 연결은 물론, 편리한 무선 미러링(화면 공유) 기능도 지원하여 상황에 맞춰 자유롭게 사용하실 수 있습니다.</p>
-                    </div>
-                </div>
-
-                <div class="border border-slate-800 rounded-xl bg-slate-900 overflow-hidden">
-                    <button class="faq-btn w-full px-4 sm:px-6 py-4 sm:py-5 text-left flex justify-between items-center hover:bg-slate-800 transition-colors">
-                        <span class="font-bold text-base sm:text-lg pr-2">Q. 기계치라 사용법이 어렵지 않을까요?</span>
-                        <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 transition-transform duration-300 flex-shrink-0"></i>
-                    </button>
-                    <div class="faq-content hidden px-4 sm:px-6 py-4 sm:py-5 border-t border-slate-800 text-slate-300 bg-slate-900/50 leading-relaxed text-sm sm:text-base">
-                        <p class="mb-2"><strong class="text-white">A.</strong> 전혀 걱정하실 필요 없습니다. 직관적인 인터페이스로 누구나 쉽게 사용할 수 있습니다.</p>
-                        <p>복잡한 설정 없이 전원을 켜고 바로 화면이 나오는 '플러그 앤 플레이' 방식을 기본으로 합니다. 마치 커다란 스마트폰을 사용하는 것처럼 터치와 펜 입력이 직관적이기 때문에, 기계 조작에 익숙하지 않은 분들도 금방 적응하여 능숙하게 활용하실 수 있도록 설계되었습니다.</p>
-                    </div>
-                </div>
-
-                <div class="border border-slate-800 rounded-xl bg-slate-900 overflow-hidden">
-                    <button class="faq-btn w-full px-4 sm:px-6 py-4 sm:py-5 text-left flex justify-between items-center hover:bg-slate-800 transition-colors">
-                        <span class="font-bold text-base sm:text-lg pr-2">Q. 판서 프로그램은 따로 구매해야 하나요?</span>
-                        <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 transition-transform duration-300 flex-shrink-0"></i>
-                    </button>
-                    <div class="faq-content hidden px-4 sm:px-6 py-4 sm:py-5 border-t border-slate-800 text-slate-300 bg-slate-900/50 leading-relaxed text-sm sm:text-base">
-                        <p class="mb-2"><strong class="text-white">A.</strong> 제품 구매 시, 수업이나 회의에 즉시 활용할 수 있는 전용 판서 프로그램이 내장되어 있습니다. 기본적인 쓰기, 그리기, 지우기, 화면 캡처 등의 기능을 추가 비용 없이 바로 이용하실 수 있습니다.</p>
-                    </div>
-                </div>
-
-                <div class="border border-slate-800 rounded-xl bg-slate-900 overflow-hidden">
-                    <button class="faq-btn w-full px-4 sm:px-6 py-4 sm:py-5 text-left flex justify-between items-center hover:bg-slate-800 transition-colors">
-                        <span class="font-bold text-base sm:text-lg pr-2">Q. A/S는 믿을 수 있나요?</span>
-                        <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 transition-transform duration-300 flex-shrink-0"></i>
-                    </button>
-                    <div class="faq-content hidden px-4 sm:px-6 py-4 sm:py-5 border-t border-slate-800 text-slate-300 bg-slate-900/50 leading-relaxed text-sm sm:text-base">
-                        <p class="mb-2"><strong class="text-white">A.</strong> 네, 안심하고 구매하셔도 좋습니다. 신속하고 확실한 사후 관리를 약속드립니다.</p>
-                        <p class="mb-2">고객님께서 제품을 오랫동안 불편 없이 사용하실 수 있도록 주말에도 A/S 시스템을 운영하고 있습니다. 정해진 보증 기간 내 발생하는 하자에 대해서는 무상 서비스를 제공하며(단, 고객 과실 제외), 전문 상담팀과 엔지니어가 신속하게 문제 해결을 도와드립니다.</p>
-                        <p>판매 후에도 끝까지 책임지는 서비스를 제공하겠습니다.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- Contact Modal -->
     <div id="contactModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/70 backdrop-blur-sm">
         <div class="relative w-full max-w-2xl mx-4 bg-slate-900 rounded-2xl border border-slate-700 shadow-2xl max-h-[90vh] overflow-y-auto">
             <!-- Close Button -->
             <button id="closeModal" class="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors z-10">
                 <i data-lucide="x" class="w-6 h-6"></i>
-            </button>
+                    </button>
             
             <!-- Modal Content -->
             <div class="p-6 sm:p-8">
@@ -912,7 +590,7 @@
                 <p class="text-slate-400 mb-6 text-sm sm:text-base">아래 양식을 작성해주시면 빠르게 연락드리겠습니다.</p>
                 
                 <!-- Netlify Form -->
-                <form netlify class='space-y-4' method='POST' name='견적문의' data-netlify='true' onsubmit='handleFormSubmit(event)'>
+                <form netlify netlify-honeypot="bot-field" class='space-y-4' method='POST' name='견적문의' data-netlify='true' onsubmit='handleFormSubmit(event)'>
                     <!-- Honeypot field for spam protection -->
                     <input type="hidden" name="form-name" value="견적문의">
                     <p class="hidden">
@@ -933,8 +611,8 @@
                         <input type="text" id="company" name="company" 
                                class="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-nexo-cyan focus:ring-2 focus:ring-nexo-cyan/20 transition-colors"
                                placeholder="회사 또는 기관명을 입력해주세요">
-                    </div>
-                    
+                </div>
+
                     <!-- Phone -->
                     <div>
                         <label for="phone" class="block text-sm font-medium text-slate-300 mb-2">연락처 *</label>
@@ -949,8 +627,8 @@
                         <input type="email" id="email" name="email" required 
                                class="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-nexo-cyan focus:ring-2 focus:ring-nexo-cyan/20 transition-colors"
                                placeholder="example@email.com">
-                    </div>
-                    
+                </div>
+
                     <!-- Product Interest -->
                     <div>
                         <label for="product" class="block text-sm font-medium text-slate-300 mb-2">관심 제품</label>
@@ -970,8 +648,8 @@
                         <textarea id="address" name="address" rows="3" 
                                   class="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-nexo-cyan focus:ring-2 focus:ring-nexo-cyan/20 transition-colors resize-none"
                                   placeholder="설치 예정 주소를 입력해주세요 (예: 서울시 강남구 테헤란로 123)"></textarea>
-                    </div>
-                    
+                </div>
+
                     <!-- Message -->
                     <div>
                         <label for="message" class="block text-sm font-medium text-slate-300 mb-2">문의 내용 *</label>
@@ -986,72 +664,37 @@
                                 class="w-full px-6 py-4 bg-nexo-cyan text-nexo-navy font-bold rounded-lg hover:bg-white transition-all shadow-lg shadow-nexo-cyan/20 hover:shadow-nexo-cyan/40 flex items-center justify-center gap-2">
                             문의하기
                             <i data-lucide="send" class="w-5 h-5"></i>
-                        </button>
+                    </button>
                     </div>
                 </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- CTA & Footer -->
-    <footer id="contact" class="bg-nexo-navy pt-20 pb-10 border-t border-slate-800">
-        <div class="max-w-7xl mx-auto px-6 text-center">
-            <div class="mb-16">
-                <h2 class="text-3xl md:text-5xl font-black mb-8">
-                    망설임은 스마트 오피스 도입을<br>늦출 뿐입니다.
-                </h2>
-                <button onclick="openContactModal()" class="inline-flex items-center justify-center px-10 py-5 text-xl font-bold text-nexo-navy bg-white rounded-full hover:bg-nexo-cyan transition-colors shadow-lg shadow-white/10 hover:shadow-cyan-500/20">
-                    지금 바로 견적 문의하기
-                    <i data-lucide="chevron-right" class="ml-2 w-6 h-6"></i>
-                </button>
-
-                <!-- Contact Information -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto mt-12">
-                    <div class="bg-slate-900 rounded-xl p-6 border border-slate-700">
-                        <i data-lucide="phone" class="w-8 h-8 text-nexo-cyan mx-auto mb-3"></i>
-                        <h4 class="font-bold mb-2 text-white">전화</h4>
-                        <p class="text-slate-400 text-sm">032-569-5771~2</p>
-                        <p class="text-slate-400 text-sm">010-9981-5174</p>
-                    </div>
-                    <div class="bg-slate-900 rounded-xl p-6 border border-slate-700">
-                        <i data-lucide="mail" class="w-8 h-8 text-nexo-cyan mx-auto mb-3"></i>
-                        <h4 class="font-bold mb-2 text-white">이메일</h4>
-                        <p class="text-slate-400 text-sm">nexokorea@gmail.com</p>
-                    </div>
-                    <div class="bg-slate-900 rounded-xl p-6 border border-slate-700">
-                        <i data-lucide="map-pin" class="w-8 h-8 text-nexo-cyan mx-auto mb-3"></i>
-                        <h4 class="font-bold mb-2 text-white">주소</h4>
-                        <p class="text-slate-400 text-xs">인천광역시 서구 보듬로158<br>검단지식산업센터<br>블루텍제조동 527호, 530호</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="border-t border-slate-800 pt-10 flex flex-col md:flex-row justify-between items-center text-slate-500 text-sm">
-                <div class="mb-4 md:mb-0">
-                    <span class="text-xl font-black text-white mr-4">NEXO KOREA</span>
-                    <span>© 2024 NEXO KOREA Corp. All rights reserved.</span>
-                </div>
-                <div class="flex space-x-6">
-                    
-                    <a href="https://www.nexokorea.com/bbs/page.php?hid=privacy" target="_blank" class="hover:text-white">개인정보처리방침</a>
-                    <a href="https://www.nexokorea.com/bbs/board.php?bo_table=m05_01" target="_blank" class="hover:text-white">고객센터</a>
                 </div>
             </div>
         </div>
-    </footer>
 
+    <form name="견적문의" method="POST" data-netlify="true" netlify-honeypot="bot-field" hidden>
+        <input type="hidden" name="form-name" value="견적문의">
+        <input type="text" name="name">
+        <input type="text" name="company">
+        <input type="tel" name="phone">
+        <input type="email" name="email">
+        <input type="text" name="product">
+        <textarea name="address"></textarea>
+        <textarea name="message"></textarea>
+        <input type="text" name="bot-field">
+    </form>
+
+    <div id="nav-cards-placeholder"></div>
+
+    <!-- Footer Placeholder (동적으로 로드됨) -->
+    <div id="footer-placeholder"></div>
+
+    <!-- 공통 컴포넌트 로드 스크립트 -->
+    <script src="components/components.js"></script>
+    <script src="config.js"></script>
+    <script src="components/quote-form.js"></script>
+    
     <script>
         // Initialize Lucide Icons and FAQ
-
-        // Navbar Scroll Effect
-        window.addEventListener('scroll', () => {
-            const navbar = document.getElementById('navbar');
-            if (window.scrollY > 50) {
-                navbar.classList.add('shadow-lg');
-            } else {
-                navbar.classList.remove('shadow-lg');
-            }
-        });
 
         // FAQ Accordion Logic
         function initFAQ() {
@@ -1077,13 +720,13 @@
                                 const otherIcon = otherBtn ? otherBtn.querySelector('i') : null;
                                 
                                 if (otherContent) {
-                                    otherContent.classList.add('hidden');
+                        otherContent.classList.add('hidden');
                                 }
                                 if (otherIcon) {
-                                    otherIcon.style.transform = 'rotate(0deg)';
+                        otherIcon.style.transform = 'rotate(0deg)';
                                 }
                                 if (otherBtn) {
-                                    otherBtn.classList.remove('text-nexo-cyan');
+                        otherBtn.classList.remove('text-nexo-cyan');
                                 }
                             }
                         });
@@ -1092,9 +735,9 @@
                         if (isHidden) {
                             content.classList.remove('hidden');
                             if (icon) {
-                                icon.style.transform = 'rotate(180deg)';
+                    icon.style.transform = 'rotate(180deg)';
                             }
-                            btn.classList.add('text-nexo-cyan');
+                    btn.classList.add('text-nexo-cyan');
                         } else {
                             content.classList.add('hidden');
                             if (icon) {
@@ -1106,6 +749,9 @@
                 }
             });
         }
+        
+        // 공통 컴포넌트 로드 (헤더/푸터)
+        // components.js에서 자동으로 로드됨
         
         // Initialize Lucide Icons and FAQ
         lucide.createIcons();
@@ -1133,10 +779,7 @@
             });
         });
 
-        // Mobile Menu Toggle
-        function toggleMobileMenu() {
-            alert('모바일 메뉴는 실제 구현 시 추가됩니다.');
-        }
+        // Mobile Menu Toggle function is defined in components.js
 
         // Contact Modal Functions
         function openContactModal() {
@@ -1185,49 +828,9 @@
 
         // Handle form submission
         async function handleFormSubmit(event) {
-            event.preventDefault();
-            const form = event.target;
-            
-            // For local testing
-            if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-                alert('로컬 환경에서는 폼 제출이 작동하지 않습니다.\n배포 후 Netlify에서 nexokorea@gmail.com으로 이메일 알림을 설정해주세요.');
-                closeContactModal();
-                return false;
-            }
-            
-            // Show loading state
-            const submitButton = form.querySelector('button[type="submit"]');
-            const originalButtonText = submitButton.innerHTML;
-            submitButton.disabled = true;
-            submitButton.innerHTML = '<span class="animate-spin">⏳</span> 전송 중...';
-            
-            try {
-                // Create FormData
-                const formData = new FormData(form);
-                
-                // Submit to Netlify
-                const response = await fetch('/', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: new URLSearchParams(formData).toString()
-                });
-                
-                if (response.ok) {
-                    // Show success message
-                    showSuccessMessage();
-                    // Reset form
-                    form.reset();
-                } else {
-                    throw new Error('폼 제출에 실패했습니다.');
-                }
-            } catch (error) {
-                console.error('Form submission error:', error);
-                alert('문의 전송 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
-                submitButton.disabled = false;
-                submitButton.innerHTML = originalButtonText;
-            }
-            
-            return false;
+            return submitQuoteForm(event, {
+                onSuccess: showSuccessMessage
+            });
         }
 
         // Show success message if redirected from form submission
@@ -1839,4 +1442,3 @@
     </script>
 </body>
 </html>
-

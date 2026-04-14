@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>구매문의 - NEXO KOREA</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- 폰트: Noto Sans KR -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700;900&display=swap" rel="stylesheet">
+    
+    <!-- 아이콘: Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- 공통 컴포넌트 로드 스크립트 -->
+    <script src="components/components.js" defer></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        nexo: {
+                            navy: '#0f172a',
+                            dark: '#020617',
+                            cyan: '#06b6d4',
+                            accent: '#22d3ee',
+                            orange: '#f97316',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Noto Sans KR"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #06b6d4;
+        }
+        
+        .glass-nav {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+    </style>
+    <link rel="stylesheet" href="theme.css">
+    <script>document.documentElement.setAttribute("data-theme", localStorage.getItem("nexo-theme") || "light");</script>
+</head>
+<body class="bg-nexo-navy text-white font-sans overflow-x-hidden">
+
+    <!-- Header Placeholder (동적으로 로드됨) -->
+    <div id="header-placeholder"></div>
+
+    <!-- Page Content -->
+    <!-- Contact Form Section -->
+    <section class="pt-32 pb-24 min-h-screen bg-slate-900">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-nexo-cyan font-bold tracking-widest text-sm mb-2">CONTACT US</h2>
+                <h1 class="text-4xl sm:text-5xl md:text-6xl font-black mb-6 text-white">
+                    견적 문의하기
+                </h1>
+                <p class="text-lg text-slate-400 max-w-2xl mx-auto">
+                    아래 양식을 작성해주시면 빠르게 연락드리겠습니다.
+                </p>
+            </div>
+
+            <!-- Netlify Form -->
+            <div class="bg-slate-800 rounded-2xl p-6 sm:p-8 border border-slate-700">
+                <form netlify netlify-honeypot="bot-field" class='space-y-4' method='POST' name='견적문의' data-netlify='true' onsubmit='handleFormSubmit(event)'>
+                    <!-- Honeypot field for spam protection -->
+                    <input type="hidden" name="form-name" value="견적문의">
+                    <p class="hidden">
+                        <label>Don't fill this out if you're human: <input name="bot-field" /></label>
+                    </p>
+                    
+                    <!-- Name -->
+                    <div>
+                        <label for="name" class="block text-sm font-medium text-slate-300 mb-2">이름 *</label>
+                        <input type="text" id="name" name="name" required 
+                               class="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-nexo-cyan focus:ring-2 focus:ring-nexo-cyan/20 transition-colors"
+                               placeholder="홍길동">
+                    </div>
+                    
+                    <!-- Company -->
+                    <div>
+                        <label for="company" class="block text-sm font-medium text-slate-300 mb-2">회사/기관명</label>
+                        <input type="text" id="company" name="company" 
+                               class="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-nexo-cyan focus:ring-2 focus:ring-nexo-cyan/20 transition-colors"
+                               placeholder="회사 또는 기관명을 입력해주세요">
+                    </div>
+                    
+                    <!-- Phone -->
+                    <div>
+                        <label for="phone" class="block text-sm font-medium text-slate-300 mb-2">연락처 *</label>
+                        <input type="tel" id="phone" name="phone" required 
+                               class="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-nexo-cyan focus:ring-2 focus:ring-nexo-cyan/20 transition-colors"
+                               placeholder="010-1234-5678">
+                    </div>
+                    
+                    <!-- Email -->
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-slate-300 mb-2">이메일 *</label>
+                        <input type="email" id="email" name="email" required 
+                               class="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-nexo-cyan focus:ring-2 focus:ring-nexo-cyan/20 transition-colors"
+                               placeholder="example@email.com">
+                    </div>
+                    
+                    <!-- Product Interest -->
+                    <div>
+                        <label for="product" class="block text-sm font-medium text-slate-300 mb-2">관심 제품</label>
+                        <select id="product" name="product" 
+                                class="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:border-nexo-cyan focus:ring-2 focus:ring-nexo-cyan/20 transition-colors">
+                            <option value="">선택해주세요</option>
+                            <option value="NX-S Series">NX-S Series</option>
+                            <option value="NX-H Series">NX-H Series</option>
+                            <option value="NX-P Series">NX-P Series</option>
+                            <option value="기타">기타</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Installation Address -->
+                    <div>
+                        <label for="address" class="block text-sm font-medium text-slate-300 mb-2">설치 주소</label>
+                        <textarea id="address" name="address" rows="3" 
+                                  class="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-nexo-cyan focus:ring-2 focus:ring-nexo-cyan/20 transition-colors resize-none"
+                                  placeholder="설치 예정 주소를 입력해주세요 (예: 서울시 강남구 테헤란로 123)"></textarea>
+                    </div>
+                    
+                    <!-- Message -->
+                    <div>
+                        <label for="message" class="block text-sm font-medium text-slate-300 mb-2">문의 내용 *</label>
+                        <textarea id="message" name="message" rows="5" required 
+                                  class="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-nexo-cyan focus:ring-2 focus:ring-nexo-cyan/20 transition-colors resize-none"
+                                  placeholder="문의하실 내용을 자세히 입력해주세요"></textarea>
+                    </div>
+                    
+                    <!-- Submit Button -->
+                    <div class="pt-4">
+                        <button type="submit" 
+                                class="w-full px-6 py-4 bg-nexo-cyan text-nexo-navy font-bold rounded-lg hover:bg-white transition-all shadow-lg shadow-nexo-cyan/20 hover:shadow-nexo-cyan/40 flex items-center justify-center gap-2">
+                            문의하기
+                            <i data-lucide="send" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <form name="견적문의" method="POST" data-netlify="true" netlify-honeypot="bot-field" hidden>
+        <input type="hidden" name="form-name" value="견적문의">
+        <input type="text" name="name">
+        <input type="text" name="company">
+        <input type="tel" name="phone">
+        <input type="email" name="email">
+        <input type="text" name="product">
+        <textarea name="address"></textarea>
+        <textarea name="message"></textarea>
+        <input type="text" name="bot-field">
+    </form>
+
+    <!-- A/S System Section -->
+    <section class="py-24 bg-nexo-dark">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-nexo-cyan font-bold tracking-widest text-sm mb-2">A/S SYSTEM</h2>
+                <h3 class="text-4xl font-bold text-white mb-4">NEXO의 A/S는 끝이 없다!</h3>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-slate-800 rounded-2xl p-8 border border-slate-700 text-center">
+                    <div class="w-16 h-16 bg-nexo-cyan/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i data-lucide="phone" class="w-8 h-8 text-nexo-cyan"></i>
+                    </div>
+                    <h4 class="text-lg font-bold mb-2 text-white">24시간 직접 전화 상담</h4>
+                    <p class="text-slate-400 text-sm">언제든지 전문 상담사가 도와드립니다.</p>
+                </div>
+
+                <div class="bg-slate-800 rounded-2xl p-8 border border-slate-700 text-center">
+                    <div class="w-16 h-16 bg-nexo-cyan/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i data-lucide="wrench" class="w-8 h-8 text-nexo-cyan"></i>
+                    </div>
+                    <h4 class="text-lg font-bold mb-2 text-white">무상 1년 보증 서비스</h4>
+                    <p class="text-slate-400 text-sm">구매 후 1년간 무상 A/S 제공.</p>
+                </div>
+
+                <div class="bg-slate-800 rounded-2xl p-8 border border-slate-700 text-center">
+                    <div class="w-16 h-16 bg-nexo-cyan/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i data-lucide="monitor" class="w-8 h-8 text-nexo-cyan"></i>
+                    </div>
+                    <h4 class="text-lg font-bold mb-2 text-white">원격 서비스</h4>
+                    <p class="text-slate-400 text-sm">원격으로 빠르게 문제 해결.</p>
+                </div>
+
+                <div class="bg-slate-800 rounded-2xl p-8 border border-slate-700 text-center">
+                    <div class="w-16 h-16 bg-nexo-cyan/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i data-lucide="user-check" class="w-8 h-8 text-nexo-cyan"></i>
+                    </div>
+                    <h4 class="text-lg font-bold mb-2 text-white">본사 엔지니어 방문 서비스</h4>
+                    <p class="text-slate-400 text-sm">전문 엔지니어가 직접 방문하여 해결.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/70 backdrop-blur-sm">
+        <div class="relative w-full max-w-md mx-4 bg-slate-900 rounded-2xl border border-slate-700 shadow-2xl">
+            <div class="p-6 sm:p-8 text-center">
+                <div class="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <svg class="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-bold text-white mb-4">문의가 성공적으로 전송되었습니다!</h2>
+                <p class="text-slate-400 mb-6 text-sm sm:text-base">
+                    견적 문의가 접수되었습니다.<br>
+                    빠른 시일 내에 연락드리겠습니다.
+                </p>
+                <button onclick="closeSuccessModal()" class="px-6 py-3 bg-nexo-cyan text-nexo-navy font-bold rounded-lg hover:bg-white transition-colors">
+                    확인
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="nav-cards-placeholder"></div>
+
+    <!-- Footer Placeholder (동적으로 로드됨) -->
+    <div id="footer-placeholder"></div>
+
+    <!-- 공통 컴포넌트 로드 스크립트 -->
+    <script src="components/components.js"></script>
+    <script src="config.js"></script>
+    <script src="components/quote-form.js"></script>
+    
+    <script>
+        // Initialize Lucide Icons
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
+
+        // Form Submission Handler
+        async function handleFormSubmit(event) {
+            return submitQuoteForm(event, {
+                onSuccess: openSuccessModal
+            });
+        }
+
+        function openSuccessModal() {
+            const modal = document.getElementById('successModal');
+            if (modal) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeSuccessModal() {
+            const modal = document.getElementById('successModal');
+            if (modal) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                document.body.style.overflow = '';
+            }
+        }
+
+        // Manual Search Functionality (for manual.html, but included here for consistency)
+        const manualSearch = document.getElementById('manualSearch');
+        if (manualSearch) {
+            manualSearch.addEventListener('input', (e) => {
+                const searchTerm = e.target.value.toLowerCase();
+                const items = document.querySelectorAll('.manual-item');
+                
+                items.forEach(item => {
+                    const keywords = item.getAttribute('data-keywords').toLowerCase();
+                    if (keywords.includes(searchTerm) || searchTerm === '') {
+                        item.style.display = '';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        }
+
+        // FAQ Accordion Logic
+        function initFAQ() {
+            const faqContainers = document.querySelectorAll('.border.border-slate-800.rounded-xl.bg-slate-900');
+            
+            faqContainers.forEach(container => {
+                const btn = container.querySelector('.faq-btn');
+                const content = container.querySelector('.faq-content');
+                const icon = btn ? btn.querySelector('i') : null;
+                
+                if (btn && content) {
+                    btn.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        
+                        const isHidden = content.classList.contains('hidden');
+                        
+                        faqContainers.forEach(otherContainer => {
+                            if (otherContainer !== container) {
+                                const otherContent = otherContainer.querySelector('.faq-content');
+                                const otherBtn = otherContainer.querySelector('.faq-btn');
+                                const otherIcon = otherBtn ? otherBtn.querySelector('i') : null;
+                                
+                                if (otherContent) {
+                                    otherContent.classList.add('hidden');
+                                }
+                                if (otherIcon) {
+                                    otherIcon.style.transform = 'rotate(0deg)';
+                                }
+                                if (otherBtn) {
+                                    otherBtn.classList.remove('text-nexo-cyan');
+                                }
+                            }
+                        });
+                        
+                        if (isHidden) {
+                            content.classList.remove('hidden');
+                            if (icon) icon.style.transform = 'rotate(180deg)';
+                            btn.classList.add('text-nexo-cyan');
+                        } else {
+                            content.classList.add('hidden');
+                            if (icon) icon.style.transform = 'rotate(0deg)';
+                            btn.classList.remove('text-nexo-cyan');
+                        }
+                    });
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initFAQ();
+        });
+    </script>
+</body>
+</html>

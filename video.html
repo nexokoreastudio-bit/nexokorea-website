@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>동영상 - NEXO KOREA</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- 폰트: Noto Sans KR -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700;900&display=swap" rel="stylesheet">
+    
+    <!-- 아이콘: Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- 공통 컴포넌트 로드 스크립트 -->
+    <script src="components/components.js" defer></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        nexo: {
+                            navy: '#0f172a',
+                            dark: '#020617',
+                            cyan: '#06b6d4',
+                            accent: '#22d3ee',
+                            orange: '#f97316',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Noto Sans KR"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #06b6d4;
+        }
+        
+        .glass-nav {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+    </style>
+    <link rel="stylesheet" href="theme.css">
+    <script>document.documentElement.setAttribute("data-theme", localStorage.getItem("nexo-theme") || "light");</script>
+</head>
+<body class="bg-nexo-navy text-white font-sans overflow-x-hidden">
+
+    <!-- Header Placeholder (동적으로 로드됨) -->
+    <div id="header-placeholder"></div>
+
+    <!-- Page Content -->
+    <section class="pt-32 pb-10 bg-slate-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-nexo-cyan font-bold tracking-widest text-sm mb-2">VIDEO GALLERY</h2>
+                <h1 class="text-4xl sm:text-5xl md:text-6xl font-black mb-6 text-white">
+                    제품 데모 영상
+                </h1>
+                <p class="text-lg text-slate-400 max-w-2xl mx-auto">
+                    NEXO 스마트 디스플레이의 다양한 기능과 활용 사례를 영상으로 확인하세요.
+                </p>
+            </div>
+
+            <!-- Video Gallery Grid -->
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
+                <div class="bg-slate-800 rounded-2xl overflow-hidden border border-slate-700">
+                    <div class="relative w-full" style="padding-bottom: 177.78%;">
+                        <iframe 
+                            class="absolute top-0 left-0 w-full h-full" 
+                            src="https://www.youtube.com/embed/DycCGxWEzeM" 
+                            title="NEXO 제품 데모 영상 1" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+                <div class="bg-slate-800 rounded-2xl overflow-hidden border border-slate-700">
+                    <div class="relative w-full" style="padding-bottom: 177.78%;">
+                        <iframe 
+                            class="absolute top-0 left-0 w-full h-full" 
+                            src="https://www.youtube.com/embed/FsphbXxgkak" 
+                            title="NEXO 제품 데모 영상 2" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+                <div class="bg-slate-800 rounded-2xl overflow-hidden border border-slate-700">
+                    <div class="relative w-full" style="padding-bottom: 177.78%;">
+                        <iframe 
+                            class="absolute top-0 left-0 w-full h-full" 
+                            src="https://www.youtube.com/embed/nKYE16PydzQ" 
+                            title="NEXO 제품 데모 영상 3" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+                <div class="bg-slate-800 rounded-2xl overflow-hidden border border-slate-700">
+                    <div class="relative w-full" style="padding-bottom: 177.78%;">
+                        <iframe 
+                            class="absolute top-0 left-0 w-full h-full" 
+                            src="https://www.youtube.com/embed/Ofl5GWPY2lQ" 
+                            title="NEXO 제품 데모 영상 4" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 동영상 매뉴얼 섹션 -->
+    <section class="py-10 sm:py-14 bg-slate-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <div class="text-center mb-8">
+                <h2 class="text-nexo-cyan font-bold tracking-widest text-sm mb-2">VIDEO MANUAL</h2>
+                <h1 class="text-3xl sm:text-4xl md:text-5xl font-black mb-4 text-white">
+                    동영상 매뉴얼
+                </h1>
+                <p class="text-lg text-slate-400 max-w-2xl mx-auto">
+                    전자칠판의 외관, 기능, 응용 방법을 영상으로 확인하세요.
+                </p>
+            </div>
+
+            <!-- 1. 외관 -->
+            <div class="mb-8">
+                <h3 class="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+                    <i data-lucide="monitor" class="w-6 h-6 text-nexo-cyan"></i>
+                    1. 외관
+                </h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="bg-slate-800 rounded-2xl overflow-hidden border border-slate-700 hover:border-nexo-cyan/50 transition-all duration-300">
+                        <div class="relative w-full" style="padding-bottom: 56.25%;">
+                            <div class="absolute inset-0 flex items-center justify-center bg-slate-700/50">
+                                <div class="text-center">
+                                    <i data-lucide="video" class="w-12 h-12 text-slate-500 mx-auto mb-2"></i>
+                                    <p class="text-slate-400 text-sm">영상 준비 중</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h4 class="text-sm font-bold text-white">외관 소개 영상</h4>
+                            <p class="text-xs text-slate-400 mt-1">준비 중입니다</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. 기능 -->
+            <div class="mb-8">
+                <h3 class="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+                    <i data-lucide="settings" class="w-6 h-6 text-nexo-cyan"></i>
+                    2. 기능
+                </h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="bg-slate-800 rounded-2xl overflow-hidden border border-slate-700 hover:border-nexo-cyan/50 transition-all duration-300">
+                        <div class="relative w-full" style="padding-bottom: 56.25%;">
+                            <div class="absolute inset-0 flex items-center justify-center bg-slate-700/50">
+                                <div class="text-center">
+                                    <i data-lucide="video" class="w-12 h-12 text-slate-500 mx-auto mb-2"></i>
+                                    <p class="text-slate-400 text-sm">영상 준비 중</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h4 class="text-sm font-bold text-white">기능 소개 영상</h4>
+                            <p class="text-xs text-slate-400 mt-1">준비 중입니다</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. 응용 -->
+            <div>
+                <h3 class="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+                    <i data-lucide="lightbulb" class="w-6 h-6 text-nexo-cyan"></i>
+                    3. 응용
+                </h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="bg-slate-800 rounded-2xl overflow-hidden border border-slate-700 hover:border-nexo-cyan/50 transition-all duration-300">
+                        <div class="relative w-full" style="padding-bottom: 56.25%;">
+                            <div class="absolute inset-0 flex items-center justify-center bg-slate-700/50">
+                                <div class="text-center">
+                                    <i data-lucide="video" class="w-12 h-12 text-slate-500 mx-auto mb-2"></i>
+                                    <p class="text-slate-400 text-sm">영상 준비 중</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h4 class="text-sm font-bold text-white">응용 활용 영상</h4>
+                            <p class="text-xs text-slate-400 mt-1">준비 중입니다</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="nav-cards-placeholder"></div>
+
+    <!-- Footer Placeholder (동적으로 로드됨) -->
+    <div id="footer-placeholder"></div>
+
+    <script>
+        // Initialize Lucide Icons
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
+    </script>
+</body>
+</html>
+

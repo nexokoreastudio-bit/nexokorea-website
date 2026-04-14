@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>사용매뉴얼 - NEXO KOREA</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- 폰트: Noto Sans KR -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700;900&display=swap" rel="stylesheet">
+    
+    <!-- 아이콘: Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- 공통 컴포넌트 로드 스크립트 -->
+    <script src="components/components.js" defer></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        nexo: {
+                            navy: '#0f172a',
+                            dark: '#020617',
+                            cyan: '#06b6d4',
+                            accent: '#22d3ee',
+                            orange: '#f97316',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Noto Sans KR"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #06b6d4;
+        }
+        
+        .glass-nav {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+    </style>
+    <link rel="stylesheet" href="theme.css">
+    <script>document.documentElement.setAttribute("data-theme", localStorage.getItem("nexo-theme") || "light");</script>
+</head>
+<body class="bg-nexo-navy text-white font-sans overflow-x-hidden">
+
+    <!-- Header Placeholder (동적으로 로드됨) -->
+    <div id="header-placeholder"></div>
+
+    <!-- Page Content -->
+    <section class="pt-32 pb-10 bg-slate-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <div class="text-center mb-8">
+                <h2 class="text-nexo-cyan font-bold tracking-widest text-sm mb-2">USER MANUAL</h2>
+                <h1 class="text-4xl sm:text-5xl md:text-6xl font-black mb-6 text-white">
+                    사용매뉴얼
+                </h1>
+                <p class="text-lg text-slate-400 max-w-2xl mx-auto">
+                    모델별 사용 매뉴얼을 검색하고 다운로드하세요.
+                </p>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="max-w-2xl mx-auto mb-6">
+                <div class="relative">
+                    <input type="text" id="manualSearch" placeholder="모델명 또는 키워드로 검색..." 
+                           class="w-full px-6 py-4 pl-14 bg-slate-800 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-nexo-cyan focus:ring-2 focus:ring-nexo-cyan/20 transition-colors">
+                    <i data-lucide="search" class="absolute left-5 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400"></i>
+                </div>
+            </div>
+
+            <!-- Manual Downloads Section -->
+            <div class="mb-6">
+                <h3 class="text-2xl font-bold text-white mb-4 flex items-center gap-3">
+                    <i data-lucide="book-open" class="w-6 h-6 text-nexo-cyan"></i>
+                    매뉴얼 및 AS 자료
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="bg-slate-800 rounded-2xl p-6 border border-slate-700 hover:border-nexo-cyan/50 transition-all duration-300 hover:-translate-y-2 relative">
+                        <div class="absolute top-4 right-4 w-8 h-8 bg-nexo-cyan text-nexo-navy rounded-full flex items-center justify-center text-sm font-bold">20</div>
+                        <div class="w-16 h-16 bg-nexo-cyan/20 rounded-xl flex items-center justify-center mb-4">
+                            <i data-lucide="file-archive" class="w-8 h-8 text-nexo-cyan"></i>
+                        </div>
+                        <h4 class="text-lg font-bold text-white mb-2">사용자 매뉴얼 (ZIP)</h4>
+                        <p class="text-slate-400 text-sm mb-4">전체 사용자 매뉴얼 모음</p>
+                        <a href="http://nexonas.ipdisk.co.kr/publist/HDD1/%EA%B0%9C%EC%9D%B8%EB%B3%84/%EC%9E%A5%ED%98%95%ED%83%9C/%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%A8-%EC%A0%84%EC%9E%90%EC%B9%A0%ED%8C%90%EC%9A%A9/ADROID/ADROID.zip" target="_blank" class="inline-flex items-center gap-2 text-nexo-cyan hover:text-white transition-colors">
+                            <i data-lucide="download" class="w-4 h-4"></i>
+                            다운로드
+                        </a>
+                    </div>
+                    <div class="bg-slate-800 rounded-2xl p-6 border border-slate-700 hover:border-nexo-cyan/50 transition-all duration-300 hover:-translate-y-2 relative">
+                        <div class="absolute top-4 right-4 w-8 h-8 bg-nexo-cyan text-nexo-navy rounded-full flex items-center justify-center text-sm font-bold">21</div>
+                        <div class="w-16 h-16 bg-nexo-cyan/20 rounded-xl flex items-center justify-center mb-4">
+                            <i data-lucide="file-text" class="w-8 h-8 text-nexo-cyan"></i>
+                        </div>
+                        <h4 class="text-lg font-bold text-white mb-2">자가 진단 가이드 (PDF)</h4>
+                        <p class="text-slate-400 text-sm mb-4">A/S 자가 진단 가이드</p>
+                        <a href="http://nexonas.ipdisk.co.kr/publist/HDD1/%EC%97%85%EB%AC%B4%EC%9A%A9/%EC%A0%84%EC%9E%90%EC%B9%A0%ED%8C%90-AS/NEXO_AS.pdf" target="_blank" class="inline-flex items-center gap-2 text-nexo-cyan hover:text-white transition-colors">
+                            <i data-lucide="download" class="w-4 h-4"></i>
+                            다운로드
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 제품 정보 및 AS자료 섹션 -->
+    <section class="py-10 sm:py-14 bg-slate-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <div class="text-center mb-8">
+                <h2 class="text-nexo-cyan font-bold tracking-widest text-sm mb-2">PRODUCT INFO & AS</h2>
+                <h1 class="text-3xl sm:text-4xl md:text-5xl font-black mb-4 text-white">
+                    제품 정보 및 AS자료
+                </h1>
+                <p class="text-lg text-slate-400 max-w-2xl mx-auto">
+                    설치 및 AS에 필요한 자료를 다운로드하세요.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- 1. 스탠드 관련자료 -->
+                <div class="bg-slate-800 rounded-2xl p-8 border border-slate-700 hover:border-nexo-cyan/50 transition-all duration-300 hover:-translate-y-2">
+                    <div class="w-16 h-16 bg-nexo-cyan/20 rounded-xl flex items-center justify-center mb-6">
+                        <i data-lucide="monitor-smartphone" class="w-8 h-8 text-nexo-cyan"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">스탠드 관련자료</h3>
+                    <p class="text-slate-400 text-sm mb-6">스탠드 설치 매뉴얼, 사양서 등</p>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between p-3 bg-slate-700/50 rounded-lg">
+                            <span class="text-sm text-slate-300">자료 준비 중</span>
+                            <span class="text-xs text-slate-500">Coming Soon</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. 벽걸이 관련자료 -->
+                <div class="bg-slate-800 rounded-2xl p-8 border border-slate-700 hover:border-nexo-cyan/50 transition-all duration-300 hover:-translate-y-2">
+                    <div class="w-16 h-16 bg-nexo-cyan/20 rounded-xl flex items-center justify-center mb-6">
+                        <i data-lucide="layout-dashboard" class="w-8 h-8 text-nexo-cyan"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">벽걸이 관련자료</h3>
+                    <p class="text-slate-400 text-sm mb-6">벽걸이 설치 매뉴얼, 브라켓 사양 등</p>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between p-3 bg-slate-700/50 rounded-lg">
+                            <span class="text-sm text-slate-300">자료 준비 중</span>
+                            <span class="text-xs text-slate-500">Coming Soon</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. AS기술자료 -->
+                <div class="bg-slate-800 rounded-2xl p-8 border border-slate-700 hover:border-nexo-cyan/50 transition-all duration-300 hover:-translate-y-2">
+                    <div class="w-16 h-16 bg-nexo-cyan/20 rounded-xl flex items-center justify-center mb-6">
+                        <i data-lucide="wrench" class="w-8 h-8 text-nexo-cyan"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">AS기술자료</h3>
+                    <p class="text-slate-400 text-sm mb-6">자가 진단, 수리 가이드, 부품 정보 등</p>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between p-3 bg-slate-700/50 rounded-lg">
+                            <span class="text-sm text-slate-300">자료 준비 중</span>
+                            <span class="text-xs text-slate-500">Coming Soon</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="py-16 sm:py-24 bg-nexo-dark">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6">
+            <h3 class="text-2xl sm:text-3xl font-bold text-center mb-10 sm:mb-16">자주 묻는 질문</h3>
+            
+            <div class="space-y-4">
+                <div class="border border-slate-800 rounded-xl bg-slate-900 overflow-hidden">
+                    <button class="faq-btn w-full px-4 sm:px-6 py-4 sm:py-5 text-left flex justify-between items-center hover:bg-slate-800 transition-colors">
+                        <span class="font-bold text-base sm:text-lg pr-2">Q. 노트북이나 스마트폰 연결이 잘 되나요?</span>
+                        <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 transition-transform duration-300 flex-shrink-0"></i>
+                    </button>
+                    <div class="faq-content hidden px-4 sm:px-6 py-4 sm:py-5 border-t border-slate-800 text-slate-300 bg-slate-900/50 leading-relaxed text-sm sm:text-base">
+                        <p class="mb-2"><strong class="text-white">A.</strong> 네, 물론입니다. 다양한 기기와의 폭넓은 호환성을 자랑합니다. 대부분의 노트북(Windows, Mac OS)과 스마트폰/태블릿(Android, iOS)을 문제없이 연결하실 수 있습니다.</p>
+                        <p>HDMI나 USB-C 케이블을 이용한 안정적이고 빠른 유선 연결은 물론, 편리한 무선 미러링(화면 공유) 기능도 지원하여 상황에 맞춰 자유롭게 사용하실 수 있습니다.</p>
+                    </div>
+                </div>
+
+                <div class="border border-slate-800 rounded-xl bg-slate-900 overflow-hidden">
+                    <button class="faq-btn w-full px-4 sm:px-6 py-4 sm:py-5 text-left flex justify-between items-center hover:bg-slate-800 transition-colors">
+                        <span class="font-bold text-base sm:text-lg pr-2">Q. 기계치라 사용법이 어렵지 않을까요?</span>
+                        <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 transition-transform duration-300 flex-shrink-0"></i>
+                    </button>
+                    <div class="faq-content hidden px-4 sm:px-6 py-4 sm:py-5 border-t border-slate-800 text-slate-300 bg-slate-900/50 leading-relaxed text-sm sm:text-base">
+                        <p class="mb-2"><strong class="text-white">A.</strong> 전혀 걱정하실 필요 없습니다. 직관적인 인터페이스로 누구나 쉽게 사용할 수 있습니다.</p>
+                        <p>복잡한 설정 없이 전원을 켜고 바로 화면이 나오는 '플러그 앤 플레이' 방식을 기본으로 합니다. 마치 커다란 스마트폰을 사용하는 것처럼 터치와 펜 입력이 직관적이기 때문에, 기계 조작에 익숙하지 않은 분들도 금방 적응하여 능숙하게 활용하실 수 있도록 설계되었습니다.</p>
+                    </div>
+                </div>
+
+                <div class="border border-slate-800 rounded-xl bg-slate-900 overflow-hidden">
+                    <button class="faq-btn w-full px-4 sm:px-6 py-4 sm:py-5 text-left flex justify-between items-center hover:bg-slate-800 transition-colors">
+                        <span class="font-bold text-base sm:text-lg pr-2">Q. 판서 프로그램은 따로 구매해야 하나요?</span>
+                        <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 transition-transform duration-300 flex-shrink-0"></i>
+                    </button>
+                    <div class="faq-content hidden px-4 sm:px-6 py-4 sm:py-5 border-t border-slate-800 text-slate-300 bg-slate-900/50 leading-relaxed text-sm sm:text-base">
+                        <p class="mb-2"><strong class="text-white">A.</strong> 제품 구매 시, 수업이나 회의에 즉시 활용할 수 있는 전용 판서 프로그램이 내장되어 있습니다. 기본적인 쓰기, 그리기, 지우기, 화면 캡처 등의 기능을 추가 비용 없이 바로 이용하실 수 있습니다.</p>
+                    </div>
+                </div>
+
+                <div class="border border-slate-800 rounded-xl bg-slate-900 overflow-hidden">
+                    <button class="faq-btn w-full px-4 sm:px-6 py-4 sm:py-5 text-left flex justify-between items-center hover:bg-slate-800 transition-colors">
+                        <span class="font-bold text-base sm:text-lg pr-2">Q. A/S는 믿을 수 있나요?</span>
+                        <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 transition-transform duration-300 flex-shrink-0"></i>
+                    </button>
+                    <div class="faq-content hidden px-4 sm:px-6 py-4 sm:py-5 border-t border-slate-800 text-slate-300 bg-slate-900/50 leading-relaxed text-sm sm:text-base">
+                        <p class="mb-2"><strong class="text-white">A.</strong> 네, 안심하고 구매하셔도 좋습니다. 신속하고 확실한 사후 관리를 약속드립니다.</p>
+                        <p class="mb-2">고객님께서 제품을 오랫동안 불편 없이 사용하실 수 있도록 주말에도 A/S 시스템을 운영하고 있습니다. 정해진 보증 기간 내 발생하는 하자에 대해서는 무상 서비스를 제공하며(단, 고객 과실 제외), 전문 상담팀과 엔지니어가 신속하게 문제 해결을 도와드립니다.</p>
+                        <p>판매 후에도 끝까지 책임지는 서비스를 제공하겠습니다.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="nav-cards-placeholder"></div>
+
+    <!-- Footer Placeholder (동적으로 로드됨) -->
+    <div id="footer-placeholder"></div>
+    
+    <script>
+        // Initialize Lucide Icons
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
+
+        // Manual Search Functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            const manualSearch = document.getElementById('manualSearch');
+            if (manualSearch) {
+                manualSearch.addEventListener('input', (e) => {
+                    const searchTerm = e.target.value.toLowerCase();
+                    const items = document.querySelectorAll('.manual-item');
+                    
+                    items.forEach(item => {
+                        const keywords = item.getAttribute('data-keywords').toLowerCase();
+                        if (keywords.includes(searchTerm) || searchTerm === '') {
+                            item.style.display = '';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                });
+            }
+
+            // FAQ Accordion Logic
+            const faqContainers = document.querySelectorAll('.border.border-slate-800.rounded-xl.bg-slate-900');
+            
+            faqContainers.forEach(container => {
+                const btn = container.querySelector('.faq-btn');
+                const content = container.querySelector('.faq-content');
+                const icon = btn ? btn.querySelector('i') : null;
+                
+                if (btn && content) {
+                    btn.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        
+                        const isHidden = content.classList.contains('hidden');
+                        
+                        faqContainers.forEach(otherContainer => {
+                            if (otherContainer !== container) {
+                                const otherContent = otherContainer.querySelector('.faq-content');
+                                const otherBtn = otherContainer.querySelector('.faq-btn');
+                                const otherIcon = otherBtn ? otherBtn.querySelector('i') : null;
+                                
+                                if (otherContent) {
+                                    otherContent.classList.add('hidden');
+                                }
+                                if (otherIcon) {
+                                    otherIcon.style.transform = 'rotate(0deg)';
+                                }
+                                if (otherBtn) {
+                                    otherBtn.classList.remove('text-nexo-cyan');
+                                }
+                            }
+                        });
+                        
+                        if (isHidden) {
+                            content.classList.remove('hidden');
+                            if (icon) icon.style.transform = 'rotate(180deg)';
+                            btn.classList.add('text-nexo-cyan');
+                        } else {
+                            content.classList.add('hidden');
+                            if (icon) icon.style.transform = 'rotate(0deg)';
+                            btn.classList.remove('text-nexo-cyan');
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+

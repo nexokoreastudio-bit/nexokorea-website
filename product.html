@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>제품소개 - NEXO KOREA</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- 폰트: Noto Sans KR -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700;900&display=swap" rel="stylesheet">
+    
+    <!-- 아이콘: Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- 공통 컴포넌트 로드 스크립트 -->
+    <script src="components/components.js" defer></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        nexo: {
+                            navy: '#0f172a',
+                            dark: '#020617',
+                            cyan: '#06b6d4',
+                            accent: '#22d3ee',
+                            orange: '#f97316',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Noto Sans KR"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #06b6d4;
+        }
+        
+        .glass-nav {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+    </style>
+    <link rel="stylesheet" href="theme.css">
+    <script>document.documentElement.setAttribute("data-theme", localStorage.getItem("nexo-theme") || "light");</script>
+</head>
+<body class="bg-nexo-navy text-white font-sans overflow-x-hidden">
+
+    <!-- Header Placeholder (동적으로 로드됨) -->
+    <div id="header-placeholder"></div>
+
+    <!-- Page Content -->
+    <!-- Product Series Section -->
+    <section id="products" class="pt-32 pb-24 bg-slate-900">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-12 sm:mb-16">
+                <h2 class="text-nexo-cyan font-bold tracking-widest text-xs sm:text-sm mb-2">PRODUCT LINEUP</h2>
+                <h3 class="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4 px-2">NEXO NX-Series</h3>
+                <p class="text-sm sm:text-base text-slate-400 max-w-2xl mx-auto px-4 leading-relaxed">
+                    <span class="block mb-1">초고화질 4K UHD 디스플레이와 멀티 터치 기능이 결합된</span>
+                    <span class="block">NEXO 스마트디스플레이는 시각적으로 매력적인 학습 및 업무환경을 제공합니다.</span>
+                </p>
+            </div>
+
+            <!-- Product Image Section -->
+            <div class="mb-12 sm:mb-16 flex justify-center px-4">
+                <div class="w-full max-w-[500px] overflow-hidden border border-slate-700 shadow-2xl">
+                    <img src="images/nexo-nh.png" alt="NEXO 스마트 디스플레이 홈 화면" 
+                         class="w-full h-auto object-contain"
+                         onerror="this.src='https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?q=80&w=2070&auto=format&fit=crop'; this.alt='NEXO 스마트 디스플레이'">
+                </div>
+            </div>
+
+            <!-- Product Comparison Table -->
+            <div class="overflow-x-auto">
+                <table class="w-full border-collapse bg-slate-800 rounded-xl overflow-hidden">
+                    <thead>
+                        <tr class="bg-nexo-navy">
+                            <th class="px-6 py-4 text-left text-nexo-cyan font-bold">사양</th>
+                            <th class="px-6 py-4 text-center font-bold text-slate-500 opacity-60">NX-S Series</th>
+                            <th class="px-6 py-4 text-center font-bold text-nexo-cyan bg-nexo-cyan/10 border-2 border-nexo-cyan relative">
+                                NX-H Series
+                                <span class="absolute top-0 right-0 bg-nexo-orange text-white text-xs px-2 py-1 rounded-bl-lg">추천</span>
+                            </th>
+                            <th class="px-6 py-4 text-center font-bold text-slate-500 opacity-60">NX-P Series</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-sm">
+                        <tr class="border-b border-slate-700">
+                            <td class="px-6 py-4 text-slate-300">크기</td>
+                            <td class="px-6 py-4 text-center text-slate-500 opacity-60">-</td>
+                            <td class="px-6 py-4 text-center text-white font-bold bg-nexo-cyan/5">65", 75", 86"</td>
+                            <td class="px-6 py-4 text-center text-slate-500 opacity-60">65", 75", 86"</td>
+                        </tr>
+                        <tr class="border-b border-slate-700">
+                            <td class="px-6 py-4 text-slate-300">CPU</td>
+                            <td class="px-6 py-4 text-center text-slate-500 opacity-60">Quad-Core MaliG52</td>
+                            <td class="px-6 py-4 text-center text-white font-bold bg-nexo-cyan/5">Octa-Core</td>
+                            <td class="px-6 py-4 text-center text-slate-500 opacity-60">Octa-Core</td>
+                        </tr>
+                        <tr class="border-b border-slate-700">
+                            <td class="px-6 py-4 text-slate-300">내장 OS</td>
+                            <td class="px-6 py-4 text-center text-slate-500 opacity-60">Android 14.0</td>
+                            <td class="px-6 py-4 text-center text-white font-bold bg-nexo-cyan/5">Android 13.0 (15.0 Up)</td>
+                            <td class="px-6 py-4 text-center text-slate-500 opacity-60">Android 15.0</td>
+                        </tr>
+                        <tr class="border-b border-slate-700">
+                            <td class="px-6 py-4 text-slate-300">RAM/ROM</td>
+                            <td class="px-6 py-4 text-center text-slate-500 opacity-60">8GB/128GB</td>
+                            <td class="px-6 py-4 text-center text-white font-bold bg-nexo-cyan/5">16GB/256GB</td>
+                            <td class="px-6 py-4 text-center text-slate-500 opacity-60">32GB/512GB</td>
+                        </tr>
+                        <tr class="border-b border-slate-700">
+                            <td class="px-6 py-4 text-slate-300">해상도</td>
+                            <td class="px-6 py-4 text-center text-slate-500 opacity-60" colspan="3">UHD 4K, 3840×2160P</td>
+                        </tr>
+                        <tr class="border-b border-slate-700">
+                            <td class="px-6 py-4 text-slate-300">밝기</td>
+                            <td class="px-6 py-4 text-center text-slate-500 opacity-60">350nits</td>
+                            <td class="px-6 py-4 text-center text-white font-bold bg-nexo-cyan/5">450nits</td>
+                            <td class="px-6 py-4 text-center text-slate-500 opacity-60">450nits</td>
+                        </tr>
+                        <tr class="border-b border-slate-700">
+                            <td class="px-6 py-4 text-slate-300">스피커</td>
+                            <td class="px-6 py-4 text-center text-slate-500 opacity-60">20W×2</td>
+                            <td class="px-6 py-4 text-center text-white font-bold bg-nexo-cyan/5">20W×2 + 20W Subwoofer</td>
+                            <td class="px-6 py-4 text-center text-slate-500 opacity-60">20W×2 + 20W Subwoofer</td>
+                        </tr>
+                        <tr class="border-b border-slate-700">
+                            <td class="px-6 py-4 text-slate-300">내장 카메라</td>
+                            <td class="px-6 py-4 text-center text-slate-500 opacity-60">-</td>
+                            <td class="px-6 py-4 text-center text-white font-bold bg-nexo-cyan/5">4800만화소 AI 카메라</td>
+                            <td class="px-6 py-4 text-center text-slate-500 opacity-60">4800만화소 AI 카메라</td>
+                        </tr>
+                        <tr class="border-b border-slate-700">
+                            <td class="px-6 py-4 text-slate-300">터치센서</td>
+                            <td class="px-6 py-4 text-center text-slate-500 opacity-60">-</td>
+                            <td class="px-6 py-4 text-center text-white font-bold bg-nexo-cyan/5">50포인트 멀티 터치</td>
+                            <td class="px-6 py-4 text-center text-slate-500 opacity-60">50포인트 멀티 터치</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 text-slate-300">추가기능</td>
+                            <td class="px-6 py-4 text-center text-slate-500 opacity-60">Wi-Fi 5, NFC</td>
+                            <td class="px-6 py-4 text-center text-white font-bold bg-nexo-cyan/5">Wi-Fi 6, NFC, 대화형AI, 지문인식</td>
+                            <td class="px-6 py-4 text-center text-slate-500 opacity-60">Wi-Fi 6, NFC, 대화형AI, 지문인식</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Features Section -->
+    <section id="features" class="py-24 bg-nexo-dark relative">
+        <div class="absolute top-0 right-0 w-96 h-96 bg-nexo-cyan rounded-full blur-[150px] opacity-10 pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-20">
+                <h2 class="text-nexo-cyan font-bold tracking-widest text-sm mb-2">KEY FEATURES</h2>
+                <h3 class="text-4xl font-bold text-white mb-4">압도적인 기술력의 차이</h3>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+                <!-- Feature 1 -->
+                <div class="group p-6 rounded-2xl bg-slate-900 border border-slate-800 hover:border-nexo-cyan/50 hover:bg-slate-800/80 transition-all duration-300 hover:-translate-y-2">
+                    <div class="w-14 h-14 bg-slate-800 rounded-xl flex items-center justify-center mb-4 group-hover:bg-nexo-cyan group-hover:text-nexo-navy transition-colors text-nexo-cyan">
+                        <i data-lucide="monitor" class="w-7 h-7"></i>
+                    </div>
+                    <h4 class="text-lg font-bold mb-2 text-white">압도적 4K UHD 해상도</h4>
+                    <p class="text-slate-400 leading-relaxed text-sm">
+                        Ultra HD Direct type LED 패널 사용. FHD보다 월등한 선명도, 450cd/m² 밝기.
+                    </p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="group p-6 rounded-2xl bg-slate-900 border border-slate-800 hover:border-nexo-cyan/50 hover:bg-slate-800/80 transition-all duration-300 hover:-translate-y-2">
+                    <div class="w-14 h-14 bg-slate-800 rounded-xl flex items-center justify-center mb-4 group-hover:bg-nexo-cyan group-hover:text-nexo-navy transition-colors text-nexo-cyan">
+                        <i data-lucide="smartphone" class="w-7 h-7"></i>
+                    </div>
+                    <h4 class="text-lg font-bold mb-2 text-white">Android OS 기본탑재</h4>
+                    <p class="text-slate-400 leading-relaxed text-sm">
+                        Windows 호환. 최적화된 성능과 강화된 보안기능으로 누구나 쉽게 사용.
+                    </p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="group p-6 rounded-2xl bg-slate-900 border border-slate-800 hover:border-nexo-cyan/50 hover:bg-slate-800/80 transition-all duration-300 hover:-translate-y-2">
+                    <div class="w-14 h-14 bg-slate-800 rounded-xl flex items-center justify-center mb-4 group-hover:bg-nexo-cyan group-hover:text-nexo-navy transition-colors text-nexo-cyan">
+                        <i data-lucide="shield" class="w-7 h-7"></i>
+                    </div>
+                    <h4 class="text-lg font-bold mb-2 text-white">무반사 고강도 강화유리</h4>
+                    <p class="text-slate-400 leading-relaxed text-sm">
+                        무반사·9등급 고강도 강화유리, ZERO-GAP bonding. 경도9H로 스크래치 ZERO.
+                    </p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="group p-6 rounded-2xl bg-slate-900 border border-slate-800 hover:border-nexo-cyan/50 hover:bg-slate-800/80 transition-all duration-300 hover:-translate-y-2">
+                    <div class="w-14 h-14 bg-slate-800 rounded-xl flex items-center justify-center mb-4 group-hover:bg-nexo-cyan group-hover:text-nexo-navy transition-colors text-nexo-cyan">
+                        <i data-lucide="cast" class="w-7 h-7"></i>
+                    </div>
+                    <h4 class="text-lg font-bold mb-2 text-white">실시간 화면 녹화 및 미러링</h4>
+                    <p class="text-slate-400 leading-relaxed text-sm">
+                        E-share를 통한 양방향 최대 9개 동시 미러링. 카메라/고성능 마이크 탑재.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Additional Features -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="group p-8 rounded-3xl bg-slate-900 border border-slate-800 hover:border-nexo-cyan/50 hover:bg-slate-800/80 transition-all duration-300">
+                    <div class="w-16 h-16 bg-slate-800 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-nexo-cyan group-hover:text-nexo-navy transition-colors text-nexo-cyan">
+                        <i data-lucide="pen-tool" class="w-8 h-8"></i>
+                    </div>
+                    <h4 class="text-xl font-bold mb-3 text-white">종이 같은 필기감</h4>
+                    <p class="text-slate-400 leading-relaxed text-sm">
+                        딜레이 없는 0.01초 반응 속도. 실제 펜처럼 씁니다. Zero Bonding 기술로 화면과 펜 사이 간격 제로.
+                    </p>
+                </div>
+
+                <div class="group p-8 rounded-3xl bg-slate-900 border border-slate-800 hover:border-nexo-cyan/50 hover:bg-slate-800/80 transition-all duration-300">
+                    <div class="w-16 h-16 bg-slate-800 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-nexo-cyan group-hover:text-nexo-navy transition-colors text-nexo-cyan">
+                        <i data-lucide="brain" class="w-8 h-8"></i>
+                    </div>
+                    <h4 class="text-xl font-bold mb-3 text-white">대화형 AI 기능 탑재</h4>
+                    <p class="text-slate-400 leading-relaxed text-sm">
+                        통합 AI Assistant (Google Assistant, DeepSeek) 탑재. 교안생성, 편집 및 실시간 Q&A와 맞춤학습 가능.
+                    </p>
+                </div>
+
+                <div class="group p-8 rounded-3xl bg-slate-900 border border-slate-800 hover:border-nexo-cyan/50 hover:bg-slate-800/80 transition-all duration-300">
+                    <div class="w-16 h-16 bg-slate-800 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-nexo-cyan group-hover:text-nexo-navy transition-colors text-nexo-cyan">
+                        <i data-lucide="smartphone" class="w-8 h-8"></i>
+                    </div>
+                    <h4 class="text-xl font-bold mb-3 text-white">폰 공유 솔루션</h4>
+                    <p class="text-slate-400 leading-relaxed text-sm">
+                        실시간 사진/동영상 공유. 학습 및 회의에 필요한 자료를 전자칠판에 실시간으로 띄워 활용 (Quick SHARE).
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Software Ecosystem Section -->
+    <section class="py-24 bg-slate-900">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-nexo-cyan font-bold tracking-widest text-sm mb-2">SOFTWARE</h2>
+                <h3 class="text-4xl font-bold text-white mb-4">Powerful Software Ecosystem</h3>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-slate-800 rounded-2xl p-8 border border-slate-700">
+                    <div class="flex items-center gap-3 mb-4">
+                        <i data-lucide="cast" class="w-6 h-6 text-nexo-cyan"></i>
+                        <h4 class="text-xl font-bold text-white">Eshare 미러링</h4>
+                    </div>
+                    <p class="text-slate-400 text-sm">
+                        케이블 NO. 노트북/폰/태블릿 모든 OS 지원. 최대 9개 화면 공유. Touch Back 기능으로 양방향 제어 가능.
+                    </p>
+                </div>
+
+                <div class="bg-slate-800 rounded-2xl p-8 border border-slate-700">
+                    <div class="flex items-center gap-3 mb-4">
+                        <i data-lucide="share-2" class="w-6 h-6 text-nexo-cyan"></i>
+                        <h4 class="text-xl font-bold text-white">공유 & 저장</h4>
+                    </div>
+                    <p class="text-slate-400 text-sm">
+                        판서내용 QR코드 스캔으로 즉시 저장. 클라우드/이메일 전송. 간편한 QR코드 생성 및 파일공유.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Application Section -->
+    <section id="applications" class="py-24 bg-nexo-dark">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-nexo-cyan font-bold tracking-widest text-sm mb-2">APPLICATION</h2>
+                <h3 class="text-4xl font-bold text-white mb-4">기본 Application</h3>
+                <p class="text-slate-400 max-w-2xl mx-auto">
+                    사전 설치된 앱과 NEXO 인터랙티브 화이트보드용으로 개발된 Umind, Ucut, URecord, U-series 앱을 제공하며,<br>
+                    App Store에서 추가 앱을 다운로드할 수 있습니다.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- UMIND Whiteboard -->
+                <div class="bg-slate-800 rounded-2xl overflow-hidden border border-slate-700">
+                    <div class="p-8">
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="w-16 h-16 bg-nexo-cyan/20 rounded-xl flex items-center justify-center">
+                                <i data-lucide="layout" class="w-8 h-8 text-nexo-cyan"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-2xl font-bold text-white">UMIND 판서</h4>
+                                <p class="text-slate-400 text-sm">NX Series 판서 소프트웨어</p>
+                            </div>
+                        </div>
+                        <p class="text-slate-300 mb-4">
+                            무한 판서, 제스처 인식(지우개). 누구나 1분이면 마스터하는 쉬운 사용법.
+                        </p>
+                        <ul class="space-y-2 text-sm text-slate-400 mb-6">
+                            <li class="flex items-center gap-2">
+                                <i data-lucide="check" class="w-4 h-4 text-nexo-cyan"></i>
+                                WPS_PDF / UMIND 화이트보드 활용 (PDF, PPT, DOC, Excel 지원)
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <i data-lucide="check" class="w-4 h-4 text-nexo-cyan"></i>
+                                수학/과학: 2D, 3D 함수 그래프 및 과학 콘텐츠 제공
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <i data-lucide="check" class="w-4 h-4 text-nexo-cyan"></i>
+                                영어/국어: 웹 비디오, 웹 사진 기능으로 YouTube 활용
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <i data-lucide="check" class="w-4 h-4 text-nexo-cyan"></i>
+                                분할화면: 한 화면에서 두 가지 작업 동시 수행
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="w-full min-h-80 bg-slate-900 flex items-center justify-center overflow-hidden">
+                        <img src="images/umind-math-formula.png" alt="UMIND 판서 - 수학 공식" class="w-full h-full object-contain" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=&quot;text-slate-500 text-sm&quot;>UMIND 판서 화면 이미지</div>';">
+                    </div>
+                </div>
+
+                <!-- Smart Math Tool -->
+                <div class="bg-slate-800 rounded-2xl overflow-hidden border border-slate-700">
+                    <div class="p-8">
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="w-16 h-16 bg-nexo-cyan/20 rounded-xl flex items-center justify-center">
+                                <i data-lucide="calculator" class="w-8 h-8 text-nexo-cyan"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-2xl font-bold text-white">스마트 수학 툴</h4>
+                                <p class="text-slate-400 text-sm">수학 학원 필수 기능</p>
+                            </div>
+                        </div>
+                        <p class="text-slate-300 mb-4">
+                            손글씨 수식인식, 2D/3D 그래프 자동 변환. 복잡한 도형 그리기, 넥소와 함께라면 1초면 끝납니다.
+                        </p>
+                        <ul class="space-y-2 text-sm text-slate-400 mb-6">
+                            <li class="flex items-center gap-2">
+                                <i data-lucide="check" class="w-4 h-4 text-nexo-cyan"></i>
+                                3D 그래프 시각화 및 회전 기능
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <i data-lucide="check" class="w-4 h-4 text-nexo-cyan"></i>
+                                학생들의 집중도 향상
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="w-full min-h-80 bg-slate-900 flex items-center justify-center overflow-hidden">
+                        <img src="images/math-3d-graph.png" alt="스마트 수학 툴 - 3D 그래프" class="w-full h-full object-contain" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=&quot;text-slate-500 text-sm&quot;>3D 수학 그래프 이미지</div>';">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Customer Reviews Section -->
+    <section id="reviews" class="py-24 bg-slate-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-nexo-cyan font-bold tracking-widest text-sm mb-2">CUSTOMER REVIEWS</h2>
+                <h3 class="text-3xl sm:text-4xl font-bold text-white mb-4">실제 고객 후기</h3>
+                <p class="text-slate-400 max-w-2xl mx-auto">
+                    NEXO를 사용하시는 고객님들의 생생한 후기를 확인해보세요.
+                </p>
+            </div>
+
+            <!-- Reviews Container -->
+            <div id="reviewsContainer" class="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
+                <!-- Reviews will be dynamically loaded here -->
+            </div>
+
+            <!-- Empty State -->
+            <div id="emptyReviews" class="text-center py-12 text-slate-500 hidden">
+                <i data-lucide="message-square" class="w-16 h-16 mx-auto mb-4 opacity-50"></i>
+                <p>아직 등록된 후기가 없습니다.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Admin Login Modal -->
+    <div id="adminLoginModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/70 backdrop-blur-sm">
+        <div class="relative w-full max-w-md mx-4 bg-slate-900 rounded-2xl border border-slate-700 shadow-2xl">
+            <button id="closeAdminModal" class="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors z-10">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+            <div class="p-6 sm:p-8">
+                <h2 class="text-2xl font-bold text-white mb-6">관리자 로그인</h2>
+                <form id="adminLoginForm" class="space-y-4">
+                    <div>
+                        <label for="adminPassword" class="block text-sm font-medium text-slate-300 mb-2">비밀번호</label>
+                        <input type="password" id="adminPassword" required
+                               class="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-nexo-cyan focus:ring-2 focus:ring-nexo-cyan/20 transition-colors"
+                               placeholder="관리자 비밀번호를 입력하세요">
+                    </div>
+                    <button type="submit" class="w-full px-6 py-3 bg-nexo-cyan text-nexo-navy font-bold rounded-lg hover:bg-white transition-all">
+                        로그인
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Review Management Modal -->
+    <div id="adminReviewModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/70 backdrop-blur-sm overflow-y-auto">
+        <div class="relative w-full max-w-4xl mx-4 my-8 bg-slate-900 rounded-2xl border border-slate-700 shadow-2xl">
+            <!-- Sticky Header with Close Button -->
+            <div class="sticky top-0 bg-slate-900 z-20 border-b border-slate-700 px-6 py-4 flex justify-between items-center">
+                <h2 class="text-2xl font-bold text-white">후기 관리</h2>
+                <button id="closeReviewModal" class="text-slate-400 hover:text-white transition-colors bg-slate-800 hover:bg-slate-700 rounded-full p-2">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            <div class="p-6 sm:p-8">
+                <!-- Add Review Form -->
+                <div class="bg-slate-800 rounded-xl p-6 mb-6 border border-slate-700">
+                    <h3 class="text-lg font-bold text-white mb-4">새 후기 추가</h3>
+                    <form id="addReviewForm" class="space-y-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label for="reviewName" class="block text-sm font-medium text-slate-300 mb-2">작성자명 *</label>
+                                <input type="text" id="reviewName" required
+                                       class="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-nexo-cyan">
+                            </div>
+                            <div>
+                                <label for="reviewRating" class="block text-sm font-medium text-slate-300 mb-2">별점 *</label>
+                                <select id="reviewRating" required
+                                        class="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:border-nexo-cyan">
+                                    <option value="5">⭐⭐⭐⭐⭐ (5점)</option>
+                                    <option value="4">⭐⭐⭐⭐ (4점)</option>
+                                    <option value="3">⭐⭐⭐ (3점)</option>
+                                    <option value="2">⭐⭐ (2점)</option>
+                                    <option value="1">⭐ (1점)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <label for="reviewText" class="block text-sm font-medium text-slate-300 mb-2">후기 내용 *</label>
+                            <textarea id="reviewText" rows="4" required
+                                      class="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-nexo-cyan resize-none"
+                                      placeholder="후기 내용을 입력하세요"></textarea>
+                        </div>
+                        <div>
+                            <label for="reviewImage" class="block text-sm font-medium text-slate-300 mb-2">후기 사진 (선택, 최대 3개)</label>
+                            <input type="file" id="reviewImage" accept="image/*" multiple
+                                   class="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white text-sm">
+                            <p class="text-xs text-slate-500 mt-1">JPG, PNG 형식, 최대 5MB, 최대 3개까지 선택 가능</p>
+                            <div id="imagePreview" class="mt-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 hidden">
+                                <!-- Preview images will be inserted here -->
+                            </div>
+                        </div>
+                        <button type="submit" class="w-full px-6 py-3 bg-nexo-cyan text-nexo-navy font-bold rounded-lg hover:bg-white transition-all">
+                            후기 추가
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Existing Reviews List -->
+                <div>
+                    <h3 class="text-lg font-bold text-white mb-4">등록된 후기</h3>
+                    <div id="adminReviewsList" class="space-y-3">
+                        <!-- Reviews will be listed here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Button (Floating) -->
+    <button id="adminButton" onclick="openAdminLogin()" class="fixed bottom-6 right-6 w-14 h-14 bg-slate-800 hover:bg-slate-700 text-white rounded-full shadow-lg flex items-center justify-center transition-all z-40 border border-slate-600" style="display: none;">
+        <i data-lucide="settings" class="w-6 h-6"></i>
+    </button>
+
+    <div id="nav-cards-placeholder"></div>
+
+    <!-- Footer Placeholder (동적으로 로드됨) -->
+    <div id="footer-placeholder"></div>
+
+    <!-- 공통 컴포넌트 로드 스크립트 -->
+    <script src="components/components.js"></script>
+    
+    <script>
+        // Initialize Lucide Icons
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
+
+        // ==================== Review Management System ====================
+        
+        // Admin Password (기본값: 'admin123' - 배포 후 변경 권장)
+        const ADMIN_PASSWORD = 'admin123';
+        const STORAGE_KEY = 'nexo_reviews';
+        const ADMIN_AUTH_KEY = 'nexo_admin_auth';
+        
+        // Cloudinary Configuration
+        const CLOUDINARY_CLOUD_NAME = 'dthtfs1mf';
+        const CLOUDINARY_UPLOAD_PRESET = 'nexo-reviews-unsigned';
+
+        // GitHub Gist Configuration
+        const GITHUB_TOKEN = 'YOUR_GITHUB_TOKEN_HERE';
+        const GIST_ID = 'e7c33232aacc62fdbc03a3437f4e693c';
+        const GIST_FILENAME = 'nexo-reviews.json';
+
+        // Initialize Reviews
+        async function initReviews() {
+            await loadReviews();
+            setupAdminFunctions();
+        }
+
+        // Load and Display Reviews
+        async function loadReviews() {
+            const container = document.getElementById('reviewsContainer');
+            const emptyState = document.getElementById('emptyReviews');
+            
+            if (!container) return;
+            
+            container.innerHTML = '<div class="text-center text-slate-400 py-8">후기를 불러오는 중...</div>';
+            
+            try {
+                const reviews = await getReviews();
+                
+                if (reviews.length === 0) {
+                    container.innerHTML = '';
+                    if (emptyState) emptyState.classList.remove('hidden');
+                    return;
+                }
+                
+                if (emptyState) emptyState.classList.add('hidden');
+                
+                container.innerHTML = reviews.map((review) => {
+                    const stars = '⭐'.repeat(review.rating);
+                    const date = new Date(review.date).toLocaleDateString('ko-KR');
+                    const images = review.images || (review.image ? [review.image] : []);
+                    
+                    let imageHtml = '';
+                    if (images.length > 0) {
+                        if (images.length === 1) {
+                            imageHtml = `<div class="mt-3"><img src="${images[0]}" alt="후기 사진" class="w-full h-auto rounded-lg cursor-pointer object-cover" onclick="this.classList.toggle('max-h-64'); this.classList.toggle('max-h-none');"></div>`;
+                        } else if (images.length === 2) {
+                            imageHtml = `<div class="mt-3 grid grid-cols-2 gap-2">
+                                ${images.map((img, idx) => 
+                                    `<img src="${img}" alt="후기 사진 ${idx + 1}" class="w-full h-32 sm:h-40 object-cover rounded-lg cursor-pointer" onclick="this.classList.toggle('h-32'); this.classList.toggle('h-auto'); this.classList.toggle('sm:h-40');">
+                                `).join('')}
+                            </div>`;
+                        } else {
+                            imageHtml = `<div class="mt-3 grid grid-cols-3 gap-2">
+                                ${images.map((img, idx) => 
+                                    `<img src="${img}" alt="후기 사진 ${idx + 1}" class="w-full h-32 sm:h-40 object-cover rounded-lg cursor-pointer" onclick="this.classList.toggle('h-32'); this.classList.toggle('h-auto'); this.classList.toggle('sm:h-40');">
+                                `).join('')}
+                            </div>`;
+                        }
+                    }
+                    
+                    return `
+                        <div class="bg-slate-800 rounded-xl p-4 sm:p-6 border border-slate-700 hover:border-nexo-cyan/50 transition-colors">
+                            <div class="flex items-start gap-3 sm:gap-4">
+                                <div class="w-10 h-10 sm:w-12 sm:h-12 bg-nexo-cyan/20 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <span class="text-nexo-cyan font-bold text-base sm:text-lg">${review.name.charAt(0)}</span>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-2">
+                                        <div class="flex-1 min-w-0">
+                                            <h4 class="font-bold text-white text-sm sm:text-base truncate">${review.name}</h4>
+                                            <div class="text-yellow-400 text-xs sm:text-sm mt-1">${stars}</div>
+                                        </div>
+                                        <span class="text-slate-500 text-xs sm:text-sm whitespace-nowrap">${date}</span>
+                                    </div>
+                                    <p class="text-slate-300 leading-relaxed text-sm sm:text-base break-words">${review.text}</p>
+                                    ${imageHtml}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+                
+                lucide.createIcons();
+            } catch (error) {
+                console.error('후기 로드 실패:', error);
+                container.innerHTML = '<div class="text-center text-red-400 py-8">후기를 불러오는데 실패했습니다. 새로고침해주세요.</div>';
+            }
+        }
+
+        // Get Reviews from GitHub Gist
+        async function getReviews() {
+            if (!GITHUB_TOKEN || GITHUB_TOKEN === 'YOUR_GITHUB_TOKEN_HERE' || 
+                !GIST_ID || GIST_ID === 'YOUR_GIST_ID_HERE') {
+                try {
+                    const stored = localStorage.getItem(STORAGE_KEY);
+                    return stored ? JSON.parse(stored) : [];
+                } catch (e) {
+                    return [];
+                }
+            }
+
+            try {
+                const response = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
+                    headers: {
+                        'Accept': 'application/vnd.github.v3+json',
+                        'Authorization': `token ${GITHUB_TOKEN}`
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`GitHub API 오류: ${response.status}`);
+                }
+
+                const gist = await response.json();
+                const file = gist.files[GIST_FILENAME];
+                
+                if (!file) {
+                    return [];
+                }
+
+                return JSON.parse(file.content);
+            } catch (error) {
+                console.error('GitHub Gist 읽기 실패:', error);
+                try {
+                    const stored = localStorage.getItem(STORAGE_KEY);
+                    return stored ? JSON.parse(stored) : [];
+                } catch (e) {
+                    return [];
+                }
+            }
+        }
+
+        // Save Reviews to GitHub Gist
+        async function saveReviews(reviews) {
+            if (!GITHUB_TOKEN || GITHUB_TOKEN === 'YOUR_GITHUB_TOKEN_HERE' || 
+                !GIST_ID || GIST_ID === 'YOUR_GIST_ID_HERE') {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(reviews));
+                return;
+            }
+
+            try {
+                const response = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
+                    headers: {
+                        'Accept': 'application/vnd.github.v3+json',
+                        'Authorization': `token ${GITHUB_TOKEN}`
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`GitHub API 오류: ${response.status}`);
+                }
+
+                const gist = await response.json();
+                
+                const updateResponse = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Accept': 'application/vnd.github.v3+json',
+                        'Authorization': `token ${GITHUB_TOKEN}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        files: {
+                            [GIST_FILENAME]: {
+                                content: JSON.stringify(reviews, null, 2)
+                            }
+                        }
+                    })
+                });
+
+                if (!updateResponse.ok) {
+                    throw new Error(`GitHub API 업데이트 오류: ${updateResponse.status}`);
+                }
+
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(reviews));
+            } catch (error) {
+                console.error('GitHub Gist 저장 실패:', error);
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(reviews));
+                alert('후기는 저장되었지만 동기화에 실패했습니다. 관리자에게 문의해주세요.');
+            }
+        }
+
+        // Admin Functions
+        function setupAdminFunctions() {
+            const loginForm = document.getElementById('adminLoginForm');
+            if (loginForm) {
+                loginForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const password = document.getElementById('adminPassword').value;
+                    if (password === ADMIN_PASSWORD) {
+                        localStorage.setItem(ADMIN_AUTH_KEY, 'true');
+                        closeAdminLoginModal();
+                        openReviewManagement();
+                    } else {
+                        alert('비밀번호가 올바르지 않습니다.');
+                    }
+                });
+            }
+
+            if (localStorage.getItem(ADMIN_AUTH_KEY) === 'true') {
+                const adminBtn = document.getElementById('adminButton');
+                if (adminBtn) {
+                    adminBtn.style.display = 'flex';
+                    adminBtn.onclick = () => openReviewManagement();
+                }
+            } else {
+                const adminBtn = document.getElementById('adminButton');
+                if (adminBtn) {
+                    adminBtn.style.display = 'flex';
+                    adminBtn.onclick = () => openAdminLogin();
+                }
+            }
+
+            const addReviewForm = document.getElementById('addReviewForm');
+            if (addReviewForm) {
+                addReviewForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    addReview();
+                });
+            }
+
+            const imageInput = document.getElementById('reviewImage');
+            if (imageInput) {
+                imageInput.addEventListener('change', (e) => {
+                    const files = Array.from(e.target.files);
+                    const previewContainer = document.getElementById('imagePreview');
+                    
+                    if (files.length > 3) {
+                        alert('최대 3개의 이미지만 선택할 수 있습니다.');
+                        e.target.value = '';
+                        previewContainer.innerHTML = '';
+                        previewContainer.classList.add('hidden');
+                        return;
+                    }
+                    
+                    for (let file of files) {
+                        if (file.size > 5 * 1024 * 1024) {
+                            alert('파일 크기는 5MB 이하여야 합니다.');
+                            e.target.value = '';
+                            previewContainer.innerHTML = '';
+                            previewContainer.classList.add('hidden');
+                            return;
+                        }
+                    }
+                    
+                    previewContainer.innerHTML = '';
+                    files.forEach((file, index) => {
+                        const reader = new FileReader();
+                        reader.onload = (event) => {
+                            const previewDiv = document.createElement('div');
+                            previewDiv.className = 'relative';
+                            previewDiv.innerHTML = `
+                                <img src="${event.target.result}" alt="미리보기 ${index + 1}" 
+                                     class="w-full h-32 object-cover rounded-lg border border-slate-600">
+                                <button type="button" onclick="removePreviewImage(${index})" 
+                                        class="absolute top-1 right-1 bg-red-600 hover:bg-red-700 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs">
+                                    ×
+                                </button>
+                            `;
+                            previewContainer.appendChild(previewDiv);
+                            previewContainer.classList.remove('hidden');
+                        };
+                        reader.readAsDataURL(file);
+                    });
+                });
+            }
+            
+            window.removePreviewImage = function(index) {
+                const imageInput = document.getElementById('reviewImage');
+                const dt = new DataTransfer();
+                const files = Array.from(imageInput.files);
+                files.splice(index, 1);
+                files.forEach(file => dt.items.add(file));
+                imageInput.files = dt.files;
+                imageInput.dispatchEvent(new Event('change'));
+            };
+
+            const closeAdminModal = document.getElementById('closeAdminModal');
+            if (closeAdminModal) {
+                closeAdminModal.addEventListener('click', closeAdminLoginModal);
+            }
+
+            const closeReviewModal = document.getElementById('closeReviewModal');
+            if (closeReviewModal) {
+                closeReviewModal.addEventListener('click', closeReviewManagement);
+            }
+        }
+
+        function openAdminLogin() {
+            const modal = document.getElementById('adminLoginModal');
+            if (modal) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+                document.body.style.overflow = 'hidden';
+                lucide.createIcons();
+            }
+        }
+
+        function closeAdminLoginModal() {
+            const modal = document.getElementById('adminLoginModal');
+            if (modal) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                document.body.style.overflow = '';
+                const passwordInput = document.getElementById('adminPassword');
+                if (passwordInput) passwordInput.value = '';
+            }
+        }
+
+        function openReviewManagement() {
+            const modal = document.getElementById('adminReviewModal');
+            if (modal) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+                document.body.style.overflow = 'hidden';
+                setTimeout(() => {
+                    modal.scrollTop = 0;
+                }, 100);
+                loadAdminReviewsList().then(() => {
+                    lucide.createIcons();
+                });
+            }
+        }
+
+        function closeReviewManagement() {
+            const modal = document.getElementById('adminReviewModal');
+            if (modal) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                document.body.style.overflow = '';
+            }
+        }
+
+        async function uploadImageToCloudinary(file) {
+            return new Promise((resolve, reject) => {
+                if (!CLOUDINARY_CLOUD_NAME || CLOUDINARY_CLOUD_NAME === 'YOUR_CLOUD_NAME_HERE' || 
+                    !CLOUDINARY_UPLOAD_PRESET || CLOUDINARY_UPLOAD_PRESET === 'YOUR_UPLOAD_PRESET_HERE') {
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                        resolve(event.target.result);
+                    };
+                    reader.onerror = reject;
+                    reader.readAsDataURL(file);
+                    return;
+                }
+
+                const formData = new FormData();
+                formData.append('file', file);
+                formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+                formData.append('folder', 'nexo-reviews');
+
+                fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`, {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.secure_url) {
+                        resolve(data.secure_url);
+                    } else {
+                        console.error('Cloudinary upload error:', data);
+                        const reader = new FileReader();
+                        reader.onload = (event) => resolve(event.target.result);
+                        reader.onerror = reject;
+                        reader.readAsDataURL(file);
+                    }
+                })
+                .catch(error => {
+                    console.error('Cloudinary upload error:', error);
+                    const reader = new FileReader();
+                    reader.onload = (event) => resolve(event.target.result);
+                    reader.onerror = reject;
+                    reader.readAsDataURL(file);
+                });
+            });
+        }
+
+        async function addReview() {
+            const name = document.getElementById('reviewName').value;
+            const rating = parseInt(document.getElementById('reviewRating').value);
+            const text = document.getElementById('reviewText').value;
+            const imageInput = document.getElementById('reviewImage');
+            
+            if (!name || !text) {
+                alert('작성자명과 후기 내용을 입력해주세요.');
+                return;
+            }
+
+            const review = {
+                id: Date.now(),
+                name: name,
+                rating: rating,
+                text: text,
+                date: new Date().toISOString(),
+                images: []
+            };
+
+            if (imageInput.files.length > 0) {
+                const files = Array.from(imageInput.files).slice(0, 3);
+                const submitBtn = document.querySelector('#addReviewForm button[type="submit"]');
+                const originalText = submitBtn.innerHTML;
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = `이미지 업로드 중... (0/${files.length})`;
+                
+                try {
+                    for (let i = 0; i < files.length; i++) {
+                        submitBtn.innerHTML = `이미지 업로드 중... (${i + 1}/${files.length})`;
+                        const imageUrl = await uploadImageToCloudinary(files[i]);
+                        review.images.push(imageUrl);
+                    }
+                    await saveReviewToStorage(review);
+                } catch (error) {
+                    console.error('Image upload error:', error);
+                    alert('일부 이미지 업로드에 실패했습니다. 업로드된 이미지만 저장됩니다.');
+                    await saveReviewToStorage(review);
+                } finally {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalText;
+                }
+            } else {
+                await saveReviewToStorage(review);
+            }
+        }
+
+        async function saveReviewToStorage(review) {
+            const reviews = await getReviews();
+            reviews.unshift(review);
+            await saveReviews(reviews);
+            
+            document.getElementById('addReviewForm').reset();
+            const previewContainer = document.getElementById('imagePreview');
+            previewContainer.innerHTML = '';
+            previewContainer.classList.add('hidden');
+            
+            await loadReviews();
+            await loadAdminReviewsList();
+            
+            const modal = document.getElementById('adminReviewModal');
+            if (modal) {
+                modal.scrollTop = 0;
+            }
+            
+            alert('후기가 추가되었습니다.');
+        }
+
+        async function loadAdminReviewsList() {
+            const reviews = await getReviews();
+            const container = document.getElementById('adminReviewsList');
+            if (!container) return;
+
+            if (reviews.length === 0) {
+                container.innerHTML = '<p class="text-slate-400 text-center py-4">등록된 후기가 없습니다.</p>';
+                return;
+            }
+
+            container.innerHTML = reviews.map((review) => {
+                const stars = '⭐'.repeat(review.rating);
+                const date = new Date(review.date).toLocaleDateString('ko-KR');
+                const images = review.images || (review.image ? [review.image] : []);
+                
+                let imageHtml = '';
+                if (images.length > 0) {
+                    if (images.length === 1) {
+                        imageHtml = `<img src="${images[0]}" alt="후기 사진" class="max-w-32 h-auto rounded-lg mt-2">`;
+                    } else {
+                        imageHtml = `<div class="grid grid-cols-${Math.min(images.length, 3)} gap-2 mt-2">
+                            ${images.slice(0, 3).map(img => 
+                                `<img src="${img}" alt="후기 사진" class="max-w-24 h-20 object-cover rounded-lg">`
+                            ).join('')}
+                        </div>`;
+                    }
+                }
+                
+                return `
+                    <div class="bg-slate-700 rounded-lg p-4 border border-slate-600">
+                        <div class="flex items-start justify-between gap-4">
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center gap-3 mb-2 flex-wrap">
+                                    <span class="font-bold text-white">${review.name}</span>
+                                    <span class="text-yellow-400 text-sm">${stars}</span>
+                                    <span class="text-slate-500 text-xs">${date}</span>
+                                </div>
+                                <p class="text-slate-300 text-sm mb-2 break-words">${review.text}</p>
+                                ${imageHtml}
+                            </div>
+                            <button onclick="deleteReview(${review.id})" class="px-3 py-1 bg-red-600 hover:bg-red-700 text-white text-sm rounded transition-colors flex-shrink-0">
+                                삭제
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        async function deleteReview(id) {
+            if (!confirm('이 후기를 삭제하시겠습니까?')) return;
+            
+            const reviews = await getReviews();
+            const filtered = reviews.filter(r => r.id !== id);
+            await saveReviews(filtered);
+            
+            await loadReviews();
+            await loadAdminReviewsList();
+            alert('후기가 삭제되었습니다.');
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            initReviews().catch(console.error);
+        });
+    </script>
+</body>
+</html>
+
