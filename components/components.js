@@ -121,11 +121,39 @@ function initNavbarScroll() {
     });
 }
 
+// 테마 전환
+window.toggleTheme = function() {
+    const html = document.documentElement;
+    const current = html.getAttribute('data-theme');
+    const next = current === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('nexo-theme', next);
+};
+
+// 네비게이션 카드 로드
+async function loadNavCards() {
+    try {
+        const response = await fetch('components/nav-cards.html');
+        if (!response.ok) return;
+        const html = await response.text();
+        const placeholder = document.getElementById('nav-cards-placeholder');
+        if (placeholder) {
+            placeholder.innerHTML = html;
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+        }
+    } catch (error) {
+        console.error('네비게이션 카드 로드 실패:', error);
+    }
+}
+
 // 모든 컴포넌트 로드
 async function loadComponents() {
     await Promise.all([
         loadHeader(),
-        loadFooter()
+        loadFooter(),
+        loadNavCards()
     ]);
 }
 

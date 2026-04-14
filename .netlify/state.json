@@ -1,3 +1,21 @@
 {
-	"siteId": "4cd33e21-fe02-4776-84eb-9c9da4af38e5"
+	"siteId": "b876f5e1-9dc6-4589-8af9-3530b7d8728e",
+	"geolocation": {
+		"data": {
+			"city": "Seo-gu",
+			"country": {
+				"code": "KR",
+				"name": "South Korea"
+			},
+			"subdivision": {
+				"code": "28",
+				"name": "Incheon"
+			},
+			"timezone": "Asia/Seoul",
+			"latitude": 37.5929,
+			"longitude": 126.688,
+			"postalCode": "226"
+		},
+		"timestamp": 1768542708057
+	}
 }

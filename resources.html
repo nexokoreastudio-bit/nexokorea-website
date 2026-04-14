@@ -7,16 +7,16 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>기술자료 - NEXO KOREA</title>
-    
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
+
     <!-- 폰트: Noto Sans KR -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700;900&display=swap" rel="stylesheet">
-    
+
     <!-- 아이콘: Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    
+
     <!-- 공통 컴포넌트 로드 스크립트 -->
     <script src="components/components.js" defer></script>
 
@@ -54,13 +54,15 @@
         ::-webkit-scrollbar-thumb:hover {
             background: #06b6d4;
         }
-        
+
         .glass-nav {
             background: rgba(15, 23, 42, 0.85);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
         }
     </style>
+    <link rel="stylesheet" href="theme.css">
+    <script>document.documentElement.setAttribute("data-theme", localStorage.getItem("nexo-theme") || "light");</script>
 </head>
 <body class="bg-nexo-navy text-white font-sans overflow-x-hidden">
 
@@ -76,19 +78,102 @@
                     기술자료
                 </h1>
                 <p class="text-lg text-slate-400 max-w-2xl mx-auto">
-                    제품 사양서, 카탈로그, 기술 문서를 다운로드하세요.
+                    전자칠판 펌웨어, 앱, 프로그램을 다운로드하세요.
                 </p>
             </div>
 
             <!-- Resources by Category -->
             <div class="space-y-12">
-                <!-- 1. 필수 유틸리티 및 앱 스토어 -->
+
+                <!-- 1. 펌웨어 및 업그레이드 (5칸 배열) -->
                 <div>
                     <h3 class="text-2xl font-bold text-white mb-6 flex items-center gap-3">
-                        <i data-lucide="smartphone" class="w-6 h-6 text-nexo-cyan"></i>
-                        필수 유틸리티 및 앱 스토어
+                        <i data-lucide="cpu" class="w-6 h-6 text-nexo-cyan"></i>
+                        1. 펌웨어 및 업그레이드
                     </h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 lg:gap-6">
+                        <div class="bg-slate-800 rounded-2xl p-6 border border-slate-700 hover:border-nexo-cyan/50 transition-all duration-300 hover:-translate-y-2 relative">
+                            <div class="absolute top-4 right-4 w-8 h-8 bg-nexo-cyan text-nexo-navy rounded-full flex items-center justify-center text-sm font-bold">1</div>
+                            <div class="w-16 h-16 bg-nexo-cyan/20 rounded-xl flex items-center justify-center mb-4">
+                                <i data-lucide="wrench" class="w-8 h-8 text-nexo-cyan"></i>
+                            </div>
+                            <h4 class="text-lg font-bold text-white mb-2">UMARK (주석 패치)</h4>
+                            <p class="text-slate-400 text-sm mb-4">주석 문제 해결 패치</p>
+                            <a href="http://nexonas.ipdisk.co.kr/publist/HDD1/%EC%97%85%EB%AC%B4%EC%9A%A9/00NO%2001_NX%EC%8B%9C%EB%A6%AC%EC%A6%88%20%EB%82%A0%EC%A7%9C%EB%B3%84%20%ED%8E%8C%EC%9B%A8%EC%96%B4/UMARK1224%20%EC%84%B8%EB%A1%9C%EB%B0%94%20%EC%A3%BC%EC%84%9D%EB%AC%B8%EC%A0%9C%20%ED%95%B4%EA%B2%B0/UMark_v3588_release_V21251223_12240904_21251223.apk" target="_blank" class="inline-flex items-center gap-2 text-nexo-cyan hover:text-white transition-colors">
+                                <i data-lucide="download" class="w-4 h-4"></i>
+                                다운로드
+                            </a>
+                        </div>
+                        <div class="bg-slate-800 rounded-2xl p-6 border border-slate-700 hover:border-nexo-cyan/50 transition-all duration-300 hover:-translate-y-2 relative">
+                            <div class="absolute top-4 right-4 w-8 h-8 bg-nexo-cyan text-nexo-navy rounded-full flex items-center justify-center text-sm font-bold">2</div>
+                            <div class="w-16 h-16 bg-nexo-cyan/20 rounded-xl flex items-center justify-center mb-4">
+                                <i data-lucide="layout-grid" class="w-8 h-8 text-nexo-cyan"></i>
+                            </div>
+                            <h4 class="text-lg font-bold text-white mb-2">Launcher (시스템)</h4>
+                            <p class="text-slate-400 text-sm mb-4">시스템 런처</p>
+                            <a href="http://nexonas.ipdisk.co.kr/publist/HDD1/%EC%97%85%EB%AC%B4%EC%9A%A9/00NO%2001_NX%EC%8B%9C%EB%A6%AC%EC%A6%88%20%EB%82%A0%EC%A7%9C%EB%B3%84%20%ED%8E%8C%EC%9B%A8%EC%96%B4/NEXO_1128/NEXO_1128/Launcher-3588-1.0-11_28-release-nexo.apk" target="_blank" class="inline-flex items-center gap-2 text-nexo-cyan hover:text-white transition-colors">
+                                <i data-lucide="download" class="w-4 h-4"></i>
+                                다운로드
+                            </a>
+                        </div>
+                        <div class="bg-slate-800 rounded-2xl p-6 border border-slate-700 hover:border-nexo-cyan/50 transition-all duration-300 hover:-translate-y-2 relative">
+                            <div class="absolute top-4 right-4 w-8 h-8 bg-nexo-cyan text-nexo-navy rounded-full flex items-center justify-center text-sm font-bold">3</div>
+                            <div class="w-16 h-16 bg-nexo-cyan/20 rounded-xl flex items-center justify-center mb-4">
+                                <i data-lucide="pen-tool" class="w-8 h-8 text-nexo-cyan"></i>
+                            </div>
+                            <h4 class="text-lg font-bold text-white mb-2">WhiteBoard (판서)</h4>
+                            <p class="text-slate-400 text-sm mb-4">판서 프로그램</p>
+                            <a href="http://nexonas.ipdisk.co.kr/publist/HDD1/%EC%97%85%EB%AC%B4%EC%9A%A9/00NO%2001_NX%EC%8B%9C%EB%A6%AC%EC%A6%88%20%EB%82%A0%EC%A7%9C%EB%B3%84%20%ED%8E%8C%EC%9B%A8%EC%96%B4/NEXO_1128/NEXO_1128/Nexo%20WhiteBoard_bateV4.3.7_2025_11_01-release.apk" target="_blank" class="inline-flex items-center gap-2 text-nexo-cyan hover:text-white transition-colors">
+                                <i data-lucide="download" class="w-4 h-4"></i>
+                                다운로드
+                            </a>
+                        </div>
+                        <div class="bg-slate-800 rounded-2xl p-6 border border-slate-700 hover:border-nexo-cyan/50 transition-all duration-300 hover:-translate-y-2 relative">
+                            <div class="absolute top-4 right-4 w-8 h-8 bg-nexo-cyan text-nexo-navy rounded-full flex items-center justify-center text-sm font-bold">4</div>
+                            <div class="w-16 h-16 bg-nexo-cyan/20 rounded-xl flex items-center justify-center mb-4">
+                                <i data-lucide="settings" class="w-8 h-8 text-nexo-cyan"></i>
+                            </div>
+                            <h4 class="text-lg font-bold text-white mb-2">Setting (설정)</h4>
+                            <p class="text-slate-400 text-sm mb-4">시스템 설정 앱</p>
+                            <a href="http://nexonas.ipdisk.co.kr/publist/HDD1/%EC%97%85%EB%AC%B4%EC%9A%A9/00NO%2001_NX%EC%8B%9C%EB%A6%AC%EC%A6%88%20%EB%82%A0%EC%A7%9C%EB%B3%84%20%ED%8E%8C%EC%9B%A8%EC%96%B4/NEXO_1128/NEXO_1128/Setting-3588-1.0-10_24-release.apk" target="_blank" class="inline-flex items-center gap-2 text-nexo-cyan hover:text-white transition-colors">
+                                <i data-lucide="download" class="w-4 h-4"></i>
+                                다운로드
+                            </a>
+                        </div>
+                        <div class="bg-slate-800 rounded-2xl p-6 border border-slate-700 hover:border-nexo-cyan/50 transition-all duration-300 hover:-translate-y-2 relative">
+                            <div class="absolute top-4 right-4 w-8 h-8 bg-nexo-cyan text-nexo-navy rounded-full flex items-center justify-center text-sm font-bold">5</div>
+                            <div class="w-16 h-16 bg-nexo-cyan/20 rounded-xl flex items-center justify-center mb-4">
+                                <i data-lucide="video" class="w-8 h-8 text-nexo-cyan"></i>
+                            </div>
+                            <h4 class="text-lg font-bold text-white mb-2">URecord (녹화)</h4>
+                            <p class="text-slate-400 text-sm mb-4">화면 녹화 프로그램</p>
+                            <a href="http://nexonas.ipdisk.co.kr/publist/HDD1/%EC%97%85%EB%AC%B4%EC%9A%A9/00NO%2001_NX%EC%8B%9C%EB%A6%AC%EC%A6%88%20%EB%82%A0%EC%A7%9C%EB%B3%84%20%ED%8E%8C%EC%9B%A8%EC%96%B4/NEXO_1128/NEXO_1128/URecord_v3588_release_V21251121_20251122165537.apk" target="_blank" class="inline-flex items-center gap-2 text-nexo-cyan hover:text-white transition-colors">
+                                <i data-lucide="download" class="w-4 h-4"></i>
+                                다운로드
+                            </a>
+                        </div>
+                        <div class="bg-slate-800 rounded-2xl p-6 border border-slate-700 hover:border-nexo-cyan/50 transition-all duration-300 hover:-translate-y-2 relative">
+                            <div class="absolute top-4 right-4 w-8 h-8 bg-nexo-cyan text-nexo-navy rounded-full flex items-center justify-center text-sm font-bold">6</div>
+                            <div class="w-16 h-16 bg-nexo-cyan/20 rounded-xl flex items-center justify-center mb-4">
+                                <i data-lucide="image" class="w-8 h-8 text-nexo-cyan"></i>
+                            </div>
+                            <h4 class="text-lg font-bold text-white mb-2">자동켜짐 해제 (이미지)</h4>
+                            <p class="text-slate-400 text-sm mb-4">자동 켜짐 설정 가이드</p>
+                            <a href="http://nexonas.ipdisk.co.kr/publist/HDD1/%EC%97%85%EB%AC%B4%EC%9A%A9/HSG(U%EC%8B%9C%EB%A6%AC%EC%A6%88)/SET-POWER.png" target="_blank" class="inline-flex items-center gap-2 text-nexo-cyan hover:text-white transition-colors">
+                                <i data-lucide="download" class="w-4 h-4"></i>
+                                다운로드
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. 전자칠판용 앱 (5칸 배열) -->
+                <div>
+                    <h3 class="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+                        <i data-lucide="tablet-smartphone" class="w-6 h-6 text-nexo-cyan"></i>
+                        2. 전자칠판용 앱
+                    </h3>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 lg:gap-6">
                         <div class="bg-slate-800 rounded-2xl p-6 border border-slate-700 hover:border-nexo-cyan/50 transition-all duration-300 hover:-translate-y-2 relative">
                             <div class="absolute top-4 right-4 w-8 h-8 bg-nexo-cyan text-nexo-navy rounded-full flex items-center justify-center text-sm font-bold">1</div>
                             <div class="w-16 h-16 bg-nexo-cyan/20 rounded-xl flex items-center justify-center mb-4">
@@ -125,16 +210,6 @@
                                 다운로드
                             </a>
                         </div>
-                    </div>
-                </div>
-
-                <!-- 2. 문서 뷰어 및 오피스 -->
-                <div>
-                    <h3 class="text-2xl font-bold text-white mb-6 flex items-center gap-3">
-                        <i data-lucide="file-text" class="w-6 h-6 text-nexo-cyan"></i>
-                        문서 뷰어 및 오피스
-                    </h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         <div class="bg-slate-800 rounded-2xl p-6 border border-slate-700 hover:border-nexo-cyan/50 transition-all duration-300 hover:-translate-y-2 relative">
                             <div class="absolute top-4 right-4 w-8 h-8 bg-nexo-cyan text-nexo-navy rounded-full flex items-center justify-center text-sm font-bold">4</div>
                             <div class="w-16 h-16 bg-nexo-cyan/20 rounded-xl flex items-center justify-center mb-4">
@@ -186,15 +261,33 @@
                     </div>
                 </div>
 
-                <!-- 3. 교육 및 멀티미디어 -->
+                <!-- 3. 윈도우용 프로그램 (5칸 배열) -->
                 <div>
                     <h3 class="text-2xl font-bold text-white mb-6 flex items-center gap-3">
-                        <i data-lucide="play-circle" class="w-6 h-6 text-nexo-cyan"></i>
-                        교육 및 멀티미디어
+                        <i data-lucide="monitor" class="w-6 h-6 text-nexo-cyan"></i>
+                        3. 윈도우용 프로그램
                     </h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 lg:gap-6">
                         <div class="bg-slate-800 rounded-2xl p-6 border border-slate-700 hover:border-nexo-cyan/50 transition-all duration-300 hover:-translate-y-2 relative">
-                            <div class="absolute top-4 right-4 w-8 h-8 bg-nexo-cyan text-nexo-navy rounded-full flex items-center justify-center text-sm font-bold">8</div>
+                            <div class="w-16 h-16 bg-nexo-cyan/20 rounded-xl flex items-center justify-center mb-4">
+                                <i data-lucide="monitor" class="w-8 h-8 text-nexo-cyan"></i>
+                            </div>
+                            <h4 class="text-lg font-bold text-white mb-2">윈도우용 프로그램</h4>
+                            <p class="text-slate-400 text-sm mb-4">자료 준비 중입니다</p>
+                            <span class="text-slate-500 text-sm">Coming Soon</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. 교육 및 멀티미디어 앱 (5칸 배열) -->
+                <div>
+                    <h3 class="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+                        <i data-lucide="graduation-cap" class="w-6 h-6 text-nexo-cyan"></i>
+                        4. 교육 및 멀티미디어 앱
+                    </h3>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 lg:gap-6">
+                        <div class="bg-slate-800 rounded-2xl p-6 border border-slate-700 hover:border-nexo-cyan/50 transition-all duration-300 hover:-translate-y-2 relative">
+                            <div class="absolute top-4 right-4 w-8 h-8 bg-nexo-cyan text-nexo-navy rounded-full flex items-center justify-center text-sm font-bold">1</div>
                             <div class="w-16 h-16 bg-nexo-cyan/20 rounded-xl flex items-center justify-center mb-4">
                                 <i data-lucide="graduation-cap" class="w-8 h-8 text-nexo-cyan"></i>
                             </div>
@@ -206,7 +299,7 @@
                             </a>
                         </div>
                         <div class="bg-slate-800 rounded-2xl p-6 border border-slate-700 hover:border-nexo-cyan/50 transition-all duration-300 hover:-translate-y-2 relative">
-                            <div class="absolute top-4 right-4 w-8 h-8 bg-nexo-cyan text-nexo-navy rounded-full flex items-center justify-center text-sm font-bold">9</div>
+                            <div class="absolute top-4 right-4 w-8 h-8 bg-nexo-cyan text-nexo-navy rounded-full flex items-center justify-center text-sm font-bold">2</div>
                             <div class="w-16 h-16 bg-nexo-cyan/20 rounded-xl flex items-center justify-center mb-4">
                                 <i data-lucide="youtube" class="w-8 h-8 text-nexo-cyan"></i>
                             </div>
@@ -218,7 +311,7 @@
                             </a>
                         </div>
                         <div class="bg-slate-800 rounded-2xl p-6 border border-slate-700 hover:border-nexo-cyan/50 transition-all duration-300 hover:-translate-y-2 relative">
-                            <div class="absolute top-4 right-4 w-8 h-8 bg-nexo-cyan text-nexo-navy rounded-full flex items-center justify-center text-sm font-bold">10</div>
+                            <div class="absolute top-4 right-4 w-8 h-8 bg-nexo-cyan text-nexo-navy rounded-full flex items-center justify-center text-sm font-bold">3</div>
                             <div class="w-16 h-16 bg-nexo-cyan/20 rounded-xl flex items-center justify-center mb-4">
                                 <i data-lucide="youtube" class="w-8 h-8 text-nexo-cyan"></i>
                             </div>
@@ -232,15 +325,15 @@
                     </div>
                 </div>
 
-                <!-- 4. 미러링 및 원격 제어 -->
+                <!-- 5. 미러링 및 원격제어 (5칸 배열) -->
                 <div>
                     <h3 class="text-2xl font-bold text-white mb-6 flex items-center gap-3">
                         <i data-lucide="cast" class="w-6 h-6 text-nexo-cyan"></i>
-                        미러링 및 원격 제어
+                        5. 미러링 및 원격제어
                     </h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 lg:gap-6">
                         <div class="bg-slate-800 rounded-2xl p-6 border border-slate-700 hover:border-nexo-cyan/50 transition-all duration-300 hover:-translate-y-2 relative">
-                            <div class="absolute top-4 right-4 w-8 h-8 bg-nexo-cyan text-nexo-navy rounded-full flex items-center justify-center text-sm font-bold">11</div>
+                            <div class="absolute top-4 right-4 w-8 h-8 bg-nexo-cyan text-nexo-navy rounded-full flex items-center justify-center text-sm font-bold">1</div>
                             <div class="w-16 h-16 bg-nexo-cyan/20 rounded-xl flex items-center justify-center mb-4">
                                 <i data-lucide="cast" class="w-8 h-8 text-nexo-cyan"></i>
                             </div>
@@ -252,7 +345,7 @@
                             </a>
                         </div>
                         <div class="bg-slate-800 rounded-2xl p-6 border border-slate-700 hover:border-nexo-cyan/50 transition-all duration-300 hover:-translate-y-2 relative">
-                            <div class="absolute top-4 right-4 w-8 h-8 bg-nexo-cyan text-nexo-navy rounded-full flex items-center justify-center text-sm font-bold">12</div>
+                            <div class="absolute top-4 right-4 w-8 h-8 bg-nexo-cyan text-nexo-navy rounded-full flex items-center justify-center text-sm font-bold">2</div>
                             <div class="w-16 h-16 bg-nexo-cyan/20 rounded-xl flex items-center justify-center mb-4">
                                 <i data-lucide="monitor" class="w-8 h-8 text-nexo-cyan"></i>
                             </div>
@@ -264,7 +357,7 @@
                             </a>
                         </div>
                         <div class="bg-slate-800 rounded-2xl p-6 border border-slate-700 hover:border-nexo-cyan/50 transition-all duration-300 hover:-translate-y-2 relative">
-                            <div class="absolute top-4 right-4 w-8 h-8 bg-nexo-cyan text-nexo-navy rounded-full flex items-center justify-center text-sm font-bold">13</div>
+                            <div class="absolute top-4 right-4 w-8 h-8 bg-nexo-cyan text-nexo-navy rounded-full flex items-center justify-center text-sm font-bold">3</div>
                             <div class="w-16 h-16 bg-nexo-cyan/20 rounded-xl flex items-center justify-center mb-4">
                                 <i data-lucide="file-archive" class="w-8 h-8 text-nexo-cyan"></i>
                             </div>
@@ -278,166 +371,11 @@
                     </div>
                 </div>
 
-                <!-- 5. 시스템 펌웨어 및 패치 (NXH/HSG 모델) -->
-                <div>
-                    <h3 class="text-2xl font-bold text-white mb-6 flex items-center gap-3">
-                        <i data-lucide="settings" class="w-6 h-6 text-nexo-cyan"></i>
-                        시스템 펌웨어 및 패치 (NXH/HSG 모델)
-                    </h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        <div class="bg-slate-800 rounded-2xl p-6 border border-slate-700 hover:border-nexo-cyan/50 transition-all duration-300 hover:-translate-y-2 relative">
-                            <div class="absolute top-4 right-4 w-8 h-8 bg-nexo-cyan text-nexo-navy rounded-full flex items-center justify-center text-sm font-bold">14</div>
-                            <div class="w-16 h-16 bg-nexo-cyan/20 rounded-xl flex items-center justify-center mb-4">
-                                <i data-lucide="wrench" class="w-8 h-8 text-nexo-cyan"></i>
-                            </div>
-                            <h4 class="text-lg font-bold text-white mb-2">UMARK (주석 패치)</h4>
-                            <p class="text-slate-400 text-sm mb-4">주석 문제 해결 패치</p>
-                            <a href="http://nexonas.ipdisk.co.kr/publist/HDD1/%EC%97%85%EB%AC%B4%EC%9A%A9/00NO%2001_NX%EC%8B%9C%EB%A6%AC%EC%A6%88%20%EB%82%A0%EC%A7%9C%EB%B3%84%20%ED%8E%8C%EC%9B%A8%EC%96%B4/UMARK1224%20%EC%84%B8%EB%A1%9C%EB%B0%94%20%EC%A3%BC%EC%84%9D%EB%AC%B8%EC%A0%9C%20%ED%95%B4%EA%B2%B0/UMark_v3588_release_V21251223_12240904_21251223.apk" target="_blank" class="inline-flex items-center gap-2 text-nexo-cyan hover:text-white transition-colors">
-                                <i data-lucide="download" class="w-4 h-4"></i>
-                                다운로드
-                            </a>
-                        </div>
-                        <div class="bg-slate-800 rounded-2xl p-6 border border-slate-700 hover:border-nexo-cyan/50 transition-all duration-300 hover:-translate-y-2 relative">
-                            <div class="absolute top-4 right-4 w-8 h-8 bg-nexo-cyan text-nexo-navy rounded-full flex items-center justify-center text-sm font-bold">15</div>
-                            <div class="w-16 h-16 bg-nexo-cyan/20 rounded-xl flex items-center justify-center mb-4">
-                                <i data-lucide="layout-grid" class="w-8 h-8 text-nexo-cyan"></i>
-                            </div>
-                            <h4 class="text-lg font-bold text-white mb-2">Launcher (시스템)</h4>
-                            <p class="text-slate-400 text-sm mb-4">시스템 런처</p>
-                            <a href="http://nexonas.ipdisk.co.kr/publist/HDD1/%EC%97%85%EB%AC%B4%EC%9A%A9/00NO%2001_NX%EC%8B%9C%EB%A6%AC%EC%A6%88%20%EB%82%A0%EC%A7%9C%EB%B3%84%20%ED%8E%8C%EC%9B%A8%EC%96%B4/NEXO_1128/NEXO_1128/Launcher-3588-1.0-11_28-release-nexo.apk" target="_blank" class="inline-flex items-center gap-2 text-nexo-cyan hover:text-white transition-colors">
-                                <i data-lucide="download" class="w-4 h-4"></i>
-                                다운로드
-                            </a>
-                        </div>
-                        <div class="bg-slate-800 rounded-2xl p-6 border border-slate-700 hover:border-nexo-cyan/50 transition-all duration-300 hover:-translate-y-2 relative">
-                            <div class="absolute top-4 right-4 w-8 h-8 bg-nexo-cyan text-nexo-navy rounded-full flex items-center justify-center text-sm font-bold">16</div>
-                            <div class="w-16 h-16 bg-nexo-cyan/20 rounded-xl flex items-center justify-center mb-4">
-                                <i data-lucide="pen-tool" class="w-8 h-8 text-nexo-cyan"></i>
-                            </div>
-                            <h4 class="text-lg font-bold text-white mb-2">WhiteBoard (판서)</h4>
-                            <p class="text-slate-400 text-sm mb-4">판서 프로그램</p>
-                            <a href="http://nexonas.ipdisk.co.kr/publist/HDD1/%EC%97%85%EB%AC%B4%EC%9A%A9/00NO%2001_NX%EC%8B%9C%EB%A6%AC%EC%A6%88%20%EB%82%A0%EC%A7%9C%EB%B3%84%20%ED%8E%8C%EC%9B%A8%EC%96%B4/NEXO_1128/NEXO_1128/Nexo%20WhiteBoard_bateV4.3.7_2025_11_01-release.apk" target="_blank" class="inline-flex items-center gap-2 text-nexo-cyan hover:text-white transition-colors">
-                                <i data-lucide="download" class="w-4 h-4"></i>
-                                다운로드
-                            </a>
-                        </div>
-                        <div class="bg-slate-800 rounded-2xl p-6 border border-slate-700 hover:border-nexo-cyan/50 transition-all duration-300 hover:-translate-y-2 relative">
-                            <div class="absolute top-4 right-4 w-8 h-8 bg-nexo-cyan text-nexo-navy rounded-full flex items-center justify-center text-sm font-bold">17</div>
-                            <div class="w-16 h-16 bg-nexo-cyan/20 rounded-xl flex items-center justify-center mb-4">
-                                <i data-lucide="settings" class="w-8 h-8 text-nexo-cyan"></i>
-                            </div>
-                            <h4 class="text-lg font-bold text-white mb-2">Setting (설정)</h4>
-                            <p class="text-slate-400 text-sm mb-4">시스템 설정 앱</p>
-                            <a href="http://nexonas.ipdisk.co.kr/publist/HDD1/%EC%97%85%EB%AC%B4%EC%9A%A9/00NO%2001_NX%EC%8B%9C%EB%A6%AC%EC%A6%88%20%EB%82%A0%EC%A7%9C%EB%B3%84%20%ED%8E%8C%EC%9B%A8%EC%96%B4/NEXO_1128/NEXO_1128/Setting-3588-1.0-10_24-release.apk" target="_blank" class="inline-flex items-center gap-2 text-nexo-cyan hover:text-white transition-colors">
-                                <i data-lucide="download" class="w-4 h-4"></i>
-                                다운로드
-                            </a>
-                        </div>
-                        <div class="bg-slate-800 rounded-2xl p-6 border border-slate-700 hover:border-nexo-cyan/50 transition-all duration-300 hover:-translate-y-2 relative">
-                            <div class="absolute top-4 right-4 w-8 h-8 bg-nexo-cyan text-nexo-navy rounded-full flex items-center justify-center text-sm font-bold">18</div>
-                            <div class="w-16 h-16 bg-nexo-cyan/20 rounded-xl flex items-center justify-center mb-4">
-                                <i data-lucide="video" class="w-8 h-8 text-nexo-cyan"></i>
-                            </div>
-                            <h4 class="text-lg font-bold text-white mb-2">URecord (녹화)</h4>
-                            <p class="text-slate-400 text-sm mb-4">화면 녹화 프로그램</p>
-                            <a href="http://nexonas.ipdisk.co.kr/publist/HDD1/%EC%97%85%EB%AC%B4%EC%9A%A9/00NO%2001_NX%EC%8B%9C%EB%A6%AC%EC%A6%88%20%EB%82%A0%EC%A7%9C%EB%B3%84%20%ED%8E%8C%EC%9B%A8%EC%96%B4/NEXO_1128/NEXO_1128/URecord_v3588_release_V21251121_20251122165537.apk" target="_blank" class="inline-flex items-center gap-2 text-nexo-cyan hover:text-white transition-colors">
-                                <i data-lucide="download" class="w-4 h-4"></i>
-                                다운로드
-                            </a>
-                        </div>
-                        <div class="bg-slate-800 rounded-2xl p-6 border border-slate-700 hover:border-nexo-cyan/50 transition-all duration-300 hover:-translate-y-2 relative">
-                            <div class="absolute top-4 right-4 w-8 h-8 bg-nexo-cyan text-nexo-navy rounded-full flex items-center justify-center text-sm font-bold">19</div>
-                            <div class="w-16 h-16 bg-nexo-cyan/20 rounded-xl flex items-center justify-center mb-4">
-                                <i data-lucide="image" class="w-8 h-8 text-nexo-cyan"></i>
-                            </div>
-                            <h4 class="text-lg font-bold text-white mb-2">자동켜짐 해제 (이미지)</h4>
-                            <p class="text-slate-400 text-sm mb-4">자동 켜짐 설정 가이드</p>
-                            <a href="http://nexonas.ipdisk.co.kr/publist/HDD1/%EC%97%85%EB%AC%B4%EC%9A%A9/HSG(U%EC%8B%9C%EB%A6%AC%EC%A6%88)/SET-POWER.png" target="_blank" class="inline-flex items-center gap-2 text-nexo-cyan hover:text-white transition-colors">
-                                <i data-lucide="download" class="w-4 h-4"></i>
-                                다운로드
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
             </div>
         </div>
     </section>
 
-    <!-- Navigation Cards Section -->
-    <section class="py-16 sm:py-24 bg-nexo-dark">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6">
-            <h4 class="text-xl sm:text-2xl font-bold text-center mb-8 sm:mb-12 text-white">
-                원하시는 정보를 선택하세요
-            </h4>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-6">
-                <!-- 홈 카드 -->
-                <a href="index.html" class="group relative bg-slate-800/50 backdrop-blur border border-slate-700 rounded-2xl p-6 sm:p-8 hover:border-nexo-cyan hover:scale-105 hover:shadow-2xl transition-all duration-300 flex flex-col items-center text-center">
-                    <div class="w-14 h-14 sm:w-16 sm:h-16 bg-nexo-cyan/20 rounded-full flex items-center justify-center mb-4 group-hover:bg-nexo-cyan/30 transition-colors">
-                        <i data-lucide="home" class="w-7 h-7 sm:w-8 sm:h-8 text-nexo-cyan"></i>
-                    </div>
-                    <h5 class="text-lg sm:text-xl font-bold text-white mb-2 group-hover:text-nexo-cyan transition-colors">
-                        홈
-                    </h5>
-                    <p class="text-xs sm:text-sm text-slate-400">
-                        메인 페이지로 이동
-                    </p>
-                </a>
-
-                <!-- 제품소개 카드 -->
-                <a href="product.html" class="group relative bg-slate-800/50 backdrop-blur border border-slate-700 rounded-2xl p-6 sm:p-8 hover:border-nexo-cyan hover:scale-105 hover:shadow-2xl transition-all duration-300 flex flex-col items-center text-center">
-                    <div class="w-14 h-14 sm:w-16 sm:h-16 bg-nexo-cyan/20 rounded-full flex items-center justify-center mb-4 group-hover:bg-nexo-cyan/30 transition-colors">
-                        <i data-lucide="package" class="w-7 h-7 sm:w-8 sm:h-8 text-nexo-cyan"></i>
-                    </div>
-                    <h5 class="text-lg sm:text-xl font-bold text-white mb-2 group-hover:text-nexo-cyan transition-colors">
-                        제품소개
-                    </h5>
-                    <p class="text-xs sm:text-sm text-slate-400">
-                        제품 사양과 기능 확인
-                    </p>
-                </a>
-
-                <!-- 동영상 카드 -->
-                <a href="video.html" class="group relative bg-slate-800/50 backdrop-blur border border-slate-700 rounded-2xl p-6 sm:p-8 hover:border-nexo-cyan hover:scale-105 hover:shadow-2xl transition-all duration-300 flex flex-col items-center text-center">
-                    <div class="w-14 h-14 sm:w-16 sm:h-16 bg-nexo-cyan/20 rounded-full flex items-center justify-center mb-4 group-hover:bg-nexo-cyan/30 transition-colors">
-                        <i data-lucide="play-circle" class="w-7 h-7 sm:w-8 sm:h-8 text-nexo-cyan"></i>
-                    </div>
-                    <h5 class="text-lg sm:text-xl font-bold text-white mb-2 group-hover:text-nexo-cyan transition-colors">
-                        동영상
-                    </h5>
-                    <p class="text-xs sm:text-sm text-slate-400">
-                        제품 소개 영상 시청
-                    </p>
-                </a>
-
-                <!-- 기술자료 카드 -->
-                <a href="resources.html" class="group relative bg-slate-800/50 backdrop-blur border border-slate-700 rounded-2xl p-6 sm:p-8 hover:border-nexo-cyan hover:scale-105 hover:shadow-2xl transition-all duration-300 flex flex-col items-center text-center">
-                    <div class="w-14 h-14 sm:w-16 sm:h-16 bg-nexo-cyan/20 rounded-full flex items-center justify-center mb-4 group-hover:bg-nexo-cyan/30 transition-colors">
-                        <i data-lucide="file-text" class="w-7 h-7 sm:w-8 sm:h-8 text-nexo-cyan"></i>
-                    </div>
-                    <h5 class="text-lg sm:text-xl font-bold text-white mb-2 group-hover:text-nexo-cyan transition-colors">
-                        기술자료
-                    </h5>
-                    <p class="text-xs sm:text-sm text-slate-400">
-                        기술 자료 다운로드
-                    </p>
-                </a>
-
-                <!-- 사용매뉴얼 카드 -->
-                <a href="manual.html" class="group relative bg-slate-800/50 backdrop-blur border border-slate-700 rounded-2xl p-6 sm:p-8 hover:border-nexo-cyan hover:scale-105 hover:shadow-2xl transition-all duration-300 flex flex-col items-center text-center">
-                    <div class="w-14 h-14 sm:w-16 sm:h-16 bg-nexo-cyan/20 rounded-full flex items-center justify-center mb-4 group-hover:bg-nexo-cyan/30 transition-colors">
-                        <i data-lucide="book-open" class="w-7 h-7 sm:w-8 sm:h-8 text-nexo-cyan"></i>
-                    </div>
-                    <h5 class="text-lg sm:text-xl font-bold text-white mb-2 group-hover:text-nexo-cyan transition-colors">
-                        사용매뉴얼
-                    </h5>
-                    <p class="text-xs sm:text-sm text-slate-400">
-                        사용 매뉴얼 다운로드
-                    </p>
-                </a>
-            </div>
-        </div>
-    </section>
+    <div id="nav-cards-placeholder"></div>
 
     <!-- Footer Placeholder (동적으로 로드됨) -->
     <div id="footer-placeholder"></div>
@@ -450,4 +388,3 @@
     </script>
 </body>
 </html>
-
