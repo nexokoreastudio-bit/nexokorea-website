@@ -14,6 +14,7 @@ let currentToken = null;
 let currentTab = 'reviews';
 let pendingImages = [];
 let adminInitialized = false;
+let editingId = null;
 
 // ============ INIT ============
 
@@ -210,6 +211,7 @@ function renderListItem(tab, item) {
       ${subtitle ? `<p class="text-slate-400 text-xs truncate">${escapeHtml(subtitle)}</p>` : ''}
     </div>
     <div class="flex gap-2 ml-3 shrink-0">
+      <button onclick="editItem('${tab}','${item.id}')" class="text-xs px-3 py-1 rounded bg-blue-900 text-blue-200 hover:opacity-80 transition-opacity">수정</button>
       <button onclick="togglePublish('${table}','${item.id}',${!published})" class="text-xs px-3 py-1 rounded ${published ? 'bg-yellow-800 text-yellow-200' : 'bg-green-800 text-green-200'} hover:opacity-80 transition-opacity">
         ${published ? '숨기기' : '공개'}
       </button>
@@ -264,6 +266,85 @@ async function togglePublish(table, id, publish) {
     if (!res.ok) { const err = await res.text(); alert(`수정 실패: ${err}`); return; }
   } catch (e) { alert(e.message); return; }
   loadTabData(currentTab);
+}
+
+async function editItem(tab, id) {
+  const tableMap = {
+    reviews: 'nexo_reviews', videos: 'nexo_videos', 'tech-docs': 'nexo_tech_docs',
+    manuals: 'nexo_manuals', cases: 'nexo_cases', blog: 'nexo_blog_posts'
+  };
+  const table = tableMap[tab];
+  if (!table || !currentToken) return;
+
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}?id=eq.${id}&select=*`, {
+      headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${currentToken}` }
+    });
+    const rows = await res.json();
+    if (!rows || rows.length === 0) return;
+    const item = rows[0];
+
+    const formMap = {
+      reviews: 'reviewForm', videos: 'videoForm', 'tech-docs': 'techDocForm',
+      manuals: 'manualForm', cases: 'caseForm', blog: 'blogForm'
+    };
+    const form = document.getElementById(formMap[tab]);
+    if (!form) return;
+
+    editingId = id;
+    Object.keys(item).forEach(key => {
+      const input = form.querySelector(`[name="${key}"]`);
+      if (input && item[key] != null) {
+        input.value = item[key];
+      }
+    });
+
+    if (item.images && item.images.length > 0) {
+      pendingImages = [...item.images];
+      const previewId = tab === 'reviews' ? 'reviewImagePreview' : tab === 'cases' ? 'caseImagePreview' : null;
+      if (previewId) renderImagePreview(previewId);
+    }
+
+    const submitBtn = form.querySelector('button[type="submit"], .admin-btn-primary');
+    if (submitBtn && !submitBtn.dataset.originalText) {
+      submitBtn.dataset.originalText = submitBtn.textContent;
+      submitBtn.textContent = '수정 저장';
+      submitBtn.classList.add('bg-blue-600');
+    }
+
+    form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  } catch (e) {
+    alert('데이터 불러오기 실패: ' + e.message);
+  }
+}
+
+async function updateItem(table, id, data) {
+  if (!currentToken) throw new Error('로그인 세션 없음');
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}?id=eq.${id}`, {
+    method: 'PATCH',
+    headers: {
+      'apikey': SUPABASE_ANON_KEY,
+      'Authorization': `Bearer ${currentToken}`,
+      'Content-Type': 'application/json',
+      'Prefer': 'return=representation'
+    },
+    body: JSON.stringify(data)
+  });
+  if (!res.ok) {
+    const err = await res.text();
+    throw new Error(`수정 실패 (${res.status}): ${err}`);
+  }
+  editingId = null;
+}
+
+function resetEditMode(form) {
+  editingId = null;
+  const submitBtn = form.querySelector('button[type="submit"], .admin-btn-primary');
+  if (submitBtn && submitBtn.dataset.originalText) {
+    submitBtn.textContent = submitBtn.dataset.originalText;
+    submitBtn.classList.remove('bg-blue-600');
+    delete submitBtn.dataset.originalText;
+  }
 }
 
 async function deleteItem(table, id) {
@@ -394,10 +475,16 @@ function setupFormHandler(formId, table, dataMapper) {
   console.log('[admin] form handler attached:', formId);
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    console.log('[admin] form submitted:', formId);
+    console.log('[admin] form submitted:', formId, editingId ? '(수정)' : '(신규)');
     try {
       const fd = new FormData(form);
-      await insertItem(table, dataMapper(fd));
+      const data = dataMapper(fd);
+      if (editingId) {
+        await updateItem(table, editingId, data);
+      } else {
+        await insertItem(table, data);
+      }
+      resetEditMode(form);
       form.reset();
       pendingImages = [];
       const previewId = formId.replace('Form', 'ImagePreview');
