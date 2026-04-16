@@ -238,9 +238,22 @@
                             <label class="block text-sm font-medium text-slate-300 mb-2">제목</label>
                             <input type="text" name="title" class="admin-input" placeholder="자동 생성됨">
                         </div>
-                        <div>
-                            <label class="block text-sm font-medium text-slate-300 mb-2">설치 일자</label>
-                            <input type="date" name="installation_date" class="admin-input">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-300 mb-2">카테고리 *</label>
+                                <select name="category" required class="admin-input">
+                                    <option value="학원">학원</option>
+                                    <option value="유치원/어린이집">유치원/어린이집</option>
+                                    <option value="학교">학교</option>
+                                    <option value="기업">기업</option>
+                                    <option value="관공서">관공서</option>
+                                    <option value="기타">기타</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-300 mb-2">설치 일자</label>
+                                <input type="date" name="installation_date" class="admin-input">
+                            </div>
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-slate-300 mb-2">이미지 (붙여넣기 또는 선택, 최대 10장)</label>
@@ -256,8 +269,12 @@
                                 <button type="button" id="caseAiBtn" onclick="generateCaseContent()" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-500 text-sm transition-colors">
                                     AI 자동 생성
                                 </button>
+                                <button type="button" id="casePreviewBtn" onclick="toggleCasePreview()" class="px-4 py-2 bg-slate-600 text-white rounded-lg hover:bg-slate-500 text-sm transition-colors">
+                                    미리보기
+                                </button>
                             </div>
-                            <textarea name="content" rows="10" class="admin-input resize-none" placeholder="AI 생성 또는 직접 작성 (HTML)"></textarea>
+                            <textarea id="caseContentEditor" name="content" rows="10" class="admin-input resize-none" placeholder="AI 생성 또는 직접 작성 (HTML)"></textarea>
+                            <div id="caseContentPreview" class="hidden bg-white rounded-lg p-6 text-slate-800 leading-relaxed overflow-y-auto max-h-[500px] border border-slate-600" style="font-family: 'Noto Sans KR', sans-serif;"></div>
                         </div>
                         <div class="flex gap-3">
                             <button type="submit" name="action" value="draft" class="flex-1 px-6 py-3 bg-slate-700 text-white font-bold rounded-lg hover:bg-slate-600 transition-all">임시저장</button>
@@ -309,8 +326,12 @@
                             </div>
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-slate-300 mb-2">본문 (Markdown 또는 HTML)</label>
-                            <textarea name="content" rows="12" required class="admin-input resize-none font-mono text-sm" placeholder="본문 내용"></textarea>
+                            <div class="flex items-center justify-between mb-2">
+                                <label class="block text-sm font-medium text-slate-300">본문 (Markdown 또는 HTML)</label>
+                                <button type="button" onclick="toggleBlogPreview()" class="px-3 py-1 bg-slate-600 text-white rounded text-xs hover:bg-slate-500 transition-colors">미리보기</button>
+                            </div>
+                            <textarea id="blogContentEditor" name="content" rows="12" required class="admin-input resize-none font-mono text-sm" placeholder="본문 내용"></textarea>
+                            <div id="blogContentPreview" class="hidden bg-white rounded-lg p-6 text-slate-800 leading-relaxed overflow-y-auto max-h-[500px] border border-slate-600" style="font-family: 'Noto Sans KR', sans-serif;"></div>
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-slate-300 mb-2">요약 (목록용)</label>

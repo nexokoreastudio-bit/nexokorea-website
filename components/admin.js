@@ -428,16 +428,23 @@ function setupForms() {
       const fd = new FormData(caseForm);
       const action = e.submitter?.value || 'draft';
       try {
-        await insertItem('nexo_cases', {
+        const caseData = {
           title: fd.get('title') || '설치사례',
           content: fd.get('content') || '',
           raw_input: document.getElementById('caseRawInput')?.value || null,
           location: window._caseParsed?.location || null,
+          category: fd.get('category') || '기타',
           installation_date: fd.get('installation_date') || null,
           images: [...pendingImages],
           is_published: action === 'publish',
           published_at: action === 'publish' ? new Date().toISOString() : null,
-        });
+        };
+        if (editingId) {
+          await updateItem('nexo_cases', editingId, caseData);
+          resetEditMode(caseForm);
+        } else {
+          await insertItem('nexo_cases', caseData);
+        }
         caseForm.reset();
         pendingImages = [];
         clearImagePreview('caseImagePreview');
@@ -633,9 +640,19 @@ async function generateCaseContent() {
     });
     const json = await res.json();
     if (json.success && json.content) {
-      let content = json.content;
+      let content = cleanAiContent(json.content);
+      const usedImages = new Set();
       pendingImages.forEach((url, i) => {
-        content = content.replace(`[이미지${i + 1}]`, `<img src="${url}" alt="설치사진 ${i + 1}" style="max-width:100%;border-radius:8px;margin:12px 0;">`);
+        const placeholder = `[이미지${i + 1}]`;
+        if (content.includes(placeholder)) {
+          content = content.replace(new RegExp(`\\[이미지${i + 1}\\]`, 'g'), `<img src="${url}" alt="설치사진 ${i + 1}" style="max-width:100%;border-radius:8px;margin:12px 0;">`);
+          usedImages.add(i);
+        }
+      });
+      const remainingImages = pendingImages.filter((_, i) => !usedImages.has(i));
+      remainingImages.forEach((url) => {
+        content += `\n<img src="${url}" alt="설치사진" style="max-width:100%;border-radius:8px;margin:12px 0;">`;
+        content += `\n<p></p>`;
       });
       textarea.value = content;
     } else {
@@ -672,7 +689,7 @@ async function generateBlogContent() {
     });
     const json = await res.json();
     if (json.success && json.content) {
-      textarea.value = json.content;
+      textarea.value = cleanAiContent(json.content);
     } else {
       alert(json.error || 'AI 생성 실패');
     }
@@ -685,6 +702,54 @@ async function generateBlogContent() {
 }
 
 // ============ UTILS ============
+
+function toggleCasePreview() {
+  const editor = document.getElementById('caseContentEditor');
+  const preview = document.getElementById('caseContentPreview');
+  const btn = document.getElementById('casePreviewBtn');
+  if (!editor || !preview) return;
+
+  if (preview.classList.contains('hidden')) {
+    preview.innerHTML = editor.value || '<p style="color:#999;">내용이 없습니다.</p>';
+    preview.classList.remove('hidden');
+    editor.classList.add('hidden');
+    btn.textContent = '편집 모드';
+    btn.classList.replace('bg-slate-600', 'bg-green-600');
+  } else {
+    preview.classList.add('hidden');
+    editor.classList.remove('hidden');
+    btn.textContent = '미리보기';
+    btn.classList.replace('bg-green-600', 'bg-slate-600');
+  }
+}
+
+function toggleBlogPreview() {
+  const editor = document.getElementById('blogContentEditor');
+  const preview = document.getElementById('blogContentPreview');
+  if (!editor || !preview) return;
+
+  if (preview.classList.contains('hidden')) {
+    preview.innerHTML = editor.value || '<p style="color:#999;">내용이 없습니다.</p>';
+    preview.classList.remove('hidden');
+    editor.classList.add('hidden');
+  } else {
+    preview.classList.add('hidden');
+    editor.classList.remove('hidden');
+  }
+}
+
+function cleanAiContent(text) {
+  if (!text) return '';
+  let c = text.trim();
+  c = c.replace(/^```(?:html|HTML)?\s*\n?/gm, '');
+  c = c.replace(/\n?```\s*$/gm, '');
+  c = c.replace(/<img\s+src="<img\s+src="([^"]+)"[^>]*>"[^>]*>/g, '<img src="$1" style="max-width:100%;border-radius:8px;margin:12px 0;">');
+  c = c.replace(/<!DOCTYPE html>[\s\S]*?<body[^>]*>/gi, '');
+  c = c.replace(/<\/body>[\s\S]*?<\/html>/gi, '');
+  c = c.replace(/<head>[\s\S]*?<\/head>/gi, '');
+  c = c.replace(/<style>[\s\S]*?<\/style>/gi, '');
+  return c.trim();
+}
 
 function escapeHtml(str) {
   if (!str) return '';

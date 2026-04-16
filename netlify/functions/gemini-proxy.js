@@ -78,8 +78,9 @@ exports.handler = async (event) => {
 
 function buildCasePrompt(data) {
   const { storeName, location, model, wallMount, stand, additionalCables, notes, imageCount } = data;
+  const imgCount = parseInt(imageCount) || 0;
 
-  return `당신은 NEXO KOREA 전자칠판 설치 전문 블로그 작가입니다. B2B 고객(학교 관계자, 기업 구매 담당자)이 읽었을 때 신뢰감을 주는 전문적이면서도 친근한 설치 사례 글을 작성해주세요.
+  return `당신은 NEXO KOREA 전자칠판 설치사례 글을 작성합니다.
 
 ## 설치 정보
 - 기관명: ${storeName || '미입력'}
@@ -89,16 +90,20 @@ function buildCasePrompt(data) {
 - 스탠드: ${stand || '없음'}
 - 추가 케이블: ${additionalCables || '없음'}
 - 특이사항: ${notes || '없음'}
-- 첨부 이미지 수: ${imageCount || 0}장
+- 첨부 이미지: ${imgCount}장
 
-## 작성 규칙
-1. HTML 형식으로 작성 (h2, h3, p, ul, li 사용)
-2. 이미지가 있으면 적절한 위치에 [이미지1], [이미지2] 등 플레이스홀더 배치
-3. 설치 과정, 제품 특징, 고객 만족 포인트를 자연스럽게 포함
-4. NEXO 전자칠판의 핵심 강점(4K UHD, Zero Gap Bonding, AI 카메라, 무선 미러링) 중 관련 항목 언급
-5. 문의 유도 블록을 글 하단에 1회 삽입 (전화: 032-569-5771, 이메일: nexokorea@gmail.com)
-6. 1000~1500자 분량
-7. 어투: "~합니다" 존칭체, 전문적이지만 딱딱하지 않게`;
+## 반드시 지켜야 할 작성 규칙
+
+1. **HTML body 내용만 출력** — DOCTYPE, html, head, body, style 태그 절대 포함하지 마세요. p, h3, img 태그만 사용.
+2. **사진-글 교차 구조**: 반드시 아래 패턴을 따르세요:
+${Array.from({length: imgCount}, (_, i) => `   [이미지${i+1}]\n   <p>이 사진에 대한 설명 1~2문장</p>`).join('\n')}
+3. **글 시작**: 첫 줄에 <h3>기관명 + 모델명 설치 완료</h3>, 그 아래 <p>로 설치 개요 2~3문장</p>
+4. **각 이미지 아래 설명**: 해당 사진과 관련된 설치 내용만 1~2문장. 제품 홍보 금지.
+5. **글 끝**: 마지막에 <p>문의: 032-569-5771 | nexokorea@gmail.com</p> 한 줄만.
+6. **총 분량**: 300~500자 이내. 짧고 간결하게.
+7. **어투**: "~했습니다" 존칭체.
+8. **금지**: 마크다운 문법(\`\`\`, #, **, - 등), 제품 스펙 나열, 장황한 홍보 문구, DOCTYPE/head/style 태그.
+9. **[이미지N] 플레이스홀더는 반드시 ${imgCount}개 전부 사용**하세요. 하나도 빠뜨리지 마세요.`;
 }
 
 function buildBlogPrompt(data) {
