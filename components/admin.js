@@ -4,12 +4,13 @@
  */
 
 const SUPABASE_URL = 'https://qwyeanxbtkzompzxndhk.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_J8lLXEdfK2geX8qdurKN1Q_M0rJneO8';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF3eWVhbnhidGt6b21wenhuZGhrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE1NTE5ODcsImV4cCI6MjA4NzEyNzk4N30.qj1dUEokDkvWN_Ukw1nkDqj_aSNwpgTZv7Qti9R5hro';
 const CLOUDINARY_CLOUD_NAME = 'dthtfs1mf';
 const CLOUDINARY_UPLOAD_PRESET = 'nexo-reviews-unsigned';
 
 let sb = null;
 let currentUser = null;
+let currentToken = null;
 let currentTab = 'reviews';
 let pendingImages = [];
 let adminInitialized = false;
@@ -29,24 +30,31 @@ async function initAdmin() {
   const { data: { session } } = await sb.auth.getSession();
   if (session) {
     currentUser = session.user;
+    currentToken = session.access_token;
     try {
       await checkAdminRole();
       openAdminPanel();
     } catch (e) {
       currentUser = null;
+      currentToken = null;
     }
   }
 
   sb.auth.onAuthStateChange(async (event, session) => {
     if (event === 'SIGNED_IN' && session) {
       currentUser = session.user;
+      currentToken = session.access_token;
       try {
         await checkAdminRole();
         closeModal('adminLoginModal');
         openAdminPanel();
       } catch (e) {
         currentUser = null;
+        currentToken = null;
       }
+    }
+    if (event === 'TOKEN_REFRESHED' && session) {
+      currentToken = session.access_token;
     }
   });
 
@@ -213,8 +221,28 @@ function renderListItem(tab, item) {
 // ============ GENERIC CRUD ============
 
 async function insertItem(table, data) {
-  const { error } = await sb.from(table).insert(data);
-  if (error) throw error;
+  console.log('[admin] insertItem:', table, data);
+  if (!currentToken) throw new Error('로그인 세션 없음');
+
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}`, {
+    method: 'POST',
+    headers: {
+      'apikey': SUPABASE_ANON_KEY,
+      'Authorization': `Bearer ${currentToken}`,
+      'Content-Type': 'application/json',
+      'Prefer': 'return=representation'
+    },
+    body: JSON.stringify(data)
+  });
+
+  if (!res.ok) {
+    const err = await res.text();
+    console.error('[admin] insert error:', res.status, err);
+    throw new Error(`등록 실패 (${res.status}): ${err}`);
+  }
+
+  const result = await res.json();
+  console.log('[admin] insert success:', table, result);
 }
 
 async function togglePublish(table, id, publish) {
@@ -342,9 +370,11 @@ function setupForms() {
 
 function setupFormHandler(formId, table, dataMapper) {
   const form = document.getElementById(formId);
-  if (!form) return;
+  if (!form) { console.warn('[admin] form not found:', formId); return; }
+  console.log('[admin] form handler attached:', formId);
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
+    console.log('[admin] form submitted:', formId);
     try {
       const fd = new FormData(form);
       await insertItem(table, dataMapper(fd));
