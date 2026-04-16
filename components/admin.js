@@ -246,19 +246,39 @@ async function insertItem(table, data) {
 }
 
 async function togglePublish(table, id, publish) {
+  if (!currentToken) return;
   const update = { is_published: publish };
   if (publish && (table === 'nexo_cases' || table === 'nexo_blog_posts')) {
     update.published_at = new Date().toISOString();
   }
-  const { error } = await sb.from(table).update(update).eq('id', id);
-  if (error) { alert(error.message); return; }
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}?id=eq.${id}`, {
+      method: 'PATCH',
+      headers: {
+        'apikey': SUPABASE_ANON_KEY,
+        'Authorization': `Bearer ${currentToken}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(update)
+    });
+    if (!res.ok) { const err = await res.text(); alert(`수정 실패: ${err}`); return; }
+  } catch (e) { alert(e.message); return; }
   loadTabData(currentTab);
 }
 
 async function deleteItem(table, id) {
   if (!confirm('정말 삭제하시겠습니까?')) return;
-  const { error } = await sb.from(table).delete().eq('id', id);
-  if (error) { alert(error.message); return; }
+  if (!currentToken) return;
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}?id=eq.${id}`, {
+      method: 'DELETE',
+      headers: {
+        'apikey': SUPABASE_ANON_KEY,
+        'Authorization': `Bearer ${currentToken}`
+      }
+    });
+    if (!res.ok) { const err = await res.text(); alert(`삭제 실패: ${err}`); return; }
+  } catch (e) { alert(e.message); return; }
   loadTabData(currentTab);
 }
 
