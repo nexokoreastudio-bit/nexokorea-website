@@ -1,0 +1,532 @@
+/**
+ * NEXO KOREA 통합 관리자 시스템
+ * Supabase Auth + CRUD + Cloudinary 이미지 + Gemini AI
+ */
+
+const SUPABASE_URL = 'https://qwyeanxbtkzompzxndhk.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF3eWVhbnhidGt6b21wenhuZGhrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzgzODUxMzYsImV4cCI6MjA1Mzk2MTEzNn0.bG4xnJBMkSMy8F97LMP-E7jQFTRskxU2ogcT_Dn1_QI';
+const CLOUDINARY_CLOUD_NAME = 'dthtfs1mf';
+const CLOUDINARY_UPLOAD_PRESET = 'nexo-reviews-unsigned';
+
+let supabase = null;
+let currentUser = null;
+let currentTab = 'reviews';
+let pendingImages = [];
+
+// ============ INIT ============
+
+async function initAdmin() {
+  if (typeof window.supabase === 'undefined') {
+    console.warn('Supabase SDK not loaded');
+    return;
+  }
+  supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  const { data: { session } } = await supabase.auth.getSession();
+  if (session) {
+    currentUser = session.user;
+    await checkAdminRole();
+  }
+
+  setupTabs();
+  setupForms();
+  setupImageHandlers();
+}
+
+// ============ AUTH ============
+
+async function adminLogin(email, password) {
+  const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+  if (error) throw error;
+  currentUser = data.user;
+  await checkAdminRole();
+}
+
+async function checkAdminRole() {
+  if (!currentUser) return;
+  const { data } = await supabase.from('users').select('role').eq('id', currentUser.id).single();
+  if (!data || data.role !== 'admin') {
+    await supabase.auth.signOut();
+    currentUser = null;
+    throw new Error('관리자 권한이 없습니다.');
+  }
+}
+
+async function adminLogout() {
+  await supabase.auth.signOut();
+  currentUser = null;
+  closeModal('adminPanelModal');
+}
+
+function openAdminLogin() {
+  if (currentUser) {
+    openAdminPanel();
+  } else {
+    openModal('adminLoginModal');
+  }
+}
+
+function openAdminPanel() {
+  const emailEl = document.getElementById('adminUserEmail');
+  if (emailEl) emailEl.textContent = currentUser.email;
+  openModal('adminPanelModal');
+  switchTab(currentTab);
+}
+
+// ============ MODAL HELPERS ============
+
+function openModal(id) {
+  const el = document.getElementById(id);
+  if (el) {
+    el.classList.remove('hidden');
+    el.classList.add('flex');
+    document.body.style.overflow = 'hidden';
+  }
+}
+
+function closeModal(id) {
+  const el = document.getElementById(id);
+  if (el) {
+    el.classList.add('hidden');
+    el.classList.remove('flex');
+    document.body.style.overflow = '';
+  }
+}
+
+// ============ TABS ============
+
+function setupTabs() {
+  document.querySelectorAll('.admin-tab').forEach(btn => {
+    btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+  });
+}
+
+function switchTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll('.admin-tab').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+  document.querySelectorAll('.admin-tab-content').forEach(c => c.classList.toggle('hidden', c.id !== `tab-${tab}`));
+  loadTabData(tab);
+}
+
+async function loadTabData(tab) {
+  const config = {
+    reviews: { table: 'nexo_reviews', listEl: 'reviewsList', order: 'created_at' },
+    videos: { table: 'nexo_videos', listEl: 'videosList', order: 'sort_order' },
+    'tech-docs': { table: 'nexo_tech_docs', listEl: 'techDocsList', order: 'sort_order' },
+    manuals: { table: 'nexo_manuals', listEl: 'manualsList', order: 'created_at' },
+    cases: { table: 'nexo_cases', listEl: 'casesList', order: 'created_at' },
+    blog: { table: 'nexo_blog_posts', listEl: 'blogList', order: 'created_at' },
+  };
+  const c = config[tab];
+  if (!c || !supabase) return;
+
+  const { data, error } = await supabase.from(c.table).select('*').order(c.order, { ascending: false });
+  if (error) { console.error(error); return; }
+
+  const el = document.getElementById(c.listEl);
+  if (!el) return;
+
+  if (!data || data.length === 0) {
+    el.innerHTML = '<p class="text-slate-500 text-sm">등록된 항목이 없습니다.</p>';
+    return;
+  }
+
+  el.innerHTML = data.map(item => renderListItem(tab, item)).join('');
+}
+
+function renderListItem(tab, item) {
+  const published = item.is_published !== false;
+  const badge = published
+    ? '<span class="text-xs px-2 py-0.5 bg-green-900/50 text-green-400 rounded">공개</span>'
+    : '<span class="text-xs px-2 py-0.5 bg-yellow-900/50 text-yellow-400 rounded">비공개</span>';
+
+  let title = item.title || item.name || item.slug || 'Untitled';
+  let subtitle = '';
+
+  if (tab === 'reviews') {
+    title = `${item.name} (${'★'.repeat(item.rating || 0)})`;
+    subtitle = item.text ? item.text.substring(0, 80) + '...' : '';
+  } else if (tab === 'videos') {
+    subtitle = item.category || '';
+  } else if (tab === 'cases') {
+    subtitle = item.location || '';
+  } else if (tab === 'blog') {
+    subtitle = item.category || '';
+  }
+
+  const table = {
+    reviews: 'nexo_reviews', videos: 'nexo_videos', 'tech-docs': 'nexo_tech_docs',
+    manuals: 'nexo_manuals', cases: 'nexo_cases', blog: 'nexo_blog_posts'
+  }[tab];
+
+  return `<div class="flex items-center justify-between bg-slate-800 rounded-lg p-4 border border-slate-700">
+    <div class="flex-1 min-w-0">
+      <div class="flex items-center gap-2 mb-1">
+        <span class="text-white font-medium text-sm truncate">${escapeHtml(title)}</span>
+        ${badge}
+      </div>
+      ${subtitle ? `<p class="text-slate-400 text-xs truncate">${escapeHtml(subtitle)}</p>` : ''}
+    </div>
+    <div class="flex gap-2 ml-3 shrink-0">
+      <button onclick="togglePublish('${table}','${item.id}',${!published})" class="text-xs px-3 py-1 rounded ${published ? 'bg-yellow-800 text-yellow-200' : 'bg-green-800 text-green-200'} hover:opacity-80 transition-opacity">
+        ${published ? '숨기기' : '공개'}
+      </button>
+      <button onclick="deleteItem('${table}','${item.id}')" class="text-xs px-3 py-1 rounded bg-red-900 text-red-200 hover:opacity-80 transition-opacity">삭제</button>
+    </div>
+  </div>`;
+}
+
+// ============ GENERIC CRUD ============
+
+async function insertItem(table, data) {
+  const { error } = await supabase.from(table).insert(data);
+  if (error) throw error;
+}
+
+async function togglePublish(table, id, publish) {
+  const update = { is_published: publish };
+  if (publish && (table === 'nexo_cases' || table === 'nexo_blog_posts')) {
+    update.published_at = new Date().toISOString();
+  }
+  const { error } = await supabase.from(table).update(update).eq('id', id);
+  if (error) { alert(error.message); return; }
+  loadTabData(currentTab);
+}
+
+async function deleteItem(table, id) {
+  if (!confirm('정말 삭제하시겠습니까?')) return;
+  const { error } = await supabase.from(table).delete().eq('id', id);
+  if (error) { alert(error.message); return; }
+  loadTabData(currentTab);
+}
+
+// ============ FORM HANDLERS ============
+
+function setupForms() {
+  const loginForm = document.getElementById('adminLoginForm');
+  if (loginForm) {
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('adminEmail').value;
+      const password = document.getElementById('adminPassword').value;
+      const errEl = document.getElementById('loginError');
+      const btn = document.getElementById('loginBtn');
+      try {
+        btn.textContent = '로그인 중...';
+        btn.disabled = true;
+        await adminLogin(email, password);
+        closeModal('adminLoginModal');
+        loginForm.reset();
+        if (errEl) errEl.classList.add('hidden');
+        openAdminPanel();
+      } catch (err) {
+        if (errEl) { errEl.textContent = err.message; errEl.classList.remove('hidden'); }
+      } finally {
+        btn.textContent = '로그인';
+        btn.disabled = false;
+      }
+    });
+  }
+
+  setupFormHandler('reviewForm', 'nexo_reviews', (fd) => ({
+    name: fd.get('name'),
+    rating: parseInt(fd.get('rating')),
+    text: fd.get('text'),
+    images: [...pendingImages],
+  }));
+
+  setupFormHandler('videoForm', 'nexo_videos', (fd) => ({
+    title: fd.get('title'),
+    youtube_url: fd.get('youtube_url'),
+    category: fd.get('category'),
+    sort_order: parseInt(fd.get('sort_order') || '0'),
+    description: fd.get('description') || null,
+  }));
+
+  setupFormHandler('techDocForm', 'nexo_tech_docs', (fd) => ({
+    title: fd.get('title'),
+    download_url: fd.get('download_url'),
+    category: fd.get('category'),
+    version: fd.get('version') || null,
+    description: fd.get('description') || null,
+  }));
+
+  setupFormHandler('manualForm', 'nexo_manuals', (fd) => ({
+    title: fd.get('title'),
+    pdf_url: fd.get('pdf_url'),
+    category: fd.get('category'),
+    description: fd.get('description') || null,
+  }));
+
+  const caseForm = document.getElementById('caseForm');
+  if (caseForm) {
+    caseForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const fd = new FormData(caseForm);
+      const action = e.submitter?.value || 'draft';
+      try {
+        await insertItem('nexo_cases', {
+          title: fd.get('title') || '설치사례',
+          content: fd.get('content') || '',
+          raw_input: document.getElementById('caseRawInput')?.value || null,
+          location: window._caseParsed?.location || null,
+          installation_date: fd.get('installation_date') || null,
+          images: [...pendingImages],
+          is_published: action === 'publish',
+          published_at: action === 'publish' ? new Date().toISOString() : null,
+        });
+        caseForm.reset();
+        pendingImages = [];
+        clearImagePreview('caseImagePreview');
+        loadTabData('cases');
+      } catch (err) { alert(err.message); }
+    });
+  }
+
+  const blogForm = document.getElementById('blogForm');
+  if (blogForm) {
+    blogForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const fd = new FormData(blogForm);
+      const action = e.submitter?.value || 'draft';
+      try {
+        await insertItem('nexo_blog_posts', {
+          title: fd.get('title'),
+          slug: fd.get('slug'),
+          content: fd.get('content'),
+          summary: fd.get('summary') || null,
+          category: fd.get('category'),
+          is_published: action === 'publish',
+          published_at: action === 'publish' ? new Date().toISOString() : null,
+        });
+        blogForm.reset();
+        loadTabData('blog');
+      } catch (err) { alert(err.message); }
+    });
+  }
+}
+
+function setupFormHandler(formId, table, dataMapper) {
+  const form = document.getElementById(formId);
+  if (!form) return;
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    try {
+      const fd = new FormData(form);
+      await insertItem(table, dataMapper(fd));
+      form.reset();
+      pendingImages = [];
+      const previewId = formId.replace('Form', 'ImagePreview');
+      clearImagePreview(previewId);
+      loadTabData(currentTab);
+    } catch (err) { alert(err.message); }
+  });
+}
+
+// ============ IMAGE HANDLING ============
+
+function setupImageHandlers() {
+  setupImageDrop('reviewImageDrop', 'reviewImageInput', 'reviewImagePreview', 3);
+  setupImageDrop('caseImageDrop', 'caseImageInput', 'caseImagePreview', 10);
+}
+
+function setupImageDrop(dropId, inputId, previewId, maxCount) {
+  const drop = document.getElementById(dropId);
+  const input = document.getElementById(inputId);
+  if (!drop || !input) return;
+
+  drop.addEventListener('click', () => input.click());
+  drop.addEventListener('paste', (e) => handlePaste(e, previewId, maxCount));
+  input.addEventListener('change', () => handleFileSelect(input.files, previewId, maxCount));
+
+  document.addEventListener('paste', (e) => {
+    if (document.getElementById('adminPanelModal')?.classList.contains('flex')) {
+      const tabMap = { reviews: previewId, cases: previewId };
+      if (currentTab === 'reviews' && previewId.includes('review')) handlePaste(e, previewId, maxCount);
+      if (currentTab === 'cases' && previewId.includes('case')) handlePaste(e, previewId, maxCount);
+    }
+  });
+}
+
+async function handlePaste(e, previewId, maxCount) {
+  const items = e.clipboardData?.items;
+  if (!items) return;
+  for (const item of items) {
+    if (item.type.startsWith('image/') && pendingImages.length < maxCount) {
+      e.preventDefault();
+      const file = item.getAsFile();
+      await uploadAndPreview(file, previewId);
+    }
+  }
+}
+
+async function handleFileSelect(files, previewId, maxCount) {
+  for (const file of files) {
+    if (pendingImages.length >= maxCount) break;
+    await uploadAndPreview(file, previewId);
+  }
+}
+
+async function uploadAndPreview(file, previewId) {
+  if (file.size > 5 * 1024 * 1024) { alert('파일 크기 5MB 이하만 가능합니다.'); return; }
+
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+  formData.append('folder', 'nexo-media');
+
+  try {
+    const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`, {
+      method: 'POST',
+      body: formData,
+    });
+    const data = await res.json();
+    if (data.secure_url) {
+      pendingImages.push(data.secure_url);
+      renderImagePreview(previewId);
+    }
+  } catch (err) {
+    console.error('Image upload failed:', err);
+    alert('이미지 업로드 실패');
+  }
+}
+
+function renderImagePreview(previewId) {
+  const el = document.getElementById(previewId);
+  if (!el) return;
+  el.innerHTML = pendingImages.map((url, i) => `
+    <div class="relative group">
+      <img src="${url}" class="w-full h-24 object-cover rounded-lg border border-slate-600">
+      <button type="button" onclick="removeImage(${i},'${previewId}')"
+              class="absolute top-1 right-1 w-5 h-5 bg-red-600 text-white rounded-full text-xs hidden group-hover:flex items-center justify-center">×</button>
+    </div>
+  `).join('');
+}
+
+function removeImage(index, previewId) {
+  pendingImages.splice(index, 1);
+  renderImagePreview(previewId);
+}
+
+function clearImagePreview(previewId) {
+  const el = document.getElementById(previewId);
+  if (el) el.innerHTML = '';
+}
+
+// ============ AI GENERATION ============
+
+async function parseCaseInput() {
+  const raw = document.getElementById('caseRawInput')?.value;
+  if (!raw) return;
+
+  const parsed = window.parseFieldNewsText ? window.parseFieldNewsText(raw) : {};
+  window._caseParsed = parsed;
+
+  const titleInput = document.querySelector('#caseForm input[name="title"]');
+  if (titleInput && !titleInput.value) {
+    titleInput.value = window.generateTitle ? window.generateTitle(parsed) : (parsed.storeName || '');
+  }
+
+  const preview = document.getElementById('caseParsedPreview');
+  if (preview) {
+    const fields = Object.entries(parsed).filter(([,v]) => v).map(([k,v]) => `<b>${k}</b>: ${escapeHtml(v)}`);
+    preview.innerHTML = fields.join('<br>') || '파싱 결과 없음';
+    preview.classList.remove('hidden');
+  }
+}
+
+async function generateCaseContent() {
+  const btn = document.getElementById('caseAiBtn');
+  const textarea = document.querySelector('#caseForm textarea[name="content"]');
+  if (!btn || !textarea) return;
+
+  const parsed = window._caseParsed || {};
+  btn.textContent = 'AI 생성 중...';
+  btn.disabled = true;
+
+  try {
+    const res = await fetch('/.netlify/functions/gemini-proxy', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        type: 'case',
+        data: { ...parsed, imageCount: pendingImages.length },
+      }),
+    });
+    const json = await res.json();
+    if (json.success && json.content) {
+      let content = json.content;
+      pendingImages.forEach((url, i) => {
+        content = content.replace(`[이미지${i + 1}]`, `<img src="${url}" alt="설치사진 ${i + 1}" style="max-width:100%;border-radius:8px;margin:12px 0;">`);
+      });
+      textarea.value = content;
+    } else {
+      alert(json.error || 'AI 생성 실패');
+    }
+  } catch (err) {
+    alert('AI 서버 연결 실패: ' + err.message);
+  } finally {
+    btn.textContent = 'AI 자동 생성';
+    btn.disabled = false;
+  }
+}
+
+async function generateBlogContent() {
+  const btn = document.getElementById('blogAiBtn');
+  const textarea = document.querySelector('#blogForm textarea[name="content"]');
+  const topicInput = document.getElementById('blogAiTopic');
+  if (!btn || !textarea || !topicInput) return;
+
+  const topic = topicInput.value;
+  if (!topic) { alert('주제 키워드를 입력하세요.'); return; }
+
+  btn.textContent = 'AI 생성 중...';
+  btn.disabled = true;
+
+  try {
+    const res = await fetch('/.netlify/functions/gemini-proxy', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        type: 'blog',
+        data: { topic, keywords: topic.split(' ') },
+      }),
+    });
+    const json = await res.json();
+    if (json.success && json.content) {
+      textarea.value = json.content;
+    } else {
+      alert(json.error || 'AI 생성 실패');
+    }
+  } catch (err) {
+    alert('AI 서버 연결 실패: ' + err.message);
+  } finally {
+    btn.textContent = 'AI 생성';
+    btn.disabled = false;
+  }
+}
+
+// ============ UTILS ============
+
+function escapeHtml(str) {
+  if (!str) return '';
+  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+// ============ ADMIN MODAL LOADER ============
+
+async function loadAdminModal() {
+  try {
+    const res = await fetch('components/admin-modal.html');
+    if (!res.ok) return;
+    const html = await res.text();
+    const placeholder = document.getElementById('admin-placeholder');
+    if (placeholder) {
+      placeholder.innerHTML = html;
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+      await initAdmin();
+    }
+  } catch (err) {
+    console.error('Admin modal load failed:', err);
+  }
+}

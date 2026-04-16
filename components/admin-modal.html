@@ -1,0 +1,374 @@
+<!-- Admin Login Modal -->
+<div id="adminLoginModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/70 backdrop-blur-sm">
+    <div class="relative w-full max-w-md mx-4 bg-slate-900 rounded-2xl border border-slate-700 shadow-2xl">
+        <button onclick="closeModal('adminLoginModal')" class="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors z-10">
+            <i data-lucide="x" class="w-6 h-6"></i>
+        </button>
+        <div class="p-6 sm:p-8">
+            <h2 class="text-2xl font-bold text-white mb-6">관리자 로그인</h2>
+            <form id="adminLoginForm" class="space-y-4">
+                <div>
+                    <label for="adminEmail" class="block text-sm font-medium text-slate-300 mb-2">이메일</label>
+                    <input type="email" id="adminEmail" required
+                           class="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-nexo-cyan focus:ring-2 focus:ring-nexo-cyan/20 transition-colors"
+                           placeholder="관리자 이메일">
+                </div>
+                <div>
+                    <label for="adminPassword" class="block text-sm font-medium text-slate-300 mb-2">비밀번호</label>
+                    <input type="password" id="adminPassword" required
+                           class="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-nexo-cyan focus:ring-2 focus:ring-nexo-cyan/20 transition-colors"
+                           placeholder="비밀번호">
+                </div>
+                <div id="loginError" class="text-red-400 text-sm hidden"></div>
+                <button type="submit" id="loginBtn" class="w-full px-6 py-3 bg-nexo-cyan text-nexo-navy font-bold rounded-lg hover:bg-white transition-all">
+                    로그인
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Admin Panel Modal (6 Tabs) -->
+<div id="adminPanelModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/70 backdrop-blur-sm overflow-y-auto">
+    <div class="relative w-full max-w-5xl mx-4 my-8 bg-slate-900 rounded-2xl border border-slate-700 shadow-2xl">
+        <!-- Header -->
+        <div class="sticky top-0 bg-slate-900 z-20 border-b border-slate-700 px-6 py-4">
+            <div class="flex justify-between items-center mb-3">
+                <h2 class="text-xl font-bold text-white">NEXO 관리자</h2>
+                <div class="flex items-center gap-3">
+                    <span id="adminUserEmail" class="text-sm text-slate-400"></span>
+                    <button onclick="adminLogout()" class="text-sm text-slate-400 hover:text-red-400 transition-colors">로그아웃</button>
+                    <button onclick="closeModal('adminPanelModal')" class="text-slate-400 hover:text-white transition-colors bg-slate-800 hover:bg-slate-700 rounded-full p-2">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- Tabs -->
+            <div class="flex gap-1 overflow-x-auto pb-1 -mb-4" id="adminTabs">
+                <button class="admin-tab active" data-tab="reviews">후기</button>
+                <button class="admin-tab" data-tab="videos">동영상</button>
+                <button class="admin-tab" data-tab="tech-docs">기술자료</button>
+                <button class="admin-tab" data-tab="manuals">매뉴얼</button>
+                <button class="admin-tab" data-tab="cases">설치사례</button>
+                <button class="admin-tab" data-tab="blog">블로그</button>
+            </div>
+        </div>
+
+        <!-- Tab Content -->
+        <div class="p-6">
+            <!-- Reviews Tab -->
+            <div id="tab-reviews" class="admin-tab-content">
+                <div class="bg-slate-800 rounded-xl p-6 mb-6 border border-slate-700">
+                    <h3 class="text-lg font-bold text-white mb-4">새 후기 추가</h3>
+                    <form id="reviewForm" class="space-y-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-300 mb-2">작성자명 *</label>
+                                <input type="text" name="name" required class="admin-input" placeholder="이름">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-300 mb-2">별점 *</label>
+                                <select name="rating" required class="admin-input">
+                                    <option value="5">5점</option>
+                                    <option value="4">4점</option>
+                                    <option value="3">3점</option>
+                                    <option value="2">2점</option>
+                                    <option value="1">1점</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-300 mb-2">후기 내용 *</label>
+                            <textarea name="text" rows="3" required class="admin-input resize-none" placeholder="후기 내용"></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-300 mb-2">이미지 (최대 3개, 붙여넣기 가능)</label>
+                            <div id="reviewImageDrop" class="admin-image-drop" tabindex="0">
+                                클릭하여 선택 또는 Ctrl+V 붙여넣기
+                                <input type="file" accept="image/*" multiple class="hidden" id="reviewImageInput">
+                            </div>
+                            <div id="reviewImagePreview" class="grid grid-cols-3 gap-2 mt-2"></div>
+                        </div>
+                        <button type="submit" class="admin-btn-primary">후기 추가</button>
+                    </form>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-4">등록된 후기</h3>
+                <div id="reviewsList" class="space-y-3"></div>
+            </div>
+
+            <!-- Videos Tab -->
+            <div id="tab-videos" class="admin-tab-content hidden">
+                <div class="bg-slate-800 rounded-xl p-6 mb-6 border border-slate-700">
+                    <h3 class="text-lg font-bold text-white mb-4">동영상 추가</h3>
+                    <form id="videoForm" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-300 mb-2">제목 *</label>
+                            <input type="text" name="title" required class="admin-input" placeholder="동영상 제목">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-300 mb-2">YouTube URL *</label>
+                            <input type="url" name="youtube_url" required class="admin-input" placeholder="https://www.youtube.com/watch?v=...">
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-300 mb-2">카테고리</label>
+                                <select name="category" class="admin-input">
+                                    <option value="제품소개">제품소개</option>
+                                    <option value="사용법">사용법</option>
+                                    <option value="설치영상">설치영상</option>
+                                    <option value="기타">기타</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-300 mb-2">정렬 순서</label>
+                                <input type="number" name="sort_order" value="0" class="admin-input">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-300 mb-2">설명</label>
+                            <textarea name="description" rows="2" class="admin-input resize-none" placeholder="동영상 설명"></textarea>
+                        </div>
+                        <button type="submit" class="admin-btn-primary">동영상 추가</button>
+                    </form>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-4">등록된 동영상</h3>
+                <div id="videosList" class="space-y-3"></div>
+            </div>
+
+            <!-- Tech Docs Tab -->
+            <div id="tab-tech-docs" class="admin-tab-content hidden">
+                <div class="bg-slate-800 rounded-xl p-6 mb-6 border border-slate-700">
+                    <h3 class="text-lg font-bold text-white mb-4">기술자료 추가</h3>
+                    <form id="techDocForm" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-300 mb-2">제목 *</label>
+                            <input type="text" name="title" required class="admin-input" placeholder="자료 제목">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-300 mb-2">다운로드 URL *</label>
+                            <input type="url" name="download_url" required class="admin-input" placeholder="https://...">
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-300 mb-2">카테고리 *</label>
+                                <select name="category" required class="admin-input">
+                                    <option value="필수 유틸리티">필수 유틸리티</option>
+                                    <option value="문서 뷰어">문서 뷰어</option>
+                                    <option value="교육 멀티미디어">교육 멀티미디어</option>
+                                    <option value="미러링 원격">미러링 원격</option>
+                                    <option value="시스템 펌웨어">시스템 펌웨어</option>
+                                    <option value="매뉴얼 AS">매뉴얼 AS</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-300 mb-2">버전</label>
+                                <input type="text" name="version" class="admin-input" placeholder="v1.0">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-300 mb-2">설명</label>
+                            <textarea name="description" rows="2" class="admin-input resize-none" placeholder="자료 설명"></textarea>
+                        </div>
+                        <button type="submit" class="admin-btn-primary">자료 추가</button>
+                    </form>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-4">등록된 기술자료</h3>
+                <div id="techDocsList" class="space-y-3"></div>
+            </div>
+
+            <!-- Manuals Tab -->
+            <div id="tab-manuals" class="admin-tab-content hidden">
+                <div class="bg-slate-800 rounded-xl p-6 mb-6 border border-slate-700">
+                    <h3 class="text-lg font-bold text-white mb-4">매뉴얼 추가</h3>
+                    <form id="manualForm" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-300 mb-2">제목 *</label>
+                            <input type="text" name="title" required class="admin-input" placeholder="매뉴얼 제목">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-300 mb-2">PDF URL *</label>
+                            <input type="url" name="pdf_url" required class="admin-input" placeholder="https://...">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-300 mb-2">카테고리</label>
+                            <select name="category" class="admin-input">
+                                <option value="사용매뉴얼">사용매뉴얼</option>
+                                <option value="설치가이드">설치가이드</option>
+                                <option value="AS가이드">AS가이드</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-300 mb-2">설명</label>
+                            <textarea name="description" rows="2" class="admin-input resize-none" placeholder="매뉴얼 설명"></textarea>
+                        </div>
+                        <button type="submit" class="admin-btn-primary">매뉴얼 추가</button>
+                    </form>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-4">등록된 매뉴얼</h3>
+                <div id="manualsList" class="space-y-3"></div>
+            </div>
+
+            <!-- Cases Tab (AI) -->
+            <div id="tab-cases" class="admin-tab-content hidden">
+                <div class="bg-slate-800 rounded-xl p-6 mb-6 border border-slate-700">
+                    <h3 class="text-lg font-bold text-white mb-4">설치사례 추가</h3>
+                    <form id="caseForm" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-300 mb-2">카톡 메시지 붙여넣기</label>
+                            <textarea id="caseRawInput" rows="6" class="admin-input resize-none font-mono text-sm"
+                                      placeholder="상점명 :초원유치원&#10;(지역:안산시 단원구)&#10;모델 :NXH65*9&#10;벽걸이 :9개&#10;특이사항:설치 완료"></textarea>
+                            <button type="button" onclick="parseCaseInput()" class="mt-2 px-4 py-2 bg-slate-700 text-slate-300 rounded-lg hover:bg-slate-600 text-sm transition-colors">
+                                자동 파싱
+                            </button>
+                        </div>
+                        <div id="caseParsedPreview" class="hidden bg-slate-700/50 rounded-lg p-4 text-sm text-slate-300"></div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-300 mb-2">제목</label>
+                            <input type="text" name="title" class="admin-input" placeholder="자동 생성됨">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-300 mb-2">설치 일자</label>
+                            <input type="date" name="installation_date" class="admin-input">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-300 mb-2">이미지 (붙여넣기 또는 선택, 최대 10장)</label>
+                            <div id="caseImageDrop" class="admin-image-drop" tabindex="0">
+                                클릭하여 선택 또는 Ctrl+V 붙여넣기
+                                <input type="file" accept="image/*" multiple class="hidden" id="caseImageInput">
+                            </div>
+                            <div id="caseImagePreview" class="grid grid-cols-4 gap-2 mt-2"></div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-300 mb-2">본문</label>
+                            <div class="flex gap-2 mb-2">
+                                <button type="button" id="caseAiBtn" onclick="generateCaseContent()" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-500 text-sm transition-colors">
+                                    AI 자동 생성
+                                </button>
+                            </div>
+                            <textarea name="content" rows="10" class="admin-input resize-none" placeholder="AI 생성 또는 직접 작성 (HTML)"></textarea>
+                        </div>
+                        <div class="flex gap-3">
+                            <button type="submit" name="action" value="draft" class="flex-1 px-6 py-3 bg-slate-700 text-white font-bold rounded-lg hover:bg-slate-600 transition-all">임시저장</button>
+                            <button type="submit" name="action" value="publish" class="flex-1 admin-btn-primary">발행</button>
+                        </div>
+                    </form>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-4">등록된 설치사례</h3>
+                <div id="casesList" class="space-y-3"></div>
+            </div>
+
+            <!-- Blog Tab (AI) -->
+            <div id="tab-blog" class="admin-tab-content hidden">
+                <div class="bg-slate-800 rounded-xl p-6 mb-6 border border-slate-700">
+                    <h3 class="text-lg font-bold text-white mb-4">블로그 포스트 작성</h3>
+                    <form id="blogForm" class="space-y-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-300 mb-2">제목 *</label>
+                                <input type="text" name="title" required class="admin-input" placeholder="포스트 제목">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-300 mb-2">슬러그 *</label>
+                                <input type="text" name="slug" required class="admin-input" placeholder="url-friendly-slug">
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-300 mb-2">카테고리</label>
+                                <select name="category" class="admin-input">
+                                    <option value="전자칠판">전자칠판</option>
+                                    <option value="교육 트렌드">교육 트렌드</option>
+                                    <option value="제품 활용">제품 활용</option>
+                                    <option value="지원사업">지원사업</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-300 mb-2">대표 이미지</label>
+                                <input type="file" accept="image/*" id="blogFeaturedImage" class="admin-input text-sm">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-300 mb-2">AI 글 생성</label>
+                            <div class="flex gap-2">
+                                <input type="text" id="blogAiTopic" class="admin-input flex-1" placeholder="주제 키워드 (예: 전자칠판 vs 스마트TV)">
+                                <button type="button" id="blogAiBtn" onclick="generateBlogContent()" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-500 text-sm transition-colors whitespace-nowrap">
+                                    AI 생성
+                                </button>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-300 mb-2">본문 (Markdown 또는 HTML)</label>
+                            <textarea name="content" rows="12" required class="admin-input resize-none font-mono text-sm" placeholder="본문 내용"></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-300 mb-2">요약 (목록용)</label>
+                            <textarea name="summary" rows="2" class="admin-input resize-none" placeholder="1~2문장 요약"></textarea>
+                        </div>
+                        <div class="flex gap-3">
+                            <button type="submit" name="action" value="draft" class="flex-1 px-6 py-3 bg-slate-700 text-white font-bold rounded-lg hover:bg-slate-600 transition-all">임시저장</button>
+                            <button type="submit" name="action" value="publish" class="flex-1 admin-btn-primary">발행</button>
+                        </div>
+                    </form>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-4">등록된 포스트</h3>
+                <div id="blogList" class="space-y-3"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Admin Floating Button -->
+<button id="adminButton" onclick="openAdminLogin()"
+        class="fixed bottom-6 right-6 z-40 w-12 h-12 bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white rounded-full shadow-lg flex items-center justify-center transition-all border border-slate-700">
+    <i data-lucide="settings" class="w-5 h-5"></i>
+</button>
+
+<style>
+.admin-tab {
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #94a3b8;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+}
+.admin-tab:hover { color: #e2e8f0; }
+.admin-tab.active { color: #06b6d4; border-bottom-color: #06b6d4; }
+.admin-input {
+    width: 100%;
+    padding: 8px 16px;
+    background: #334155;
+    border: 1px solid #475569;
+    border-radius: 8px;
+    color: white;
+    outline: none;
+    transition: border-color 0.2s;
+}
+.admin-input:focus { border-color: #06b6d4; }
+.admin-btn-primary {
+    width: 100%;
+    padding: 12px 24px;
+    background: #06b6d4;
+    color: #0f172a;
+    font-weight: 700;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.admin-btn-primary:hover { background: #22d3ee; }
+.admin-image-drop {
+    border: 2px dashed #475569;
+    border-radius: 8px;
+    padding: 24px;
+    text-align: center;
+    color: #64748b;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+.admin-image-drop:hover, .admin-image-drop:focus { border-color: #06b6d4; }
+</style>

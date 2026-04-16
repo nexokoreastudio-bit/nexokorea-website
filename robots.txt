@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /components/
+Disallow: /netlify/
+
+Sitemap: https://nexokorea.co.kr/sitemap.xml

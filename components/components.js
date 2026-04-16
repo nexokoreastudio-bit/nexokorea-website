@@ -155,6 +155,9 @@ async function loadComponents() {
         loadFooter(),
         loadNavCards()
     ]);
+    if (typeof loadAdminModal === 'function') {
+        loadAdminModal();
+    }
 }
 
 // DOM 로드 완료 시 컴포넌트 로드
