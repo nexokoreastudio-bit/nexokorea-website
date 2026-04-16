@@ -6,8 +6,17 @@ exports.handler = async (event) => {
     return { statusCode: 405, body: JSON.stringify({ error: 'Method not allowed' }) };
   }
 
-  const apiKey = process.env.GEMINI_API_KEY;
-  if (!apiKey) {
+  let apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey || !apiKey.startsWith('AIza')) {
+    try {
+      const fs = require('fs');
+      const path = require('path');
+      const envFile = fs.readFileSync(path.resolve(process.cwd(), '.env'), 'utf8');
+      const match = envFile.match(/GEMINI_API_KEY=(.+)/);
+      if (match) apiKey = match[1].trim();
+    } catch {}
+  }
+  if (!apiKey || !apiKey.startsWith('AIza')) {
     return { statusCode: 500, body: JSON.stringify({ error: 'GEMINI_API_KEY not configured' }) };
   }
 
