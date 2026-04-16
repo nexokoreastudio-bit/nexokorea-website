@@ -4,39 +4,73 @@
  */
 
 const SUPABASE_URL = 'https://qwyeanxbtkzompzxndhk.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF3eWVhbnhidGt6b21wenhuZGhrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzgzODUxMzYsImV4cCI6MjA1Mzk2MTEzNn0.bG4xnJBMkSMy8F97LMP-E7jQFTRskxU2ogcT_Dn1_QI';
+const SUPABASE_ANON_KEY = 'sb_publishable_J8lLXEdfK2geX8qdurKN1Q_M0rJneO8';
 const CLOUDINARY_CLOUD_NAME = 'dthtfs1mf';
 const CLOUDINARY_UPLOAD_PRESET = 'nexo-reviews-unsigned';
 
-let supabase = null;
+let sb = null;
 let currentUser = null;
 let currentTab = 'reviews';
 let pendingImages = [];
+let adminInitialized = false;
 
 // ============ INIT ============
 
 async function initAdmin() {
+  if (adminInitialized) return;
+  adminInitialized = true;
+
   if (typeof window.supabase === 'undefined') {
     console.warn('Supabase SDK not loaded');
     return;
   }
-  supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-  const { data: { session } } = await supabase.auth.getSession();
+  const { data: { session } } = await sb.auth.getSession();
   if (session) {
     currentUser = session.user;
-    await checkAdminRole();
+    try {
+      await checkAdminRole();
+      openAdminPanel();
+    } catch (e) {
+      currentUser = null;
+    }
   }
+
+  sb.auth.onAuthStateChange(async (event, session) => {
+    if (event === 'SIGNED_IN' && session) {
+      currentUser = session.user;
+      try {
+        await checkAdminRole();
+        closeModal('adminLoginModal');
+        openAdminPanel();
+      } catch (e) {
+        currentUser = null;
+      }
+    }
+  });
+
+  loadPublicReviews();
 
   setupTabs();
   setupForms();
   setupImageHandlers();
+  setupGlobalPaste();
 }
 
 // ============ AUTH ============
 
+async function adminGoogleLogin() {
+  if (!sb) { alert('시스템 초기화 중입니다. 잠시 후 다시 시도하세요.'); return; }
+  const { error } = await sb.auth.signInWithOAuth({
+    provider: 'google',
+    options: { redirectTo: window.location.origin + window.location.pathname }
+  });
+  if (error) alert(error.message);
+}
+
 async function adminLogin(email, password) {
-  const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+  const { data, error } = await sb.auth.signInWithPassword({ email, password });
   if (error) throw error;
   currentUser = data.user;
   await checkAdminRole();
@@ -44,16 +78,16 @@ async function adminLogin(email, password) {
 
 async function checkAdminRole() {
   if (!currentUser) return;
-  const { data } = await supabase.from('users').select('role').eq('id', currentUser.id).single();
+  const { data } = await sb.from('users').select('role').eq('id', currentUser.id).single();
   if (!data || data.role !== 'admin') {
-    await supabase.auth.signOut();
+    await sb.auth.signOut();
     currentUser = null;
     throw new Error('관리자 권한이 없습니다.');
   }
 }
 
 async function adminLogout() {
-  await supabase.auth.signOut();
+  await sb.auth.signOut();
   currentUser = null;
   closeModal('adminPanelModal');
 }
@@ -118,9 +152,9 @@ async function loadTabData(tab) {
     blog: { table: 'nexo_blog_posts', listEl: 'blogList', order: 'created_at' },
   };
   const c = config[tab];
-  if (!c || !supabase) return;
+  if (!c || !sb) return;
 
-  const { data, error } = await supabase.from(c.table).select('*').order(c.order, { ascending: false });
+  const { data, error } = await sb.from(c.table).select('*').order(c.order, { ascending: false });
   if (error) { console.error(error); return; }
 
   const el = document.getElementById(c.listEl);
@@ -179,7 +213,7 @@ function renderListItem(tab, item) {
 // ============ GENERIC CRUD ============
 
 async function insertItem(table, data) {
-  const { error } = await supabase.from(table).insert(data);
+  const { error } = await sb.from(table).insert(data);
   if (error) throw error;
 }
 
@@ -188,14 +222,14 @@ async function togglePublish(table, id, publish) {
   if (publish && (table === 'nexo_cases' || table === 'nexo_blog_posts')) {
     update.published_at = new Date().toISOString();
   }
-  const { error } = await supabase.from(table).update(update).eq('id', id);
+  const { error } = await sb.from(table).update(update).eq('id', id);
   if (error) { alert(error.message); return; }
   loadTabData(currentTab);
 }
 
 async function deleteItem(table, id) {
   if (!confirm('정말 삭제하시겠습니까?')) return;
-  const { error } = await supabase.from(table).delete().eq('id', id);
+  const { error } = await sb.from(table).delete().eq('id', id);
   if (error) { alert(error.message); return; }
   loadTabData(currentTab);
 }
@@ -336,15 +370,22 @@ function setupImageDrop(dropId, inputId, previewId, maxCount) {
   if (!drop || !input) return;
 
   drop.addEventListener('click', () => input.click());
-  drop.addEventListener('paste', (e) => handlePaste(e, previewId, maxCount));
   input.addEventListener('change', () => handleFileSelect(input.files, previewId, maxCount));
+}
 
+function setupGlobalPaste() {
   document.addEventListener('paste', (e) => {
-    if (document.getElementById('adminPanelModal')?.classList.contains('flex')) {
-      const tabMap = { reviews: previewId, cases: previewId };
-      if (currentTab === 'reviews' && previewId.includes('review')) handlePaste(e, previewId, maxCount);
-      if (currentTab === 'cases' && previewId.includes('case')) handlePaste(e, previewId, maxCount);
-    }
+    const panel = document.getElementById('adminPanelModal');
+    if (!panel || !panel.classList.contains('flex')) return;
+
+    let targetPreview = null;
+    let maxCount = 3;
+
+    if (currentTab === 'reviews') { targetPreview = 'reviewImagePreview'; maxCount = 3; }
+    else if (currentTab === 'cases') { targetPreview = 'caseImagePreview'; maxCount = 10; }
+    else return;
+
+    handlePaste(e, targetPreview, maxCount);
   });
 }
 
@@ -511,6 +552,44 @@ async function generateBlogContent() {
 function escapeHtml(str) {
   if (!str) return '';
   return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+// ============ PUBLIC DATA LOADERS ============
+
+async function loadPublicReviews() {
+  if (!sb) return;
+  const container = document.getElementById('reviewsContainer');
+  const empty = document.getElementById('emptyReviews');
+  if (!container) return;
+
+  const { data, error } = await sb.from('nexo_reviews').select('*').eq('is_published', true).order('created_at', { ascending: false });
+
+  if (error || !data || data.length === 0) {
+    if (empty) empty.classList.remove('hidden');
+    container.innerHTML = '';
+    return;
+  }
+
+  if (empty) empty.classList.add('hidden');
+  container.innerHTML = data.map(r => `
+    <div class="bg-slate-800 rounded-xl p-6 border border-slate-700">
+      <div class="flex items-center gap-3 mb-3">
+        <div class="w-10 h-10 bg-nexo-cyan/20 rounded-full flex items-center justify-center text-nexo-cyan font-bold">
+          ${escapeHtml((r.name || '?')[0])}
+        </div>
+        <div>
+          <p class="font-bold text-white text-sm">${escapeHtml(r.name)}</p>
+          <p class="text-nexo-cyan text-xs">${'★'.repeat(r.rating || 5)}${'☆'.repeat(5 - (r.rating || 5))}</p>
+        </div>
+      </div>
+      <p class="text-slate-300 text-sm leading-relaxed">${escapeHtml(r.text)}</p>
+      ${r.images && r.images.length > 0 ? `
+        <div class="grid grid-cols-3 gap-2 mt-3">
+          ${r.images.map(img => `<img src="${img}" class="w-full h-20 object-cover rounded-lg border border-slate-600" alt="후기 사진">`).join('')}
+        </div>
+      ` : ''}
+    </div>
+  `).join('');
 }
 
 // ============ ADMIN MODAL LOADER ============
