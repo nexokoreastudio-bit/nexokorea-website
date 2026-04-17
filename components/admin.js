@@ -827,30 +827,11 @@ async function generateCaseContent() {
         payload = null;
       }
 
-      let content = cleanAiContent(payload?.content || json.content);
-      const captions = Array.isArray(payload?.captions) ? payload.captions : [];
-      const usedImages = new Set();
-      pendingImages.forEach((url, i) => {
-        const imageIndex = i + 1;
-        const placeholder = `[이미지${imageIndex}]`;
-        const caption = escapeHtml((captions[i] || `설치 사진 ${imageIndex}`).trim());
-        if (content.includes(placeholder)) {
-          const figureMarkup = `<figure class="case-figure"><img src="${url}" alt="${caption}" class="case-inline-image"><figcaption>${caption}</figcaption></figure>`;
-          content = content.replace(new RegExp(`\\[이미지${imageIndex}\\]`, 'g'), figureMarkup);
-          usedImages.add(i);
-        }
+      const content = buildCafeCaseHtml({
+        payload,
+        parsed,
+        pendingImages,
       });
-      const remainingImages = pendingImages
-        .map((url, index) => ({ url, index }))
-        .filter(({ index }) => !usedImages.has(index));
-
-      if (remainingImages.length > 0) {
-        const galleryItems = remainingImages.map(({ url, index }) => {
-          const caption = escapeHtml((captions[index] || `설치 사진 ${index + 1}`).trim());
-          return `<figure><img src="${url}" alt="${caption}" class="case-inline-image"><figcaption>${caption}</figcaption></figure>`;
-        }).join('');
-        content += `\n<div class="case-gallery">${galleryItems}</div>`;
-      }
       textarea.value = sanitizeCaseHtml(content);
       renderCasePreview();
 
@@ -943,17 +924,83 @@ function sanitizeCaseHtml(html) {
   });
 }
 
-function cleanAiContent(text) {
-  if (!text) return '';
-  let c = text.trim();
-  c = c.replace(/^```(?:html|HTML)?\s*\n?/gm, '');
-  c = c.replace(/\n?```\s*$/gm, '');
-  c = c.replace(/<img\s+src="<img\s+src="([^"]+)"[^>]*>"[^>]*>/g, '<img src="$1" style="max-width:100%;border-radius:8px;margin:12px 0;">');
-  c = c.replace(/<!DOCTYPE html>[\s\S]*?<body[^>]*>/gi, '');
-  c = c.replace(/<\/body>[\s\S]*?<\/html>/gi, '');
-  c = c.replace(/<head>[\s\S]*?<\/head>/gi, '');
-  c = c.replace(/<style>[\s\S]*?<\/style>/gi, '');
-  return c.trim();
+function stripTags(value) {
+  return (value || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+}
+
+function escapeCaseText(value) {
+  return escapeHtml((value || '').trim());
+}
+
+function normalizeCaption(captions, index) {
+  return escapeCaseText((captions[index] || `설치 사진 ${index + 1}`).trim());
+}
+
+function normalizeTextArray(value) {
+  return Array.isArray(value)
+    ? value.map((item) => stripTags(item)).filter(Boolean)
+    : [];
+}
+
+function buildCafeCaseHtml({ payload, parsed, pendingImages = [] }) {
+  const storeName = parsed?.storeName || '설치 현장';
+  const model = payload?.equipment_model || parsed?.model || '';
+  const location = parsed?.location || '';
+  const notes = parsed?.notes || '';
+  const description = stripTags(payload?.description || notes);
+  const size = payload?.installation_size || '';
+  const captions = normalizeTextArray(payload?.captions);
+  const progressNotes = normalizeTextArray(payload?.progress_notes);
+  const introLine = stripTags(payload?.intro) || `안녕하세요, NEXO KOREA입니다 😊 ${storeName}${model ? `에 ${model}` : ''} 설치를 진행하고 왔어요.`;
+  const siteIntro = stripTags(payload?.site_intro) || description || `${location ? `${location} 현장에 맞춰` : '현장에 맞춰'} 사용 동선과 설치 안정성을 함께 고려해 세팅해드렸습니다.`;
+  const outroPoint = stripTags(payload?.outro_point) || (notes ? `${notes} 현장 특성을 고려해 설치 위치와 사용 편의성을 함께 맞춰드렸습니다.` : '현장에 맞는 설치 방식과 기본 세팅까지 함께 잡아드려서 처음 사용하실 때도 부담 없이 시작하실 수 있어요.');
+
+  const infoBits = [
+    storeName,
+    location,
+    model ? `모델 ${model}` : '',
+    size ? `구성 ${size}` : '',
+    notes || '',
+  ].filter(Boolean);
+
+  const progressTemplates = [
+    '현장에 도착한 뒤 설치 위치와 동선을 먼저 확인하고, 작업 순서를 차분히 정리해드렸어요.',
+    '본격적인 설치를 진행하면서 흔들림 없이 안정적으로 사용할 수 있도록 하나씩 맞춰드렸습니다.',
+    '배선과 연결 상태도 함께 점검해드려서 실제 수업이나 사용 환경에서 바로 활용하실 수 있게 준비했어요.',
+    '설치 마무리 단계에서는 기본 세팅과 작동 상태를 다시 확인해드리며 사용하시기 편한 상태로 정리했습니다.',
+  ];
+
+  const completionLine = `${storeName}에서 ${model ? `<strong>${escapeCaseText(model)}</strong> 모델을` : '전자칠판을'} 바로 활용하실 수 있도록 설치와 기본 점검까지 깔끔하게 마무리해드렸어요.`;
+
+  const parts = [
+    `<p>${escapeCaseText(introLine)}</p>`,
+    '<h4>📍 현장 정보</h4>',
+    `<p>${escapeCaseText(siteIntro)}</p>`,
+    infoBits.length ? `<p>${escapeCaseText(infoBits.join(' · '))}</p>` : '',
+  ];
+
+  if (pendingImages.length > 0) {
+    parts.push('<h4>🛠️ 설치 진행</h4>');
+    pendingImages.forEach((url, index) => {
+      const caption = normalizeCaption(captions, index);
+      const note = escapeCaseText(progressNotes[index] || progressTemplates[Math.min(index, progressTemplates.length - 1)]);
+      parts.push(`<figure class="case-figure"><img src="${url}" alt="${caption}" class="case-inline-image"><figcaption>${caption}</figcaption></figure>`);
+      if (note) {
+        parts.push(`<p>${note}</p>`);
+      }
+    });
+  } else if (description) {
+    parts.push('<h4>🛠️ 설치 진행</h4>');
+    parts.push(`<p>${escapeCaseText(description)}</p>`);
+  }
+
+  parts.push('<h4>✨ 설치 완료</h4>');
+  parts.push(`<p>${completionLine}</p>`);
+  parts.push(`<blockquote>💡 ${escapeCaseText(outroPoint)}</blockquote>`);
+  parts.push('<hr>');
+  parts.push('<p>📞 <strong>설치 문의</strong> 032-569-5771 / nexokorea@gmail.com</p>');
+
+  return parts.filter(Boolean).join('\n');
 }
 
 function escapeHtml(str) {
