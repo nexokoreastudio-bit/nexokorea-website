@@ -80,7 +80,7 @@ function buildCasePrompt(data) {
   const { storeName, location, model, wallMount, stand, additionalCables, notes, imageCount } = data;
   const imgCount = parseInt(imageCount) || 0;
 
-  return `당신은 NEXO KOREA 전자칠판 설치사례 글을 작성합니다.
+  return `당신은 NEXO KOREA 전자칠판 설치사례 데이터를 정리합니다.
 
 ## 설치 정보
 - 기관명: ${storeName || '미입력'}
@@ -92,18 +92,28 @@ function buildCasePrompt(data) {
 - 특이사항: ${notes || '없음'}
 - 첨부 이미지: ${imgCount}장
 
-## 반드시 지켜야 할 작성 규칙
+## 반드시 지켜야 할 출력 규칙
 
-1. **HTML body 내용만 출력** — DOCTYPE, html, head, body, style 태그 절대 포함하지 마세요. p, h3, img 태그만 사용.
-2. **사진-글 교차 구조**: 반드시 아래 패턴을 따르세요:
+1. 반드시 **JSON 하나만 출력**하세요. 마크다운 코드블록(\`\`\`) 금지.
+2. 아래 shape를 정확히 지키세요.
+{
+  "description": "설치사례 요약 2~3문장",
+  "category": "학원 | 유치원/어린이집 | 학교 | 기업 | 관공서 | 기타 중 하나",
+  "equipment_model": "설치 모델명",
+  "installation_size": "설치 면적/사이즈 또는 대수",
+  "content": "HTML body 내용만"
+}
+3. content는 DOCTYPE, html, head, body, style 태그 없이 p, h3, img 태그만 사용하세요.
+4. content는 반드시 아래 사진-글 교차 패턴을 따르세요:
 ${Array.from({length: imgCount}, (_, i) => `   [이미지${i+1}]\n   <p>이 사진에 대한 설명 1~2문장</p>`).join('\n')}
-3. **글 시작**: 첫 줄에 <h3>기관명 + 모델명 설치 완료</h3>, 그 아래 <p>로 설치 개요 2~3문장</p>
-4. **각 이미지 아래 설명**: 해당 사진과 관련된 설치 내용만 1~2문장. 제품 홍보 금지.
-5. **글 끝**: 마지막에 <p>문의: 032-569-5771 | nexokorea@gmail.com</p> 한 줄만.
-6. **총 분량**: 300~500자 이내. 짧고 간결하게.
-7. **어투**: "~했습니다" 존칭체.
-8. **금지**: 마크다운 문법(\`\`\`, #, **, - 등), 제품 스펙 나열, 장황한 홍보 문구, DOCTYPE/head/style 태그.
-9. **[이미지N] 플레이스홀더는 반드시 ${imgCount}개 전부 사용**하세요. 하나도 빠뜨리지 마세요.`;
+5. content 시작은 <h3>기관명 + 모델명 설치 완료</h3>, 그 아래 <p>로 설치 개요 2~3문장</p>입니다.
+6. 각 이미지 아래 설명은 해당 사진과 관련된 설치 내용만 1~2문장으로 쓰고, 마지막에는 <p>문의: 032-569-5771 | nexokorea@gmail.com</p> 한 줄만 넣으세요.
+7. description은 공개 모달 상단에 들어갈 짧은 요약입니다. 홍보 문구보다 현장 특성과 설치 목적 중심으로 2~3문장 작성하세요.
+8. category는 설치 기관 성격에 맞게 하나만 선택하세요.
+9. equipment_model은 모델명이 보이면 그대로 쓰고, 불명확하면 빈 문자열로 두세요.
+10. installation_size는 인치, 대수, 설치 수량이 보이면 자연스럽게 정리하고, 없으면 빈 문자열로 두세요.
+11. 전체 어투는 "~했습니다" 존칭체로 유지하세요.
+12. [이미지N] 플레이스홀더는 반드시 ${imgCount}개 전부 사용하세요.`;
 }
 
 function buildBlogPrompt(data) {
