@@ -221,6 +221,96 @@ html:not([data-theme="dark"]) .group-hover\:text-nexo-cyan {
     color: #2563eb !important;
 }
 
+/* ============================================
+   설치사례 본문 공용 스타일
+   ============================================ */
+
+.case-content {
+    font-size: 16px;
+    line-height: 1.8;
+    color: #2a2a2a;
+    word-break: keep-all;
+}
+
+.case-content h3 {
+    margin: 0 0 16px;
+    font-size: 24px;
+    font-weight: 800;
+    color: #111111;
+}
+
+.case-content h4 {
+    margin: 28px 0 12px;
+    font-size: 18px;
+    font-weight: 700;
+    color: #111111;
+}
+
+.case-content p {
+    margin: 8px 0 16px;
+}
+
+.case-content figure {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.case-content figure img,
+.case-inline-image {
+    max-width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.case-content figcaption {
+    margin-top: 8px;
+    font-size: 13px;
+    color: #6b7280;
+}
+
+.case-content blockquote {
+    margin: 20px 0;
+    padding: 14px 18px;
+    background: #f7f9fc;
+    border-left: 4px solid #00C2C2;
+    border-radius: 0 8px 8px 0;
+    color: #1f2937;
+}
+
+.case-content hr {
+    margin: 28px 0;
+    border: 0;
+    border-top: 1px solid #e5e7eb;
+}
+
+.case-content strong {
+    color: #111111;
+}
+
+.case-gallery {
+    display: grid;
+    gap: 8px;
+    margin-top: 16px;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+}
+
+.case-gallery img {
+    width: 100%;
+    border-radius: 8px;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+}
+
+@media (max-width: 640px) {
+    .case-content {
+        font-size: 15px;
+    }
+
+    .case-content h4 {
+        font-size: 16px;
+    }
+}
+
 /* 네비 카드의 hover시 text-nexo-cyan */
 html:not([data-theme="dark"]) .group:hover .group-hover\:text-nexo-cyan {
     color: #2563eb !important;
@@ -390,34 +480,34 @@ html:not([data-theme="dark"]) footer a.hover\:bg-nexo-cyan:hover {
 /* =============================================
    히어로 섹션 (index.html) 라이트 대응
    ============================================= */
-html:not([data-theme="dark"]) section.relative.min-h-screen .text-white,
-html:not([data-theme="dark"]) section.relative.min-h-screen h1 .text-white,
-html:not([data-theme="dark"]) section.relative.min-h-screen h1 {
+html:not([data-theme="dark"]) section.relative.overflow-hidden.pt-28 .text-white,
+html:not([data-theme="dark"]) section.relative.overflow-hidden.pt-28 h1 .text-white,
+html:not([data-theme="dark"]) section.relative.overflow-hidden.pt-28 h1 {
     color: #1e293b !important;
 }
 
-html:not([data-theme="dark"]) section.relative.min-h-screen .text-slate-400 {
+html:not([data-theme="dark"]) section.relative.overflow-hidden.pt-28 .text-slate-400 {
     color: #64748b !important;
 }
 
-html:not([data-theme="dark"]) section.relative.min-h-screen .bg-slate-900\/80 {
+html:not([data-theme="dark"]) section.relative.overflow-hidden.pt-28 .bg-slate-900\/80 {
     background: rgba(255,255,255,0.85) !important;
     border-color: #e2e8f0 !important;
     box-shadow: 0 2px 8px rgba(0,0,0,0.06);
 }
 
-html:not([data-theme="dark"]) section.relative.min-h-screen .bg-slate-800\/50 {
+html:not([data-theme="dark"]) section.relative.overflow-hidden.pt-28 .bg-slate-800\/50 {
     background: rgba(255,255,255,0.7) !important;
     border-color: #e2e8f0 !important;
 }
 
 /* 히어로 배경 그라데이션 - 밝게 */
-html:not([data-theme="dark"]) section.relative.min-h-screen .absolute.inset-0.bg-gradient-to-t {
+html:not([data-theme="dark"]) section.relative.overflow-hidden.pt-28 .absolute.inset-0.bg-gradient-to-t {
     background: linear-gradient(to top, rgba(248,250,252,1) 0%, rgba(248,250,252,0.85) 40%, rgba(248,250,252,0.4) 100%) !important;
 }
 
 /* 히어로 이미지 밝게 */
-html:not([data-theme="dark"]) section.relative.min-h-screen img.opacity-30 {
+html:not([data-theme="dark"]) section.relative.overflow-hidden.pt-28 img.opacity-30 {
     opacity: 0.15 !important;
 }
 
