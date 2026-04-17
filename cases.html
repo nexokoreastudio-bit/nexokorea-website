@@ -30,6 +30,7 @@
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js"></script>
 
     <!-- 폰트: Noto Sans KR -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700;900&display=swap" rel="stylesheet">
@@ -301,6 +302,14 @@
                     }).format(parsed);
                 }
 
+                function sanitizeCaseHtml(html) {
+                    if (typeof DOMPurify === 'undefined') return html || '';
+                    return DOMPurify.sanitize(html || '', {
+                        ALLOWED_TAGS: ['h3', 'h4', 'p', 'img', 'figure', 'figcaption', 'strong', 'em', 'ul', 'li', 'blockquote', 'hr', 'div'],
+                        ALLOWED_ATTR: ['src', 'alt', 'class'],
+                    });
+                }
+
                 function trapFocusInCaseModal(event) {
                     if (event.key !== 'Tab') return;
                     const modal = document.getElementById('caseDetailModal');
@@ -353,7 +362,7 @@
                             ${metaItems ? `<div class="mt-4 flex flex-wrap items-center gap-3 text-sm text-slate-300">${metaItems}</div>` : ''}
                         </div>
                         ${c.description ? `<p class="mb-6 text-base leading-7 text-slate-300">${escapeHtml(c.description)}</p>` : ''}
-                        ${c.content ? `<div class="case-content">${c.content}</div>` : ''}
+                        ${c.content ? `<div class="case-content">${sanitizeCaseHtml(c.content)}</div>` : ''}
                         ${gallery}
                         <div class="mt-8 flex flex-col gap-3 border-t border-slate-700 pt-6 sm:flex-row">
                             <a href="contact.html" class="inline-flex items-center justify-center gap-2 rounded-full bg-nexo-cyan px-5 py-3 text-sm font-bold text-nexo-navy transition-colors hover:bg-white">

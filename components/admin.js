@@ -7,6 +7,7 @@ const SUPABASE_URL = 'https://qwyeanxbtkzompzxndhk.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF3eWVhbnhidGt6b21wenhuZGhrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE1NTE5ODcsImV4cCI6MjA4NzEyNzk4N30.qj1dUEokDkvWN_Ukw1nkDqj_aSNwpgTZv7Qti9R5hro';
 const CLOUDINARY_CLOUD_NAME = 'dthtfs1mf';
 const CLOUDINARY_UPLOAD_PRESET = 'nexo-reviews-unsigned';
+const DOMPURIFY_CDN_URL = 'https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js';
 
 let sb = null;
 let currentUser = null;
@@ -32,6 +33,8 @@ const LEGACY_VIDEO_CATEGORY_MAP = {
 async function initAdmin() {
   if (adminInitialized) return;
   adminInitialized = true;
+
+  await ensureDomPurifyLoaded();
 
   if (typeof window.supabase === 'undefined') {
     console.warn('Supabase SDK not loaded');
@@ -504,7 +507,7 @@ function setupForms() {
       try {
         const caseData = {
           title: fd.get('title') || '설치사례',
-          content: fd.get('content') || '',
+          content: sanitizeCaseHtml(fd.get('content') || ''),
           description: fd.get('description') || null,
           raw_input: document.getElementById('caseRawInput')?.value || null,
           location: window._caseParsed?.location || null,
@@ -848,7 +851,7 @@ async function generateCaseContent() {
         }).join('');
         content += `\n<div class="case-gallery">${galleryItems}</div>`;
       }
-      textarea.value = content;
+      textarea.value = sanitizeCaseHtml(content);
       renderCasePreview();
 
       const descriptionInput = document.querySelector('#caseForm textarea[name="description"]');
@@ -908,7 +911,36 @@ function renderCasePreview() {
   const editor = document.getElementById('caseContentEditor');
   const preview = document.getElementById('caseContentPreview');
   if (!editor || !preview) return;
-  preview.innerHTML = editor.value || '<p style="color:#999;">내용이 없습니다.</p>';
+  preview.innerHTML = sanitizeCaseHtml(editor.value) || '<p style="color:#999;">내용이 없습니다.</p>';
+}
+
+async function ensureDomPurifyLoaded() {
+  if (typeof window === 'undefined' || window.DOMPurify) return;
+
+  await new Promise((resolve, reject) => {
+    const existing = document.querySelector(`script[src="${DOMPURIFY_CDN_URL}"]`);
+    if (existing) {
+      existing.addEventListener('load', resolve, { once: true });
+      existing.addEventListener('error', reject, { once: true });
+      return;
+    }
+
+    const script = document.createElement('script');
+    script.src = DOMPURIFY_CDN_URL;
+    script.defer = true;
+    script.onload = resolve;
+    script.onerror = reject;
+    document.head.appendChild(script);
+  }).catch(() => {});
+}
+
+function sanitizeCaseHtml(html) {
+  const raw = html || '';
+  if (typeof window === 'undefined' || !window.DOMPurify) return raw;
+  return window.DOMPurify.sanitize(raw, {
+    ALLOWED_TAGS: ['h3', 'h4', 'p', 'img', 'figure', 'figcaption', 'strong', 'em', 'ul', 'li', 'blockquote', 'hr', 'div'],
+    ALLOWED_ATTR: ['src', 'alt', 'class'],
+  });
 }
 
 function cleanAiContent(text) {
