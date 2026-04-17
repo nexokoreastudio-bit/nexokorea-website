@@ -706,6 +706,10 @@ function setupImageDrop(dropId, inputId, previewId, maxCount, opts = {}) {
     event.preventDefault();
     drop.classList.remove('admin-image-drop--active');
     const files = await collectFilesFromDataTransfer(event.dataTransfer, maxCount);
+    if (!files.length) {
+      notifyUnsupportedExternalDrop(event.dataTransfer);
+      return;
+    }
     await handleFileSelect(files, previewId, maxCount);
   });
 }
@@ -1037,6 +1041,11 @@ function logUnsupportedDropPayload(dt) {
     items,
     fileCount: dt?.files?.length || 0,
   });
+}
+
+function notifyUnsupportedExternalDrop(dt) {
+  logUnsupportedDropPayload(dt);
+  alert('카카오톡 앱 내부 드래그는 브라우저에 실제 이미지 파일이 전달되지 않아 바로 업로드할 수 없습니다.\n\n카톡 다운로드 폴더를 드롭하거나, "폴더 선택"으로 저장된 이미지를 올려주세요.');
 }
 
 async function ensureScript(url, globalName = '') {
