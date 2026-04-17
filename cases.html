@@ -126,6 +126,16 @@
             cursor: zoom-in;
         }
 
+        .case-lightbox-image {
+            max-width: min(92vw, 1400px);
+            max-height: 82vh;
+            width: auto;
+            height: auto;
+            border-radius: 16px;
+            object-fit: contain;
+            box-shadow: 0 24px 80px rgba(15, 23, 42, 0.45);
+        }
+
         @media (max-width: 767px) {
             .case-gallery-item--hero {
                 grid-column: span 1;
@@ -171,7 +181,25 @@
                 </div>
             </div>
 
+            <div id="caseLightbox" class="fixed inset-0 z-[60] hidden items-center justify-center bg-slate-950/92 p-4">
+                <button type="button" onclick="closeCaseLightbox()" class="absolute right-4 top-4 rounded-full bg-white/10 p-3 text-white transition-colors hover:bg-white/20" aria-label="라이트박스 닫기">
+                    <i data-lucide="x" class="h-6 w-6"></i>
+                </button>
+                <button type="button" onclick="navigateCaseLightbox(-1)" class="absolute left-4 top-1/2 -translate-y-1/2 rounded-full bg-white/10 p-3 text-white transition-colors hover:bg-white/20" aria-label="이전 사진">
+                    <i data-lucide="chevron-left" class="h-6 w-6"></i>
+                </button>
+                <div id="caseLightboxViewport" class="flex min-h-full w-full items-center justify-center">
+                    <img id="caseLightboxImage" class="case-lightbox-image" alt="설치 사진 크게 보기">
+                </div>
+                <button type="button" onclick="navigateCaseLightbox(1)" class="absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-white/10 p-3 text-white transition-colors hover:bg-white/20" aria-label="다음 사진">
+                    <i data-lucide="chevron-right" class="h-6 w-6"></i>
+                </button>
+                <div id="caseLightboxCounter" class="absolute bottom-5 left-1/2 -translate-x-1/2 rounded-full bg-black/45 px-4 py-2 text-sm font-medium text-white"></div>
+            </div>
+
             <script>
+                window._caseLightboxState = { caseIndex: -1, imageIndex: 0 };
+
                 (async function loadCases() {
                     const SUPABASE_URL = 'https://qwyeanxbtkzompzxndhk.supabase.co';
                     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF3eWVhbnhidGt6b21wenhuZGhrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE1NTE5ODcsImV4cCI6MjA4NzEyNzk4N30.qj1dUEokDkvWN_Ukw1nkDqj_aSNwpgTZv7Qti9R5hro';
@@ -237,7 +265,7 @@
                             <h3 class="text-lg font-bold text-white mb-4">설치 사진</h3>
                             <div class="case-gallery-grid">
                                 ${c.images.map((img, imageIndex) => `
-                                    <button type="button" class="case-gallery-button ${imageIndex === 0 ? 'case-gallery-item case-gallery-item--hero' : 'case-gallery-item'}" aria-label="설치 사진 ${imageIndex + 1} 보기">
+                                    <button type="button" onclick="openCaseLightbox(${idx}, ${imageIndex})" class="case-gallery-button ${imageIndex === 0 ? 'case-gallery-item case-gallery-item--hero' : 'case-gallery-item'}" aria-label="설치 사진 ${imageIndex + 1} 보기">
                                         <img src="${img}" alt="설치사진 ${imageIndex + 1}" loading="lazy">
                                     </button>
                                 `).join('')}
@@ -268,6 +296,90 @@
                     document.getElementById('caseDetailModal').classList.remove('flex');
                     document.body.style.overflow = '';
                 }
+
+                function openCaseLightbox(caseIndex, imageIndex) {
+                    const currentCase = window._casesData?.[caseIndex];
+                    if (!currentCase || !Array.isArray(currentCase.images) || !currentCase.images.length) return;
+
+                    window._caseLightboxState = { caseIndex, imageIndex };
+                    const lightbox = document.getElementById('caseLightbox');
+                    lightbox.classList.remove('hidden');
+                    lightbox.classList.add('flex');
+                    renderCaseLightbox();
+                    if (typeof lucide !== 'undefined') lucide.createIcons();
+                }
+
+                function renderCaseLightbox() {
+                    const { caseIndex, imageIndex } = window._caseLightboxState || {};
+                    const currentCase = window._casesData?.[caseIndex];
+                    if (!currentCase || !Array.isArray(currentCase.images) || !currentCase.images.length) return;
+
+                    const normalizedIndex = ((imageIndex % currentCase.images.length) + currentCase.images.length) % currentCase.images.length;
+                    window._caseLightboxState.imageIndex = normalizedIndex;
+
+                    const imageEl = document.getElementById('caseLightboxImage');
+                    const counterEl = document.getElementById('caseLightboxCounter');
+                    imageEl.src = currentCase.images[normalizedIndex];
+                    imageEl.alt = `${currentCase.title || '설치사례'} 사진 ${normalizedIndex + 1}`;
+                    counterEl.textContent = `${normalizedIndex + 1} / ${currentCase.images.length}`;
+                }
+
+                function navigateCaseLightbox(direction) {
+                    if (!window._caseLightboxState) return;
+                    window._caseLightboxState.imageIndex += direction;
+                    renderCaseLightbox();
+                }
+
+                function closeCaseLightbox() {
+                    const lightbox = document.getElementById('caseLightbox');
+                    const imageEl = document.getElementById('caseLightboxImage');
+                    lightbox.classList.add('hidden');
+                    lightbox.classList.remove('flex');
+                    imageEl.removeAttribute('src');
+                }
+
+                document.addEventListener('keydown', (event) => {
+                    const lightbox = document.getElementById('caseLightbox');
+                    if (lightbox && !lightbox.classList.contains('hidden')) {
+                        if (event.key === 'Escape') {
+                            closeCaseLightbox();
+                            return;
+                        }
+                        if (event.key === 'ArrowLeft') {
+                            navigateCaseLightbox(-1);
+                            return;
+                        }
+                        if (event.key === 'ArrowRight') {
+                            navigateCaseLightbox(1);
+                            return;
+                        }
+                    }
+                });
+
+                (function setupCaseLightboxSwipe() {
+                    const viewport = document.getElementById('caseLightboxViewport');
+                    if (!viewport) return;
+
+                    let touchStartX = 0;
+                    let touchEndX = 0;
+
+                    viewport.addEventListener('touchstart', (event) => {
+                        touchStartX = event.changedTouches[0]?.clientX || 0;
+                    }, { passive: true });
+
+                    viewport.addEventListener('touchend', (event) => {
+                        touchEndX = event.changedTouches[0]?.clientX || 0;
+                        const delta = touchEndX - touchStartX;
+                        if (Math.abs(delta) < 40) return;
+                        navigateCaseLightbox(delta > 0 ? -1 : 1);
+                    }, { passive: true });
+                })();
+
+                document.getElementById('caseLightbox')?.addEventListener('click', (event) => {
+                    if (event.target.id === 'caseLightbox' || event.target.id === 'caseLightboxViewport') {
+                        closeCaseLightbox();
+                    }
+                });
             </script>
         </div>
     </section>
