@@ -855,6 +855,13 @@ async function collectFilesFromDataTransfer(dt, maxCount) {
   if (!dt) return out;
 
   const items = Array.from(dt.items || []);
+  const directFiles = Array.from(dt.files || []);
+  if (directFiles.length > 0) {
+    directFiles.forEach((file) => {
+      if (out.length < maxCount && isSupportedImageFile(file)) out.push(file);
+    });
+  }
+
   if (items.length > 0 && typeof items[0]?.webkitGetAsEntry === 'function') {
     for (const item of items) {
       const entry = item.webkitGetAsEntry?.();
@@ -863,10 +870,17 @@ async function collectFilesFromDataTransfer(dt, maxCount) {
       }
       if (out.length >= maxCount) break;
     }
-  } else {
-    Array.from(dt.files || []).forEach((file) => {
+  }
+
+  if (out.length < maxCount) {
+    const fallbackFiles = await collectFilesFromTransferStrings(dt, out, maxCount);
+    fallbackFiles.forEach((file) => {
       if (out.length < maxCount && isSupportedImageFile(file)) out.push(file);
     });
+  }
+
+  if (out.length === 0) {
+    logUnsupportedDropPayload(dt);
   }
 
   return out.filter(isSupportedImageFile).slice(0, maxCount);
@@ -901,6 +915,128 @@ function isSupportedImageFile(file) {
   const type = (file?.type || '').toLowerCase();
   if (!name || name.endsWith('.crdownload')) return false;
   return type.startsWith('image/') || /\.(jpe?g|png|gif|webp|heic|heif)$/i.test(name);
+}
+
+async function collectFilesFromTransferStrings(dt, existingFiles, maxCount) {
+  const files = [];
+  const urls = extractTransferUrls(dt);
+  for (const url of urls) {
+    if (existingFiles.length + files.length >= maxCount) break;
+    const file = await fileFromTransferUrl(url, existingFiles.length + files.length + 1);
+    if (file) files.push(file);
+  }
+  return files;
+}
+
+function extractTransferUrls(dt) {
+  const values = [];
+  const types = Array.from(dt?.types || []);
+  for (const type of ['text/uri-list', 'DownloadURL', 'text/html', 'text/plain']) {
+    if (!types.includes(type)) continue;
+    const value = dt.getData(type);
+    if (value) values.push({ type, value });
+  }
+
+  const urls = [];
+  values.forEach(({ type, value }) => {
+    if (type === 'DownloadURL') {
+      const parts = value.split(':');
+      const maybeUrl = parts.slice(2).join(':').trim();
+      if (isLikelyTransferImageUrl(maybeUrl)) urls.push(maybeUrl);
+      return;
+    }
+
+    if (type === 'text/html') {
+      const htmlUrls = Array.from(value.matchAll(/<img[^>]+src=["']([^"']+)["']/gi)).map((match) => match[1]);
+      htmlUrls.forEach((url) => {
+        if (isLikelyTransferImageUrl(url)) urls.push(url);
+      });
+      return;
+    }
+
+    value.split(/\r?\n/).forEach((line) => {
+      const trimmed = line.trim();
+      if (isLikelyTransferImageUrl(trimmed)) urls.push(trimmed);
+    });
+  });
+
+  return [...new Set(urls)];
+}
+
+function isLikelyTransferImageUrl(value) {
+  if (!value) return false;
+  return /^(data:image\/|blob:|https?:\/\/|file:\/\/)/i.test(value) || /\.(jpe?g|png|gif|webp|heic|heif)(\?|#|$)/i.test(value);
+}
+
+async function fileFromTransferUrl(url, index) {
+  if (!url) return null;
+  if (url.startsWith('file://')) return null;
+
+  try {
+    if (url.startsWith('data:image/')) {
+      return fileFromDataUrl(url, index);
+    }
+
+    const response = await fetch(url);
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const blob = await response.blob();
+    const extension = guessImageExtension(blob.type, url);
+    const filename = extractFilenameFromUrl(url, index, extension);
+    return new File([blob], filename, { type: blob.type || `image/${extension}` });
+  } catch (error) {
+    console.warn('[admin] Failed to resolve dragged image URL', { url, error });
+    return null;
+  }
+}
+
+function fileFromDataUrl(dataUrl, index) {
+  const match = dataUrl.match(/^data:(image\/[a-z0-9.+-]+);base64,(.+)$/i);
+  if (!match) return null;
+  const mimeType = match[1];
+  const base64 = match[2];
+  const binary = atob(base64);
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i += 1) {
+    bytes[i] = binary.charCodeAt(i);
+  }
+  const extension = guessImageExtension(mimeType, '');
+  return new File([bytes], `kakao-image-${index}.${extension}`, { type: mimeType });
+}
+
+function extractFilenameFromUrl(url, index, extension) {
+  try {
+    const parsed = new URL(url);
+    const lastSegment = parsed.pathname.split('/').filter(Boolean).pop() || `kakao-image-${index}.${extension}`;
+    return /\.[a-z0-9]+$/i.test(lastSegment) ? lastSegment : `${lastSegment}.${extension}`;
+  } catch {
+    return `kakao-image-${index}.${extension}`;
+  }
+}
+
+function guessImageExtension(mimeType, url) {
+  if (mimeType) {
+    if (mimeType.includes('png')) return 'png';
+    if (mimeType.includes('gif')) return 'gif';
+    if (mimeType.includes('webp')) return 'webp';
+    if (mimeType.includes('heic')) return 'heic';
+    if (mimeType.includes('heif')) return 'heif';
+  }
+
+  const match = url.match(/\.(jpe?g|png|gif|webp|heic|heif)(\?|#|$)/i);
+  return match ? match[1].replace('jpeg', 'jpg').toLowerCase() : 'jpg';
+}
+
+function logUnsupportedDropPayload(dt) {
+  const types = Array.from(dt?.types || []);
+  const items = Array.from(dt?.items || []).map((item) => ({
+    kind: item.kind,
+    type: item.type,
+  }));
+  console.warn('[admin] Unsupported drag payload from source app', {
+    types,
+    items,
+    fileCount: dt?.files?.length || 0,
+  });
 }
 
 async function ensureScript(url, globalName = '') {
