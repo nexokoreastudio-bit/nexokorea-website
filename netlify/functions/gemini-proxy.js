@@ -1,5 +1,20 @@
 const GEMINI_MODEL = 'gemini-2.5-flash';
 const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
+const CASE_RESPONSE_SCHEMA = {
+  type: 'object',
+  properties: {
+    description: { type: 'string' },
+    category: { type: 'string', enum: ['학원', '유치원/어린이집', '학교', '기업', '관공서', '기타'] },
+    equipment_model: { type: 'string' },
+    installation_size: { type: 'string' },
+    captions: { type: 'array', items: { type: 'string' } },
+    intro: { type: 'string' },
+    site_intro: { type: 'string' },
+    progress_notes: { type: 'array', items: { type: 'string' } },
+    outro_point: { type: 'string' },
+  },
+  required: ['description', 'category', 'captions', 'intro', 'site_intro', 'progress_notes', 'outro_point'],
+};
 
 exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') {
@@ -30,8 +45,14 @@ exports.handler = async (event) => {
   const { type, data } = body;
 
   let prompt;
+  let generationConfig = { temperature: 0.7, maxOutputTokens: 4096 };
   if (type === 'case') {
     prompt = buildCasePrompt(data);
+    generationConfig = {
+      ...generationConfig,
+      responseMimeType: 'application/json',
+      responseJsonSchema: CASE_RESPONSE_SCHEMA,
+    };
   } else if (type === 'blog') {
     prompt = buildBlogPrompt(data);
   } else {
@@ -46,7 +67,7 @@ exports.handler = async (event) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           contents: [{ parts: [{ text: prompt }] }],
-          generationConfig: { temperature: 0.7, maxOutputTokens: 4096 },
+          generationConfig,
         }),
       });
 
@@ -85,8 +106,9 @@ function buildCasePrompt(data) {
       ? '이미지 1장은 도착/현장 소개, 2~3장은 설치 진행, 마지막 1장은 설치 완료로 배치하세요.'
       : '이미지 1장은 도착 직후, 2~4장은 설치 진행, 마지막 1~2장은 설치 완료와 외관/사이니지로 자연스럽게 배치하세요.';
 
-  return `당신은 NEXO KOREA 전자칠판 설치 후기를 작성하는 에디터입니다.
-출력 결과는 기업 공지문이 아니라 네이버 카페 후기글처럼 친근하고 읽기 쉬워야 합니다.
+  return `당신은 NEXO KOREA 전자칠판 설치 후기를 정리하는 에디터입니다.
+출력 결과는 기업 공지문이 아니라 네이버 카페 후기글처럼 친근하고 읽기 쉬운 톤이어야 합니다.
+하지만 HTML은 절대 만들지 말고, 반드시 구조화된 JSON 필드만 채우세요.
 
 ## 설치 정보
 - 기관명: ${storeName || '미입력'}
@@ -100,40 +122,23 @@ function buildCasePrompt(data) {
 
 ## 반드시 지켜야 할 출력 규칙
 
-1. 반드시 **JSON 하나만 출력**하세요. 마크다운 코드블록(\`\`\`) 금지.
-2. 아래 shape를 정확히 지키세요.
-{
-  "description": "설치사례 요약 2~3문장",
-  "category": "학원 | 유치원/어린이집 | 학교 | 기업 | 관공서 | 기타 중 하나",
-  "equipment_model": "설치 모델명",
-  "installation_size": "설치 면적/사이즈 또는 대수",
-  "captions": ["캡션1", "캡션2"],
-  "content": "HTML body 내용만"
-}
-3. content는 DOCTYPE, html, head, body, style 태그 없이 **h3, h4, p, img, figure, figcaption, strong, em, ul, li, blockquote, hr** 만 사용하세요.
-4. content는 반드시 4단 구조를 따르세요: **인사 → 현장 소개 → 시공 진행 → 마무리 + 문의 유도**
-5. 첫 문장은 반드시 친근한 인사로 시작하세요. 예: "안녕하세요, NEXO KOREA입니다 😊"
-6. 어투는 사무적인 "~했습니다" 위주가 아니라 후기글처럼 **"~했어요 / ~드렸습니다 / ~보실 수 있어요"** 를 자연스럽게 섞어 부드럽게 쓰세요.
-7. 이모지는 과하지 않게 섹션 헤더나 첫 문장에만 사용하세요. 사용 가능 예: ✅ 📍 🛠️ ✨ 😊
-8. 문단은 1~2문장씩 짧게 끊고, 핵심 표현은 <strong>로 강조하세요.
-9. content 안에는 아래 구조를 반드시 반영하세요.
-<p>👋 인사 + 이번 시공 한 줄 소개</p>
-<h4>📍 현장 정보</h4>
-<p>기관명 · 지역 · 특이사항 짧게</p>
-<h4>🛠️ 설치 진행</h4>
-${Array.from({ length: imgCount }, (_, i) => `<figure>[이미지${i + 1}]<figcaption>캡션 ${i + 1}</figcaption></figure>`).join('\n')}
-<h4>✨ 설치 완료</h4>
-<blockquote>💡 이번 현장 포인트 1~2문장</blockquote>
-<hr>
-<p>📞 <strong>설치 문의</strong> 032-569-5771 / nexokorea@gmail.com</p>
-10. ${imageRoleGuide}
-11. captions 배열 길이는 반드시 ${imgCount}개여야 하며, 각 캡션은 **12~25자** 사이의 자연스러운 후기형 문장 조각으로 작성하세요.
-12. [이미지N] 플레이스홀더는 반드시 ${imgCount}개 전부 사용하세요. 하나도 빠뜨리지 마세요.
-13. blockquote는 반드시 1개 넣고, 마지막에는 반드시 hr 뒤에 문의 문장을 1개 넣으세요.
-14. description은 공개 모달 상단에 들어갈 짧은 요약입니다. 현장 특징, 설치 목적, 고객이 체감할 포인트를 2~3문장으로 작성하세요.
-15. category는 설치 기관 성격에 맞게 하나만 선택하세요.
-16. equipment_model은 모델명이 보이면 그대로 쓰고, 불명확하면 빈 문자열로 두세요.
-17. installation_size는 인치, 대수, 벽걸이/스탠드 수량이 보이면 자연스럽게 정리하고, 없으면 빈 문자열로 두세요.`;
+1. 반드시 JSON 필드만 채우세요. HTML, 마크다운, 코드블록을 절대 쓰지 마세요.
+2. description은 공개 모달 상단에 들어갈 요약 2~3문장입니다. 현장 특징, 설치 목적, 기대 효과를 자연스럽게 정리하세요.
+3. category는 설치 기관 성격에 맞게 하나만 선택하세요.
+4. equipment_model은 모델명이 보이면 그대로 쓰고, 없으면 빈 문자열로 두세요.
+5. installation_size는 인치, 대수, 벽걸이/스탠드 수량이 보이면 자연스럽게 정리하고, 없으면 빈 문자열로 두세요.
+6. intro는 네이버 카페 후기글 첫 인사 문단입니다. "안녕하세요, NEXO KOREA입니다 😊" 류의 친근한 도입 1~2문장으로 작성하세요.
+7. site_intro는 현장 정보 섹션에 들어갈 2~3문장입니다. 기관명, 지역, 이번 설치 의미, 특이사항을 정보 중심으로 친근하게 정리하세요.
+8. progress_notes는 사진 N장에 대응하는 본문 단락 배열입니다. 길이는 반드시 ${imgCount}개로 맞추고, 각 항목은 사진 1장에 대응하는 1~2문장으로 작성하세요.
+9. captions도 길이를 반드시 ${imgCount}개로 맞추세요. 각 캡션은 12~25자 사이의 짧은 사진 라벨이고, progress_notes와 같은 문장을 반복하면 안 됩니다.
+10. outro_point는 마무리 blockquote에 들어갈 1~2문장입니다. "특히 ~한 점이 인상적이었어요"처럼 현장 포인트를 부드럽게 써주세요.
+11. 전체 어투는 "~했어요 / ~드렸습니다 / ~보실 수 있어요" 같은 부드러운 존칭체로 유지하세요.
+12. 이모지는 과하지 않게 intro나 문장 첫머리에만 자연스럽게 사용하세요. 예: 😊 ✨ 📍 🛠️
+13. ${imageRoleGuide}
+14. progress_notes는 캡션과 다른 역할입니다.
+- captions: 사진 한 장의 짧은 제목
+- progress_notes: 그 사진에 대한 본문 설명
+15. 사진이 적더라도 억지로 장황하게 쓰지 말고, 실제 후기처럼 짧고 읽기 쉽게 작성하세요.`;
 }
 
 function buildBlogPrompt(data) {
