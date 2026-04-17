@@ -1099,8 +1099,8 @@ function logUnsupportedDropPayload(dt) {
 function notifyUnsupportedExternalDrop(dt, previewId = '') {
   logUnsupportedDropPayload(dt);
   const targetPreview = previewId || (currentTab === 'cases' ? 'caseImagePreview' : 'reviewImagePreview');
-  showDropStatus(targetPreview, '카카오톡 앱 내부 드래그는 파일이 전달되지 않아 업로드할 수 없습니다. 폴더 선택 또는 다운로드 폴더 드롭을 사용해 주세요.', 'warning');
-  alert('카카오톡 앱 내부 드래그는 브라우저에 실제 이미지 파일이 전달되지 않아 바로 업로드할 수 없습니다.\n\n카톡 다운로드 폴더를 드롭하거나, "폴더 선택"으로 저장된 이미지를 올려주세요.');
+  showDropStatus(targetPreview, '카카오톡 앱 내부 드래그는 지원되지 않습니다. 카톡 저장 폴더 선택 또는 저장된 파일 드롭을 사용해 주세요.', 'warning');
+  alert('카카오톡 앱 내부 드래그는 브라우저 업로드를 지원하지 않습니다.\n\n"카톡 저장 폴더 선택" 버튼을 누르거나, 저장된 다운로드 폴더/파일을 드롭해 주세요.');
 }
 
 async function ensureScript(url, globalName = '') {
