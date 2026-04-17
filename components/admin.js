@@ -803,19 +803,29 @@ async function generateCaseContent() {
       }
 
       let content = cleanAiContent(payload?.content || json.content);
+      const captions = Array.isArray(payload?.captions) ? payload.captions : [];
       const usedImages = new Set();
       pendingImages.forEach((url, i) => {
-        const placeholder = `[이미지${i + 1}]`;
+        const imageIndex = i + 1;
+        const placeholder = `[이미지${imageIndex}]`;
+        const caption = escapeHtml((captions[i] || `설치 사진 ${imageIndex}`).trim());
         if (content.includes(placeholder)) {
-          content = content.replace(new RegExp(`\\[이미지${i + 1}\\]`, 'g'), `<img src="${url}" alt="설치사진 ${i + 1}" style="max-width:100%;border-radius:8px;margin:12px 0;">`);
+          const figureMarkup = `<figure class="case-figure"><img src="${url}" alt="${caption}" class="case-inline-image"><figcaption>${caption}</figcaption></figure>`;
+          content = content.replace(new RegExp(`\\[이미지${imageIndex}\\]`, 'g'), figureMarkup);
           usedImages.add(i);
         }
       });
-      const remainingImages = pendingImages.filter((_, i) => !usedImages.has(i));
-      remainingImages.forEach((url) => {
-        content += `\n<img src="${url}" alt="설치사진" style="max-width:100%;border-radius:8px;margin:12px 0;">`;
-        content += `\n<p></p>`;
-      });
+      const remainingImages = pendingImages
+        .map((url, index) => ({ url, index }))
+        .filter(({ index }) => !usedImages.has(index));
+
+      if (remainingImages.length > 0) {
+        const galleryItems = remainingImages.map(({ url, index }) => {
+          const caption = escapeHtml((captions[index] || `설치 사진 ${index + 1}`).trim());
+          return `<figure><img src="${url}" alt="${caption}" class="case-inline-image"><figcaption>${caption}</figcaption></figure>`;
+        }).join('');
+        content += `\n<div class="case-gallery">${galleryItems}</div>`;
+      }
       textarea.value = content;
 
       const descriptionInput = document.querySelector('#caseForm textarea[name="description"]');
