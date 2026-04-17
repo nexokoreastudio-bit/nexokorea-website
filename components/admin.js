@@ -69,6 +69,27 @@ async function initAdmin() {
 
 // ============ AUTH ============
 
+async function handleEmailLogin() {
+  const email = document.getElementById('adminEmail')?.value;
+  const password = document.getElementById('adminPassword')?.value;
+  const errEl = document.getElementById('loginError');
+  const btn = document.getElementById('loginBtn');
+  if (!email || !password) { if (errEl) { errEl.textContent = '이메일과 비밀번호를 입력하세요.'; errEl.classList.remove('hidden'); } return; }
+  try {
+    btn.textContent = '로그인 중...';
+    btn.disabled = true;
+    await adminLogin(email, password);
+    closeModal('adminLoginModal');
+    if (errEl) errEl.classList.add('hidden');
+    openAdminPanel();
+  } catch (err) {
+    if (errEl) { errEl.textContent = err.message; errEl.classList.remove('hidden'); }
+  } finally {
+    btn.textContent = '로그인';
+    btn.disabled = false;
+  }
+}
+
 async function adminGoogleLogin() {
   if (!sb) { alert('시스템 초기화 중입니다. 잠시 후 다시 시도하세요.'); return; }
   const { error } = await sb.auth.signInWithOAuth({
@@ -367,9 +388,12 @@ async function deleteItem(table, id) {
 
 function setupForms() {
   const loginForm = document.getElementById('adminLoginForm');
+  console.log('[admin] loginForm found:', !!loginForm);
   if (loginForm) {
     loginForm.addEventListener('submit', async (e) => {
       e.preventDefault();
+      e.stopPropagation();
+      console.log('[admin] login form submitted');
       const email = document.getElementById('adminEmail').value;
       const password = document.getElementById('adminPassword').value;
       const errEl = document.getElementById('loginError');
