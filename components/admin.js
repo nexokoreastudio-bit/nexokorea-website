@@ -489,6 +489,14 @@ function setupForms() {
 
   const caseForm = document.getElementById('caseForm');
   if (caseForm) {
+    const caseEditor = document.getElementById('caseContentEditor');
+    caseEditor?.addEventListener('input', () => {
+      const preview = document.getElementById('caseContentPreview');
+      if (preview && !preview.classList.contains('hidden')) {
+        renderCasePreview();
+      }
+    });
+
     caseForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const fd = new FormData(caseForm);
@@ -728,6 +736,13 @@ function renderImagePreview(previewId) {
               class="absolute top-1 right-1 w-5 h-5 bg-red-600 text-white rounded-full text-xs hidden group-hover:flex items-center justify-center">×</button>
     </div>
   `).join('');
+
+  if (previewId === 'caseImagePreview') {
+    const preview = document.getElementById('caseContentPreview');
+    if (preview && !preview.classList.contains('hidden')) {
+      renderCasePreview();
+    }
+  }
 }
 
 function removeImage(index, previewId) {
@@ -738,6 +753,13 @@ function removeImage(index, previewId) {
 function clearImagePreview(previewId) {
   const el = document.getElementById(previewId);
   if (el) el.innerHTML = '';
+
+  if (previewId === 'caseImagePreview') {
+    const preview = document.getElementById('caseContentPreview');
+    if (preview && !preview.classList.contains('hidden')) {
+      renderCasePreview();
+    }
+  }
 }
 
 // ============ AI GENERATION ============
@@ -827,6 +849,7 @@ async function generateCaseContent() {
         content += `\n<div class="case-gallery">${galleryItems}</div>`;
       }
       textarea.value = content;
+      renderCasePreview();
 
       const descriptionInput = document.querySelector('#caseForm textarea[name="description"]');
       const categoryInput = document.querySelector('#caseForm select[name="category"]');
@@ -868,7 +891,7 @@ function toggleCasePreview() {
   if (!editor || !preview) return;
 
   if (preview.classList.contains('hidden')) {
-    preview.innerHTML = editor.value || '<p style="color:#999;">내용이 없습니다.</p>';
+    renderCasePreview();
     preview.classList.remove('hidden');
     editor.classList.add('hidden');
     btn.textContent = '편집 모드';
@@ -879,6 +902,13 @@ function toggleCasePreview() {
     btn.textContent = '미리보기';
     btn.classList.replace('bg-green-600', 'bg-slate-600');
   }
+}
+
+function renderCasePreview() {
+  const editor = document.getElementById('caseContentEditor');
+  const preview = document.getElementById('caseContentPreview');
+  if (!editor || !preview) return;
+  preview.innerHTML = editor.value || '<p style="color:#999;">내용이 없습니다.</p>';
 }
 
 function cleanAiContent(text) {
