@@ -658,7 +658,10 @@ function setupFormHandler(formId, table, dataMapper) {
 
 function setupImageHandlers() {
   setupImageDrop('reviewImageDrop', 'reviewImageInput', 'reviewImagePreview', 3);
-  setupImageDrop('caseImageDrop', 'caseImageInput', 'caseImagePreview', 10);
+  setupImageDrop('caseImageDrop', 'caseImageInput', 'caseImagePreview', 10, {
+    dirInputId: 'caseImageDirInput',
+    dirBtnId: 'caseImageDirBtn',
+  });
 }
 
 function setupImageDrop(dropId, inputId, previewId, maxCount, opts = {}) {
