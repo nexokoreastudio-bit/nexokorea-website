@@ -8,6 +8,8 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 const CLOUDINARY_CLOUD_NAME = 'dthtfs1mf';
 const CLOUDINARY_UPLOAD_PRESET = 'nexo-reviews-unsigned';
 const DOMPURIFY_CDN_URL = 'https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js';
+const HEIC2ANY_CDN_URL = 'https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js';
+const IMAGE_COMPRESSION_CDN_URL = 'https://cdn.jsdelivr.net/npm/browser-image-compression@2/dist/browser-image-compression.js';
 
 let sb = null;
 let currentUser = null;
@@ -750,10 +752,11 @@ async function handleFileSelect(files, previewId, maxCount) {
 }
 
 async function uploadAndPreview(file, previewId) {
-  if (file.size > 5 * 1024 * 1024) { alert('파일 크기 5MB 이하만 가능합니다.'); return; }
+  let uploadFile = await maybeConvertHeic(file);
+  uploadFile = await maybeCompressImage(uploadFile);
 
   const formData = new FormData();
-  formData.append('file', file);
+  formData.append('file', uploadFile);
   formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
   formData.append('folder', 'nexo-media');
 
@@ -898,6 +901,55 @@ function isSupportedImageFile(file) {
   const type = (file?.type || '').toLowerCase();
   if (!name || name.endsWith('.crdownload')) return false;
   return type.startsWith('image/') || /\.(jpe?g|png|gif|webp|heic|heif)$/i.test(name);
+}
+
+async function ensureScript(url, globalName = '') {
+  if (globalName && typeof window[globalName] !== 'undefined') return;
+
+  await new Promise((resolve, reject) => {
+    const existing = document.querySelector(`script[src="${url}"]`);
+    if (existing) {
+      existing.addEventListener('load', resolve, { once: true });
+      existing.addEventListener('error', reject, { once: true });
+      return;
+    }
+
+    const script = document.createElement('script');
+    script.src = url;
+    script.defer = true;
+    script.onload = resolve;
+    script.onerror = reject;
+    document.head.appendChild(script);
+  });
+}
+
+async function maybeConvertHeic(file) {
+  const name = (file?.name || '').toLowerCase();
+  if (!/\.(heic|heif)$/i.test(name)) return file;
+
+  await ensureScript(HEIC2ANY_CDN_URL, 'heic2any');
+  if (typeof window.heic2any !== 'function') return file;
+
+  const converted = await window.heic2any({
+    blob: file,
+    toType: 'image/jpeg',
+    quality: 0.85,
+  });
+  const outputBlob = Array.isArray(converted) ? converted[0] : converted;
+  return new File([outputBlob], file.name.replace(/\.(heic|heif)$/i, '.jpg'), { type: 'image/jpeg' });
+}
+
+async function maybeCompressImage(file) {
+  if (!file || file.size <= 4.5 * 1024 * 1024) return file;
+
+  await ensureScript(IMAGE_COMPRESSION_CDN_URL, 'imageCompression');
+  if (typeof window.imageCompression !== 'function') return file;
+
+  return window.imageCompression(file, {
+    maxSizeMB: 4,
+    maxWidthOrHeight: 1920,
+    useWebWorker: true,
+  });
 }
 
 function renderImagePreview(previewId) {
