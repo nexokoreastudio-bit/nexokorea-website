@@ -21,6 +21,7 @@ let editingId = null;
 const uploadQueue = { active: 0, max: 4, q: [], total: 0, completed: 0, failedFiles: [], boundPreviewId: null };
 let activeDropContext = null;
 let globalAdminDropBridgeBound = false;
+let caseEditorMode = 'visual';
 const ADMIN_EMAIL = 'admin@nexokorea.co.kr';
 const VIDEO_CATEGORIES = ['빠른 시작', '무선 연결·공유', '수업 활용', '관리 팁', '도입·구매'];
 const LEGACY_VIDEO_CATEGORY_MAP = {
@@ -363,10 +364,15 @@ async function editItem(tab, id) {
       }
     }
 
-    if (item.images && item.images.length > 0) {
-      pendingImages = [...item.images];
-      const previewId = tab === 'reviews' ? 'reviewImagePreview' : tab === 'cases' ? 'caseImagePreview' : null;
-      if (previewId) renderImagePreview(previewId);
+    const previewId = tab === 'reviews' ? 'reviewImagePreview' : tab === 'cases' ? 'caseImagePreview' : null;
+    if (previewId) {
+      pendingImages = Array.isArray(item.images) ? [...item.images] : [];
+      renderImagePreview(previewId);
+    }
+
+    if (tab === 'cases') {
+      setCaseEditorContent(item.content || '');
+      setCaseEditorMode('visual');
     }
 
     const submitBtn = form.querySelector('button[type="submit"], .admin-btn-primary');
@@ -411,6 +417,10 @@ function resetEditMode(form) {
     submitBtn.textContent = submitBtn.dataset.originalText;
     submitBtn.classList.remove('bg-blue-600');
     delete submitBtn.dataset.originalText;
+  }
+  if (form?.id === 'caseForm') {
+    setCaseEditorContent('');
+    setCaseEditorMode('visual');
   }
 }
 
@@ -498,15 +508,23 @@ function setupForms() {
   const caseForm = document.getElementById('caseForm');
   if (caseForm) {
     const caseEditor = document.getElementById('caseContentEditor');
+    const casePreview = document.getElementById('caseContentPreview');
     caseEditor?.addEventListener('input', () => {
-      const preview = document.getElementById('caseContentPreview');
-      if (preview && !preview.classList.contains('hidden')) {
-        renderCasePreview();
+      if (caseEditorMode === 'source') {
+        syncCaseVisualEditorFromSource();
+      }
+    });
+    casePreview?.addEventListener('input', () => {
+      if (caseEditorMode === 'visual') {
+        syncCaseSourceFromVisualEditor();
       }
     });
 
+    setCaseEditorMode('visual');
+
     caseForm.addEventListener('submit', async (e) => {
       e.preventDefault();
+      syncCaseSourceFromVisualEditor();
       const fd = new FormData(caseForm);
       const action = e.submitter?.value || 'draft';
       try {
@@ -533,6 +551,8 @@ function setupForms() {
         caseForm.reset();
         pendingImages = [];
         clearImagePreview('caseImagePreview');
+        setCaseEditorContent('');
+        setCaseEditorMode('visual');
         loadTabData('cases');
       } catch (err) { alert(err.message); }
     });
@@ -1255,8 +1275,8 @@ async function generateCaseContent() {
         parsed,
         pendingImages,
       });
-      textarea.value = sanitizeCaseHtml(content);
-      renderCasePreview();
+      setCaseEditorContent(content);
+      setCaseEditorMode('visual');
 
       const descriptionInput = document.querySelector('#caseForm textarea[name="description"]');
       const categoryInput = document.querySelector('#caseForm select[name="category"]');
@@ -1295,27 +1315,64 @@ function toggleCasePreview() {
   const editor = document.getElementById('caseContentEditor');
   const preview = document.getElementById('caseContentPreview');
   const btn = document.getElementById('casePreviewBtn');
-  if (!editor || !preview) return;
-
-  if (preview.classList.contains('hidden')) {
-    renderCasePreview();
-    preview.classList.remove('hidden');
-    editor.classList.add('hidden');
-    btn.textContent = '편집 모드';
-    btn.classList.replace('bg-slate-600', 'bg-green-600');
-  } else {
-    preview.classList.add('hidden');
-    editor.classList.remove('hidden');
-    btn.textContent = '미리보기';
-    btn.classList.replace('bg-green-600', 'bg-slate-600');
-  }
+  if (!editor || !preview || !btn) return;
+  setCaseEditorMode(caseEditorMode === 'visual' ? 'source' : 'visual');
 }
 
 function renderCasePreview() {
   const editor = document.getElementById('caseContentEditor');
   const preview = document.getElementById('caseContentPreview');
   if (!editor || !preview) return;
-  preview.innerHTML = sanitizeCaseHtml(editor.value) || '<p style="color:#999;">내용이 없습니다.</p>';
+  preview.innerHTML = sanitizeCaseHtml(editor.value) || '';
+}
+
+function setCaseEditorMode(mode = 'visual') {
+  const editor = document.getElementById('caseContentEditor');
+  const preview = document.getElementById('caseContentPreview');
+  const btn = document.getElementById('casePreviewBtn');
+  if (!editor || !preview || !btn) return;
+
+  caseEditorMode = mode === 'source' ? 'source' : 'visual';
+
+  if (caseEditorMode === 'source') {
+    syncCaseSourceFromVisualEditor();
+    editor.classList.remove('hidden');
+    preview.classList.add('hidden');
+    preview.setAttribute('contenteditable', 'false');
+    btn.textContent = '비주얼 편집';
+    btn.classList.remove('bg-slate-600');
+    btn.classList.add('bg-green-600');
+    return;
+  }
+
+  syncCaseVisualEditorFromSource();
+  editor.classList.add('hidden');
+  preview.classList.remove('hidden');
+  preview.setAttribute('contenteditable', 'true');
+  btn.textContent = 'HTML 보기';
+  btn.classList.remove('bg-green-600');
+  btn.classList.add('bg-slate-600');
+}
+
+function syncCaseSourceFromVisualEditor() {
+  const editor = document.getElementById('caseContentEditor');
+  const preview = document.getElementById('caseContentPreview');
+  if (!editor || !preview) return;
+  editor.value = sanitizeCaseHtml(preview.innerHTML || '');
+}
+
+function syncCaseVisualEditorFromSource() {
+  const editor = document.getElementById('caseContentEditor');
+  const preview = document.getElementById('caseContentPreview');
+  if (!editor || !preview) return;
+  preview.innerHTML = sanitizeCaseHtml(editor.value) || '';
+}
+
+function setCaseEditorContent(html = '') {
+  const editor = document.getElementById('caseContentEditor');
+  if (!editor) return;
+  editor.value = sanitizeCaseHtml(html);
+  syncCaseVisualEditorFromSource();
 }
 
 async function ensureDomPurifyLoaded() {

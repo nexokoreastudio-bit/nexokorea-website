@@ -301,11 +301,12 @@
                                     AI 자동 생성
                                 </button>
                                 <button type="button" id="casePreviewBtn" onclick="toggleCasePreview()" class="px-4 py-2 bg-slate-600 text-white rounded-lg hover:bg-slate-500 text-sm transition-colors">
-                                    미리보기
+                                    HTML 보기
                                 </button>
                             </div>
-                            <textarea id="caseContentEditor" name="content" rows="10" class="admin-input resize-none" placeholder="AI 생성 또는 직접 작성 (HTML)"></textarea>
-                            <div id="caseContentPreview" class="case-content hidden bg-white rounded-lg p-6 text-slate-800 leading-relaxed overflow-y-auto max-h-[500px] border border-slate-600" style="font-family: 'Noto Sans KR', sans-serif;"></div>
+                            <p class="text-xs text-slate-400 mb-2">비주얼 편집이 기본입니다. 아래 미리보기 형태에서 바로 수정하고, 필요할 때만 HTML 원문을 열어보세요.</p>
+                            <textarea id="caseContentEditor" name="content" rows="10" class="admin-input resize-none hidden font-mono text-sm" placeholder="AI 생성 또는 직접 작성 (HTML)"></textarea>
+                            <div id="caseContentPreview" class="case-content case-content-editor bg-white rounded-lg p-6 text-slate-800 leading-relaxed overflow-y-auto max-h-[500px] border border-slate-600" style="font-family: 'Noto Sans KR', sans-serif;" contenteditable="true" spellcheck="true" data-placeholder="AI 생성 또는 직접 작성한 본문이 여기에서 바로 편집됩니다."></div>
                         </div>
                         <div class="flex gap-3">
                             <button type="submit" name="action" value="draft" class="flex-1 px-6 py-3 bg-slate-700 text-white font-bold rounded-lg hover:bg-slate-600 transition-all">임시저장</button>
@@ -411,6 +412,21 @@
 
     #tab-cases #caseContentPreview {
         max-height: 320px;
+    }
+
+    #tab-cases .case-content-editor {
+        min-height: 320px;
+        cursor: text;
+    }
+
+    #tab-cases .case-content-editor:focus {
+        outline: 2px solid rgba(6, 182, 212, 0.35);
+        outline-offset: 2px;
+    }
+
+    #tab-cases .case-content-editor:empty::before {
+        content: attr(data-placeholder);
+        color: #94a3b8;
     }
 
     .admin-image-drop {
