@@ -16,6 +16,7 @@ let currentTab = 'reviews';
 let pendingImages = [];
 let adminInitialized = false;
 let editingId = null;
+const uploadQueue = { active: 0, max: 4, q: [], total: 0, completed: 0, failedFiles: [], boundPreviewId: null };
 const ADMIN_EMAIL = 'admin@nexokorea.co.kr';
 const VIDEO_CATEGORIES = ['빠른 시작', '무선 연결·공유', '수업 활용', '관리 팁', '도입·구매'];
 const LEGACY_VIDEO_CATEGORY_MAP = {
@@ -730,15 +731,21 @@ async function handlePaste(e, previewId, maxCount) {
     if (item.type.startsWith('image/') && pendingImages.length < maxCount) {
       e.preventDefault();
       const file = item.getAsFile();
-      await uploadAndPreview(file, previewId);
+      await enqueueUpload(file, previewId, maxCount);
     }
   }
 }
 
 async function handleFileSelect(files, previewId, maxCount) {
-  for (const file of files) {
-    if (pendingImages.length >= maxCount) break;
-    await uploadAndPreview(file, previewId);
+  const incomingFiles = Array.from(files || []);
+  const allowedSlots = Math.max(0, maxCount - pendingImages.length);
+  const selectedFiles = incomingFiles.slice(0, allowedSlots);
+  if (incomingFiles.length > selectedFiles.length) {
+    alert(`최대 ${maxCount}장까지 등록할 수 있어 ${selectedFiles.length}장만 업로드합니다.`);
+  }
+
+  for (const file of selectedFiles) {
+    await enqueueUpload(file, previewId, maxCount);
   }
 }
 
@@ -759,11 +766,85 @@ async function uploadAndPreview(file, previewId) {
     if (data.secure_url) {
       pendingImages.push(data.secure_url);
       renderImagePreview(previewId);
+      return;
     }
+    throw new Error('Cloudinary 업로드 응답에 URL이 없습니다.');
   } catch (err) {
     console.error('Image upload failed:', err);
-    alert('이미지 업로드 실패');
+    throw err;
   }
+}
+
+async function enqueueUpload(file, previewId, maxCount) {
+  if (!file || pendingImages.length >= maxCount) return;
+  uploadQueue.total += 1;
+  uploadQueue.boundPreviewId = previewId;
+  updateProgress(previewId);
+
+  return new Promise((resolve) => {
+    uploadQueue.q.push({ file, previewId, resolve });
+    void drainQueue();
+  });
+}
+
+async function drainQueue() {
+  while (uploadQueue.active < uploadQueue.max && uploadQueue.q.length > 0) {
+    const task = uploadQueue.q.shift();
+    uploadQueue.active += 1;
+    updateProgress(task.previewId);
+
+    const jitter = 200 * Math.min(uploadQueue.active, uploadQueue.max);
+    window.setTimeout(async () => {
+      try {
+        await uploadAndPreview(task.file, task.previewId);
+      } catch {
+        uploadQueue.failedFiles.push(task.file.name || 'image');
+      } finally {
+        uploadQueue.active -= 1;
+        uploadQueue.completed += 1;
+        updateProgress(task.previewId);
+        task.resolve();
+        if (uploadQueue.active === 0 && uploadQueue.q.length === 0 && uploadQueue.failedFiles.length > 0) {
+          alert(`업로드 실패: ${uploadQueue.failedFiles.join(', ')}`);
+          uploadQueue.failedFiles = [];
+        }
+        if (uploadQueue.active === 0 && uploadQueue.q.length === 0) {
+          resetUploadProgress(task.previewId);
+        } else {
+          void drainQueue();
+        }
+      }
+    }, jitter);
+  }
+}
+
+function updateProgress(previewId) {
+  const progressId = previewId === 'caseImagePreview' ? 'caseImageProgress' : previewId === 'reviewImagePreview' ? 'reviewImageProgress' : '';
+  const el = progressId ? document.getElementById(progressId) : null;
+  if (!el) return;
+
+  const waiting = uploadQueue.q.length;
+  const total = uploadQueue.total;
+  if (total === 0 || (uploadQueue.active === 0 && waiting === 0)) {
+    el.textContent = '';
+    el.classList.add('hidden');
+    return;
+  }
+
+  el.textContent = `업로드 중 ${uploadQueue.completed}/${total} (대기 ${waiting}, 진행 ${uploadQueue.active})`;
+  el.classList.remove('hidden');
+}
+
+function resetUploadProgress(previewId) {
+  const progressId = previewId === 'caseImagePreview' ? 'caseImageProgress' : previewId === 'reviewImagePreview' ? 'reviewImageProgress' : '';
+  const el = progressId ? document.getElementById(progressId) : null;
+  if (el) {
+    el.textContent = '';
+    el.classList.add('hidden');
+  }
+  uploadQueue.total = 0;
+  uploadQueue.completed = 0;
+  uploadQueue.boundPreviewId = null;
 }
 
 async function collectFilesFromDataTransfer(dt, maxCount) {
