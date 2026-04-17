@@ -689,6 +689,10 @@ function setupImageDrop(dropId, inputId, previewId, maxCount, opts = {}) {
   ['dragenter', 'dragover'].forEach((eventName) => {
     drop.addEventListener(eventName, (event) => {
       event.preventDefault();
+      event.stopPropagation();
+      if (event.dataTransfer) {
+        event.dataTransfer.dropEffect = 'copy';
+      }
       drop.classList.add('admin-image-drop--active');
     });
   });
@@ -696,6 +700,7 @@ function setupImageDrop(dropId, inputId, previewId, maxCount, opts = {}) {
   ['dragleave', 'dragend'].forEach((eventName) => {
     drop.addEventListener(eventName, (event) => {
       event.preventDefault();
+      event.stopPropagation();
       if (event.target === drop) {
         drop.classList.remove('admin-image-drop--active');
       }
@@ -704,7 +709,9 @@ function setupImageDrop(dropId, inputId, previewId, maxCount, opts = {}) {
 
   drop.addEventListener('drop', async (event) => {
     event.preventDefault();
+    event.stopPropagation();
     drop.classList.remove('admin-image-drop--active');
+    showDropStatus(previewId, '드롭 데이터를 확인하고 있습니다...');
     const files = await collectFilesFromDataTransfer(event.dataTransfer, maxCount);
     if (!files.length) {
       notifyUnsupportedExternalDrop(event.dataTransfer);
@@ -852,6 +859,19 @@ function resetUploadProgress(previewId) {
   uploadQueue.total = 0;
   uploadQueue.completed = 0;
   uploadQueue.boundPreviewId = null;
+}
+
+function showDropStatus(previewId, message, tone = 'muted') {
+  const progressId = previewId === 'caseImagePreview' ? 'caseImageProgress' : previewId === 'reviewImagePreview' ? 'reviewImageProgress' : '';
+  const el = progressId ? document.getElementById(progressId) : null;
+  if (!el) return;
+
+  el.textContent = message;
+  el.classList.remove('hidden', 'text-emerald-400', 'text-amber-400', 'text-rose-400', 'text-slate-400');
+  if (tone === 'success') el.classList.add('text-emerald-400');
+  else if (tone === 'warning') el.classList.add('text-amber-400');
+  else if (tone === 'error') el.classList.add('text-rose-400');
+  else el.classList.add('text-slate-400');
 }
 
 async function collectFilesFromDataTransfer(dt, maxCount) {
@@ -1045,6 +1065,8 @@ function logUnsupportedDropPayload(dt) {
 
 function notifyUnsupportedExternalDrop(dt) {
   logUnsupportedDropPayload(dt);
+  const targetPreview = currentTab === 'cases' ? 'caseImagePreview' : 'reviewImagePreview';
+  showDropStatus(targetPreview, '카카오톡 앱 내부 드래그는 파일이 전달되지 않아 업로드할 수 없습니다. 폴더 선택 또는 다운로드 폴더 드롭을 사용해 주세요.', 'warning');
   alert('카카오톡 앱 내부 드래그는 브라우저에 실제 이미지 파일이 전달되지 않아 바로 업로드할 수 없습니다.\n\n카톡 다운로드 폴더를 드롭하거나, "폴더 선택"으로 저장된 이미지를 올려주세요.');
 }
 
