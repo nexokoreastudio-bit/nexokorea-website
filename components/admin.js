@@ -19,6 +19,8 @@ let pendingImages = [];
 let adminInitialized = false;
 let editingId = null;
 const uploadQueue = { active: 0, max: 4, q: [], total: 0, completed: 0, failedFiles: [], boundPreviewId: null };
+let activeDropContext = null;
+let globalAdminDropBridgeBound = false;
 const ADMIN_EMAIL = 'admin@nexokorea.co.kr';
 const VIDEO_CATEGORIES = ['빠른 시작', '무선 연결·공유', '수업 활용', '관리 팁', '도입·구매'];
 const LEGACY_VIDEO_CATEGORY_MAP = {
@@ -665,6 +667,7 @@ function setupImageHandlers() {
     dirInputId: 'caseImageDirInput',
     dirBtnId: 'caseImageDirBtn',
   });
+  setupGlobalAdminDropBridge();
 }
 
 function setupImageDrop(dropId, inputId, previewId, maxCount, opts = {}) {
@@ -693,6 +696,7 @@ function setupImageDrop(dropId, inputId, previewId, maxCount, opts = {}) {
       if (event.dataTransfer) {
         event.dataTransfer.dropEffect = 'copy';
       }
+      activeDropContext = { dropId, previewId, maxCount };
       drop.classList.add('admin-image-drop--active');
     });
   });
@@ -704,21 +708,50 @@ function setupImageDrop(dropId, inputId, previewId, maxCount, opts = {}) {
       if (event.target === drop) {
         drop.classList.remove('admin-image-drop--active');
       }
+      if (activeDropContext?.dropId === dropId) {
+        activeDropContext = null;
+      }
     });
   });
 
   drop.addEventListener('drop', async (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    drop.classList.remove('admin-image-drop--active');
-    showDropStatus(previewId, '드롭 데이터를 확인하고 있습니다...');
-    const files = await collectFilesFromDataTransfer(event.dataTransfer, maxCount);
-    if (!files.length) {
-      notifyUnsupportedExternalDrop(event.dataTransfer);
-      return;
-    }
-    await handleFileSelect(files, previewId, maxCount);
+    await handleDropPayload(event, { dropId, previewId, maxCount });
   });
+}
+
+function setupGlobalAdminDropBridge() {
+  if (globalAdminDropBridgeBound) return;
+  globalAdminDropBridgeBound = true;
+
+  document.addEventListener('drop', async (event) => {
+    if (!activeDropContext) return;
+    const activeDrop = document.getElementById(activeDropContext.dropId);
+    if (!activeDrop) return;
+
+    const path = typeof event.composedPath === 'function' ? event.composedPath() : [];
+    const isInsideDrop = path.includes(activeDrop) || activeDrop.contains(event.target);
+    if (!isInsideDrop) return;
+
+    await handleDropPayload(event, activeDropContext);
+  }, true);
+}
+
+async function handleDropPayload(event, context) {
+  const { dropId, previewId, maxCount } = context;
+  const drop = document.getElementById(dropId);
+  event.preventDefault();
+  event.stopPropagation();
+  if (drop) {
+    drop.classList.remove('admin-image-drop--active');
+  }
+  showDropStatus(previewId, '드롭 데이터를 확인하고 있습니다...');
+  const files = await collectFilesFromDataTransfer(event.dataTransfer, maxCount);
+  activeDropContext = null;
+  if (!files.length) {
+    notifyUnsupportedExternalDrop(event.dataTransfer, previewId);
+    return;
+  }
+  await handleFileSelect(files, previewId, maxCount);
 }
 
 function setupGlobalPaste() {
@@ -1063,9 +1096,9 @@ function logUnsupportedDropPayload(dt) {
   });
 }
 
-function notifyUnsupportedExternalDrop(dt) {
+function notifyUnsupportedExternalDrop(dt, previewId = '') {
   logUnsupportedDropPayload(dt);
-  const targetPreview = currentTab === 'cases' ? 'caseImagePreview' : 'reviewImagePreview';
+  const targetPreview = previewId || (currentTab === 'cases' ? 'caseImagePreview' : 'reviewImagePreview');
   showDropStatus(targetPreview, '카카오톡 앱 내부 드래그는 파일이 전달되지 않아 업로드할 수 없습니다. 폴더 선택 또는 다운로드 폴더 드롭을 사용해 주세요.', 'warning');
   alert('카카오톡 앱 내부 드래그는 브라우저에 실제 이미지 파일이 전달되지 않아 바로 업로드할 수 없습니다.\n\n카톡 다운로드 폴더를 드롭하거나, "폴더 선택"으로 저장된 이미지를 올려주세요.');
 }
