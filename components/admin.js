@@ -942,6 +942,10 @@ function normalizeTextArray(value) {
     : [];
 }
 
+function normalizeNarrativeItems(value, targetLength) {
+  return normalizeTextArray(value).slice(0, Math.max(0, targetLength));
+}
+
 function buildCafeCaseHtml({ payload, parsed, pendingImages = [] }) {
   const storeName = parsed?.storeName || '설치 현장';
   const model = payload?.equipment_model || parsed?.model || '';
@@ -949,8 +953,8 @@ function buildCafeCaseHtml({ payload, parsed, pendingImages = [] }) {
   const notes = parsed?.notes || '';
   const description = stripTags(payload?.description || notes);
   const size = payload?.installation_size || '';
-  const captions = normalizeTextArray(payload?.captions);
-  const progressNotes = normalizeTextArray(payload?.progress_notes);
+  const captions = normalizeNarrativeItems(payload?.captions, pendingImages.length);
+  const progressNotes = normalizeNarrativeItems(payload?.progress_notes, pendingImages.length);
   const introLine = stripTags(payload?.intro) || `안녕하세요, NEXO KOREA입니다 😊 ${storeName}${model ? `에 ${model}` : ''} 설치를 진행하고 왔어요.`;
   const siteIntro = stripTags(payload?.site_intro) || description || `${location ? `${location} 현장에 맞춰` : '현장에 맞춰'} 사용 동선과 설치 안정성을 함께 고려해 세팅해드렸습니다.`;
   const outroPoint = stripTags(payload?.outro_point) || (notes ? `${notes} 현장 특성을 고려해 설치 위치와 사용 편의성을 함께 맞춰드렸습니다.` : '현장에 맞는 설치 방식과 기본 세팅까지 함께 잡아드려서 처음 사용하실 때도 부담 없이 시작하실 수 있어요.');
