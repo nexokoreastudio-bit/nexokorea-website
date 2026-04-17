@@ -84,6 +84,53 @@
         .case-card:hover .case-overlay {
             opacity: 1;
         }
+
+        .case-detail-panel {
+            width: min(100%, 960px);
+        }
+
+        .case-gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 12px;
+        }
+
+        .case-gallery-item {
+            position: relative;
+            aspect-ratio: 4 / 3;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            background: rgba(15, 23, 42, 0.75);
+            transition: transform 0.25s ease, border-color 0.25s ease;
+        }
+
+        .case-gallery-item:hover {
+            transform: scale(1.02);
+            border-color: rgba(34, 211, 238, 0.55);
+        }
+
+        .case-gallery-item--hero {
+            grid-column: span 2;
+        }
+
+        .case-gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .case-gallery-button {
+            width: 100%;
+            height: 100%;
+            cursor: zoom-in;
+        }
+
+        @media (max-width: 767px) {
+            .case-gallery-item--hero {
+                grid-column: span 1;
+            }
+        }
     </style>
     <link rel="stylesheet" href="theme.css">
     <script>document.documentElement.setAttribute("data-theme", localStorage.getItem("nexo-theme") || "light");</script>
@@ -113,14 +160,14 @@
             </div>
 
             <!-- 상세 모달 -->
-            <div id="caseDetailModal" class="fixed inset-0 z-50 hidden items-start justify-center bg-black/70 backdrop-blur-sm overflow-y-auto py-12">
-                <div class="relative w-full max-w-3xl mx-4 bg-slate-900 rounded-2xl border border-slate-700 shadow-2xl">
-                    <div class="sticky top-0 z-10 flex justify-end p-4 bg-slate-900 rounded-t-2xl">
+            <div id="caseDetailModal" class="fixed inset-0 z-50 hidden items-start justify-center bg-black/70 backdrop-blur-sm overflow-y-auto py-8 sm:py-12">
+                <div class="case-detail-panel relative mx-4 overflow-hidden rounded-2xl border border-slate-700 bg-slate-900 shadow-2xl">
+                    <div class="sticky top-0 z-10 flex justify-end border-b border-slate-700 bg-slate-900 p-4">
                         <button onclick="closeCaseDetail()" class="text-slate-400 hover:text-white transition-colors bg-slate-800 hover:bg-slate-700 rounded-full p-2">
                             <i data-lucide="x" class="w-5 h-5"></i>
                         </button>
                     </div>
-                    <div id="caseDetailContent" class="px-6 pb-8 sm:px-8"></div>
+                    <div id="caseDetailContent" class="px-6 pb-8 pt-6 sm:px-8"></div>
                 </div>
             </div>
 
@@ -186,14 +233,29 @@
                     const modal = document.getElementById('caseDetailModal');
                     const content = document.getElementById('caseDetailContent');
                     const gallery = c.images && c.images.length > 0
-                        ? `<div class="grid grid-cols-2 gap-3 mb-6">${c.images.map(img => `<img src="${img}" class="w-full rounded-lg border border-slate-700" alt="설치사진" loading="lazy">`).join('')}</div>`
+                        ? `<div class="mt-8">
+                            <h3 class="text-lg font-bold text-white mb-4">설치 사진</h3>
+                            <div class="case-gallery-grid">
+                                ${c.images.map((img, imageIndex) => `
+                                    <button type="button" class="case-gallery-button ${imageIndex === 0 ? 'case-gallery-item case-gallery-item--hero' : 'case-gallery-item'}" aria-label="설치 사진 ${imageIndex + 1} 보기">
+                                        <img src="${img}" alt="설치사진 ${imageIndex + 1}" loading="lazy">
+                                    </button>
+                                `).join('')}
+                            </div>
+                        </div>`
                         : '';
+                    const metaItems = [
+                        c.location ? `<span class="inline-flex items-center gap-2"><i data-lucide="map-pin" class="w-4 h-4 text-nexo-cyan"></i>${c.location}</span>` : '',
+                        c.installation_date ? `<span class="inline-flex items-center gap-2"><i data-lucide="calendar-days" class="w-4 h-4 text-nexo-cyan"></i>${c.installation_date}</span>` : '',
+                    ].filter(Boolean).join('<span class="text-slate-600">·</span>');
                     content.innerHTML = `
-                        <h2 class="text-2xl font-bold text-white mb-2">${c.title || '설치사례'}</h2>
-                        ${c.location ? `<p class="text-slate-400 mb-1"><i data-lucide="map-pin" class="w-4 h-4 inline"></i> ${c.location}</p>` : ''}
-                        ${c.installation_date ? `<p class="text-slate-500 text-sm mb-4">${c.installation_date}</p>` : ''}
+                        <div class="mb-6">
+                            <span class="inline-flex items-center rounded-full bg-nexo-cyan/15 px-3 py-1 text-xs font-bold text-nexo-cyan">${c.category || '설치사례'}</span>
+                            <h2 class="mt-3 text-2xl font-black text-white sm:text-3xl">${c.title || '설치사례'}</h2>
+                            ${metaItems ? `<div class="mt-4 flex flex-wrap items-center gap-3 text-sm text-slate-300">${metaItems}</div>` : ''}
+                        </div>
+                        ${c.content ? `<div class="prose prose-invert max-w-none text-slate-300 leading-relaxed">${c.content}</div>` : ''}
                         ${gallery}
-                        <div class="prose prose-invert max-w-none text-slate-300 leading-relaxed">${c.content || ''}</div>
                     `;
                     modal.classList.remove('hidden');
                     modal.classList.add('flex');
