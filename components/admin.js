@@ -661,13 +661,47 @@ function setupImageHandlers() {
   setupImageDrop('caseImageDrop', 'caseImageInput', 'caseImagePreview', 10);
 }
 
-function setupImageDrop(dropId, inputId, previewId, maxCount) {
+function setupImageDrop(dropId, inputId, previewId, maxCount, opts = {}) {
   const drop = document.getElementById(dropId);
   const input = document.getElementById(inputId);
+  const dirInput = opts.dirInputId ? document.getElementById(opts.dirInputId) : null;
+  const dirBtn = opts.dirBtnId ? document.getElementById(opts.dirBtnId) : null;
   if (!drop || !input) return;
 
   drop.addEventListener('click', () => input.click());
   input.addEventListener('change', () => handleFileSelect(input.files, previewId, maxCount));
+
+  if (dirBtn && dirInput) {
+    dirBtn.addEventListener('click', (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      dirInput.click();
+    });
+    dirInput.addEventListener('change', () => handleFileSelect(dirInput.files, previewId, maxCount));
+  }
+
+  ['dragenter', 'dragover'].forEach((eventName) => {
+    drop.addEventListener(eventName, (event) => {
+      event.preventDefault();
+      drop.classList.add('admin-image-drop--active');
+    });
+  });
+
+  ['dragleave', 'dragend'].forEach((eventName) => {
+    drop.addEventListener(eventName, (event) => {
+      event.preventDefault();
+      if (event.target === drop) {
+        drop.classList.remove('admin-image-drop--active');
+      }
+    });
+  });
+
+  drop.addEventListener('drop', async (event) => {
+    event.preventDefault();
+    drop.classList.remove('admin-image-drop--active');
+    const files = await collectFilesFromDataTransfer(event.dataTransfer, maxCount);
+    await handleFileSelect(files, previewId, maxCount);
+  });
 }
 
 function setupGlobalPaste() {
@@ -727,6 +761,59 @@ async function uploadAndPreview(file, previewId) {
     console.error('Image upload failed:', err);
     alert('이미지 업로드 실패');
   }
+}
+
+async function collectFilesFromDataTransfer(dt, maxCount) {
+  const out = [];
+  if (!dt) return out;
+
+  const items = Array.from(dt.items || []);
+  if (items.length > 0 && typeof items[0]?.webkitGetAsEntry === 'function') {
+    for (const item of items) {
+      const entry = item.webkitGetAsEntry?.();
+      if (entry) {
+        await traverseEntry(entry, out, maxCount);
+      }
+      if (out.length >= maxCount) break;
+    }
+  } else {
+    Array.from(dt.files || []).forEach((file) => {
+      if (out.length < maxCount && isSupportedImageFile(file)) out.push(file);
+    });
+  }
+
+  return out.filter(isSupportedImageFile).slice(0, maxCount);
+}
+
+async function traverseEntry(entry, out, maxCount) {
+  if (!entry || out.length >= maxCount) return;
+
+  if (entry.isFile) {
+    const file = await new Promise((resolve) => entry.file(resolve, () => resolve(null)));
+    if (file && isSupportedImageFile(file) && out.length < maxCount) {
+      out.push(file);
+    }
+    return;
+  }
+
+  if (entry.isDirectory) {
+    const reader = entry.createReader();
+    while (out.length < maxCount) {
+      const entries = await new Promise((resolve) => reader.readEntries(resolve, () => resolve([])));
+      if (!entries.length) break;
+      for (const child of entries) {
+        await traverseEntry(child, out, maxCount);
+        if (out.length >= maxCount) break;
+      }
+    }
+  }
+}
+
+function isSupportedImageFile(file) {
+  const name = (file?.name || '').toLowerCase();
+  const type = (file?.type || '').toLowerCase();
+  if (!name || name.endsWith('.crdownload')) return false;
+  return type.startsWith('image/') || /\.(jpe?g|png|gif|webp|heic|heif)$/i.test(name);
 }
 
 function renderImagePreview(previewId) {
