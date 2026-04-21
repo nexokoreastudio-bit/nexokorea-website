@@ -25,6 +25,9 @@ async function loadHeader() {
             
             // 네비게이션 스크롤 효과 초기화
             initNavbarScroll();
+
+            // 현재 페이지 활성 상태 표시
+            highlightCurrentNav();
         }
     } catch (error) {
         console.error('헤더 로드 실패:', error);
@@ -121,6 +124,47 @@ function initNavbarScroll() {
     });
 }
 
+function highlightCurrentNav() {
+    const path = window.location.pathname.split('/').pop() || 'index.html';
+    const hash = window.location.hash;
+    const currentTarget = `${path}${hash}`;
+
+    document.querySelectorAll('[data-nav-target]').forEach((link) => {
+        const target = link.getAttribute('data-nav-target');
+        const isActive = target === currentTarget || (hash === '' && target === path);
+
+        if (!isActive) {
+            link.removeAttribute('aria-current');
+            return;
+        }
+
+        link.setAttribute('aria-current', 'page');
+
+        if (link.closest('#mobile-menu')) {
+            link.classList.add('bg-slate-800', 'text-nexo-cyan', 'font-extrabold');
+            link.classList.remove('text-white');
+            return;
+        }
+
+        if (link.closest('#nav-cards-placeholder')) {
+            link.classList.add('border-nexo-cyan', 'shadow-2xl', 'shadow-cyan-500/10');
+            const iconWrap = link.querySelector('div');
+            const title = link.querySelector('h5');
+            if (iconWrap) {
+                iconWrap.classList.add('bg-nexo-cyan/30');
+            }
+            if (title) {
+                title.classList.add('text-nexo-cyan');
+                title.classList.remove('text-white');
+            }
+            return;
+        }
+
+        link.classList.add('text-nexo-cyan');
+        link.classList.remove('text-slate-300');
+    });
+}
+
 // 테마 전환
 window.toggleTheme = function() {
     const html = document.documentElement;
@@ -166,4 +210,3 @@ if (document.readyState === 'loading') {
 } else {
     loadComponents();
 }
-

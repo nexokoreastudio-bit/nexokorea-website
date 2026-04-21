@@ -172,6 +172,17 @@ html:not([data-theme="dark"]) textarea::placeholder {
     color: #94a3b8 !important;
 }
 
+/* bg-slate-700 계열 (견적문의 등 다크 배경 유지되는 폼) 은 테마와 무관하게 흰 텍스트 */
+html:not([data-theme="dark"]) input[class*="bg-slate-700"],
+html:not([data-theme="dark"]) textarea[class*="bg-slate-700"],
+html:not([data-theme="dark"]) select[class*="bg-slate-700"] {
+    color: #ffffff !important;
+}
+html:not([data-theme="dark"]) input[class*="bg-slate-700"]::placeholder,
+html:not([data-theme="dark"]) textarea[class*="bg-slate-700"]::placeholder {
+    color: #94a3b8 !important;
+}
+
 /* --- FAQ --- */
 html:not([data-theme="dark"]) .bg-slate-900.overflow-hidden {
     background: #ffffff !important;

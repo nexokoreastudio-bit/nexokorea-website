@@ -6,20 +6,19 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>전자칠판 동영상 | 제품 소개·사용법 - NEXO KOREA</title>
-    <meta name="description" content="NEXO KOREA 전자칠판 제품 소개 영상, 사용법 튜토리얼, 설치 과정 동영상을 확인하세요.">
+    <title>전자칠판 동영상 | 사용가이드·Shorts 모음 - NEXO KOREA</title>
+    <meta name="description" content="NEXO KOREA STUDIO 유튜브 채널의 전자칠판 사용가이드와 Shorts를 한 페이지에서 확인하세요. 초기 설정, 무선 미러링, 수업 활용, 관리 팁까지 정리했습니다.">
     <link rel="canonical" href="https://nexokorea.co.kr/video.html">
     <meta property="og:type" content="website">
     <meta property="og:title" content="전자칠판 동영상 - NEXO KOREA">
-    <meta property="og:description" content="NEXO 전자칠판 제품 소개·사용법·설치 과정 동영상.">
+    <meta property="og:description" content="NEXO KOREA STUDIO 유튜브 채널의 사용가이드와 Shorts를 정리한 영상 모음입니다.">
     <meta property="og:url" content="https://nexokorea.co.kr/video.html">
     <meta property="og:site_name" content="NEXO KOREA">
     <meta property="og:locale" content="ko_KR">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="전자칠판 동영상 - NEXO KOREA">
-    <meta name="twitter:description" content="NEXO 전자칠판 제품 소개·사용법 동영상.">
+    <meta name="twitter:description" content="초기 설정, 무선 연결, 수업 활용, 관리 팁까지 영상으로 확인하세요.">
 
-    <!-- Google Analytics 4 -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-1DJ2QLEH16"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -28,16 +27,9 @@
         gtag('config', 'G-1DJ2QLEH16');
     </script>
 
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- 폰트: Noto Sans KR -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700;900&display=swap" rel="stylesheet">
-    
-    <!-- 아이콘: Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    
-    <!-- 공통 컴포넌트 로드 스크립트 -->
     <script src="components/components.js" defer></script>
 
     <script>
@@ -74,11 +66,16 @@
         ::-webkit-scrollbar-thumb:hover {
             background: #06b6d4;
         }
-        
+
         .glass-nav {
             background: rgba(15, 23, 42, 0.85);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
+        }
+
+        .video-copy {
+            word-break: keep-all;
+            overflow-wrap: break-word;
         }
     </style>
     <link rel="stylesheet" href="theme.css">
@@ -86,105 +83,414 @@
 </head>
 <body class="bg-nexo-navy text-white font-sans overflow-x-hidden">
 
-    <!-- Header Placeholder (동적으로 로드됨) -->
     <div id="header-placeholder"></div>
 
-    <!-- Page Content -->
-    <section class="pt-32 pb-10 bg-slate-900">
+    <section class="pt-32 pb-8 bg-slate-900">
         <div class="max-w-7xl mx-auto px-4 sm:px-6">
-
+            <div class="rounded-[2rem] border border-slate-700 bg-slate-800/50 p-6 sm:p-8 lg:p-10">
+                <div class="grid grid-cols-1 lg:grid-cols-[1.25fr_0.9fr] gap-8 lg:gap-10 items-center">
+                    <div class="video-copy">
+                        <p class="text-nexo-cyan font-bold tracking-[0.28em] text-xs sm:text-sm mb-3">NEXO KOREA STUDIO</p>
+                        <h1 class="text-3xl sm:text-4xl md:text-5xl font-black leading-tight mb-4">
+                            전자칠판 사용 영상을<br>
+                            <span class="text-nexo-cyan">필요한 상황별로 모았습니다</span>
+                        </h1>
+                        <p class="text-sm sm:text-base md:text-lg text-slate-400 leading-relaxed max-w-2xl">
+                            처음 켜는 순간부터 무선 연결, 수업 활용, 관리 팁까지
+                            실제 사용 중 자주 찾게 되는 영상을 한 곳에서 바로 확인할 수 있습니다.
+                        </p>
+                        <div class="mt-6 flex flex-col sm:flex-row gap-3">
+                            <a href="https://www.youtube.com/@nexokorea_studio/videos" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-nexo-cyan text-nexo-navy font-bold rounded-full hover:bg-white transition-colors">
+                                유튜브 채널 바로가기
+                                <i data-lucide="external-link" class="w-4 h-4"></i>
+                            </a>
+                            <a href="contact.html" class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-slate-900 border border-slate-600 text-white font-bold rounded-full hover:bg-slate-700 transition-colors">
+                                도입 상담 문의
+                                <i data-lucide="phone-call" class="w-4 h-4"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3 sm:gap-4">
+                        <div class="rounded-2xl border border-slate-700 bg-slate-900 p-4 sm:p-5">
+                            <p class="text-slate-400 text-xs sm:text-sm mb-2">추천 보기</p>
+                            <p class="text-2xl sm:text-3xl font-black leading-tight">처음 설치 후<br>바로 보기</p>
+                        </div>
+                        <div class="rounded-2xl border border-slate-700 bg-slate-900 p-4 sm:p-5">
+                            <p class="text-slate-400 text-xs sm:text-sm mb-2">빠른 팁</p>
+                            <p class="text-2xl sm:text-3xl font-black leading-tight">짧게 보고<br>바로 따라하기</p>
+                        </div>
+                        <div class="rounded-2xl border border-slate-700 bg-slate-900 p-4 sm:p-5 col-span-2">
+                            <p class="text-slate-400 text-xs sm:text-sm mb-3">이런 분께 추천합니다</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-3 py-1.5 rounded-full bg-nexo-cyan/20 text-nexo-cyan text-xs sm:text-sm font-semibold">처음 설치한 고객</span>
+                                <span class="px-3 py-1.5 rounded-full bg-nexo-cyan/20 text-nexo-cyan text-xs sm:text-sm font-semibold">수업 준비 중인 선생님</span>
+                                <span class="px-3 py-1.5 rounded-full bg-nexo-cyan/20 text-nexo-cyan text-xs sm:text-sm font-semibold">무선 연결이 필요한 사용자</span>
+                                <span class="px-3 py-1.5 rounded-full bg-nexo-cyan/20 text-nexo-cyan text-xs sm:text-sm font-semibold">관리 팁이 필요한 운영자</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- 동영상 매뉴얼 섹션 -->
     <section class="py-10 sm:py-14 bg-slate-900">
         <div class="max-w-7xl mx-auto px-4 sm:px-6">
-            <div class="text-center mb-8">
-                <h2 class="text-nexo-cyan font-bold tracking-widest text-sm mb-2">VIDEO MANUAL</h2>
-                <h1 class="text-3xl sm:text-4xl md:text-5xl font-black mb-4 text-white">
-                    동영상 매뉴얼
-                </h1>
-                <p class="text-lg text-slate-400 max-w-2xl mx-auto">
-                    전자칠판의 외관, 기능, 응용 방법을 영상으로 확인하세요.
+            <div class="text-center mb-10 sm:mb-12">
+                <h2 class="text-nexo-cyan font-bold tracking-widest text-sm mb-2">VIDEO GUIDE</h2>
+                <h3 class="text-3xl sm:text-4xl md:text-5xl font-black mb-4">가이드 영상</h3>
+                <p class="text-base sm:text-lg text-slate-400 max-w-2xl mx-auto video-copy">
+                    실제 사용 전에 한 번 보면 전체 흐름이 잡히는 영상들입니다.
+                    장비 세팅과 기능 이해가 필요한 분들께 맞춰 섹션을 구성했습니다.
                 </p>
             </div>
+            <div id="guideSections"></div>
+        </div>
+    </section>
 
-            <!-- 카테고리별 동영상 (Supabase 동적 로딩, 모든 카테고리 자동 감지) -->
-            <div id="videoSections"></div>
-            <script>
-                (async function loadAllVideos() {
-                    const SUPABASE_URL = 'https://qwyeanxbtkzompzxndhk.supabase.co';
-                    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF3eWVhbnhidGt6b21wenhuZGhrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE1NTE5ODcsImV4cCI6MjA4NzEyNzk4N30.qj1dUEokDkvWN_Ukw1nkDqj_aSNwpgTZv7Qti9R5hro';
-                    const container = document.getElementById('videoSections');
-                    const iconMap = { '제품소개': 'play-circle', '사용법': 'book-open', '설치영상': 'wrench', '외관': 'monitor', '기능': 'settings', '응용': 'lightbulb', '기타': 'video' };
-                    try {
-                        const res = await fetch(`${SUPABASE_URL}/rest/v1/nexo_videos?is_published=eq.true&order=sort_order.asc,created_at.desc`, {
-                            headers: { 'apikey': SUPABASE_KEY }
-                        });
-                        const videos = await res.json();
-                        if (!videos || videos.length === 0) {
-                            container.innerHTML = '<p class="text-slate-500 text-center py-8">등록된 동영상이 없습니다.</p>';
-                            return;
-                        }
-                        const grouped = {};
-                        videos.forEach(v => {
-                            const cat = v.category || '기타';
-                            if (!grouped[cat]) grouped[cat] = [];
-                            grouped[cat].push(v);
-                        });
-                        const catOrder = ['제품소개', '사용법', '설치영상', '외관', '기능', '응용', '기타'];
-                        const sortedEntries = Object.entries(grouped).sort((a, b) => {
-                            const ia = catOrder.indexOf(a[0]), ib = catOrder.indexOf(b[0]);
-                            return (ia === -1 ? 99 : ia) - (ib === -1 ? 99 : ib);
-                        });
-                        container.innerHTML = sortedEntries.map(([cat, vids], idx) => {
-                            const icon = iconMap[cat] || 'video';
-                            const grid = vids.map(v => {
-                                const m = (v.youtube_url||'').match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|shorts\/))([^?&]+)/);
-                                const embedId = m ? m[1] : '';
-                                return `<div class="bg-slate-800 rounded-2xl overflow-hidden border border-slate-700 hover:border-nexo-cyan/50 transition-all duration-300">
-                                    <div class="relative w-full" style="padding-bottom: 56.25%;">
-                                        <iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/${embedId}" title="${v.title||''}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
-                                    </div>
-                                    <div class="p-4">
-                                        <h4 class="text-sm font-bold text-white">${v.title||''}</h4>
-                                        ${v.description ? `<p class="text-xs text-slate-400 mt-1 line-clamp-2">${v.description}</p>` : ''}
-                                    </div>
-                                </div>`;
-                            }).join('');
-                            return `<div class="mb-10 pt-8 ${idx > 0 ? 'border-t border-slate-700' : ''}">
-                                <h3 class="text-2xl font-bold text-white mb-6 flex items-center gap-3">
-                                    <i data-lucide="${icon}" class="w-6 h-6 text-nexo-cyan"></i>
-                                    ${cat}
-                                </h3>
-                                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">${grid}</div>
-                            </div>`;
-                        }).join('');
-                        if (typeof lucide !== 'undefined') lucide.createIcons();
-                    } catch (e) {
-                        container.innerHTML = '<p class="text-red-400 text-center py-8">동영상 로딩 실패</p>';
-                    }
-                })();
-            </script>
+    <section class="py-10 sm:py-14 bg-nexo-dark">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <div class="text-center mb-10 sm:mb-12">
+                <h2 class="text-nexo-orange font-bold tracking-widest text-sm mb-2">SHORTS</h2>
+                <h3 class="text-3xl sm:text-4xl md:text-5xl font-black mb-4 text-white">빠른 팁 Shorts</h3>
+                <p class="text-base sm:text-lg text-slate-400 max-w-2xl mx-auto video-copy">
+                    짧게 보고 바로 따라할 수 있는 실전 팁입니다.
+                    페이지 무게를 줄이기 위해 Shorts는 썸네일 카드로 정리했고, 클릭하면 유튜브에서 바로 열립니다.
+                </p>
+            </div>
+            <div id="shortsSections"></div>
         </div>
     </section>
 
     <div id="nav-cards-placeholder"></div>
-
-    <!-- Footer Placeholder (동적으로 로드됨) -->
     <div id="footer-placeholder"></div>
 
     <script>
-        // Initialize Lucide Icons
+        const GUIDE_VIDEOS = [
+            {
+                title: '넥소 전자칠판, 처음 켜면 뭐부터 해야 할까요?',
+                youtubeUrl: 'https://www.youtube.com/watch?v=sIYY4XLAxEs',
+                category: '빠른 시작',
+                description: '처음 전원을 켠 뒤 무엇부터 확인해야 하는지 짧고 명확하게 정리한 입문 영상입니다.',
+                published: '10일 전',
+                duration: '2:46'
+            },
+            {
+                title: '[사용가이드] 전자칠판 200% 활용하기 | 안드로이드 OS 기본 설정 및 나만의 홈 화면 만들기',
+                youtubeUrl: 'https://www.youtube.com/watch?v=BMlDfQmSc_k',
+                category: '빠른 시작',
+                description: '안드로이드 OS 기본 설정과 홈 화면 커스터마이징까지 한 번에 정리한 기본 세팅 가이드입니다.',
+                published: '3개월 전',
+                duration: '4:12'
+            },
+            {
+                title: '넥소 전자칠판 미러링 완벽 가이드 E Share로 스마트 기기 화면을 무선으로 연결하는 방법',
+                youtubeUrl: 'https://www.youtube.com/watch?v=f87KAfP80e0',
+                category: '무선 연결·공유',
+                description: '노트북과 스마트기기 화면을 E Share로 연결하는 무선 미러링 전체 흐름을 설명합니다.',
+                published: '2일 전',
+                duration: '6:06'
+            },
+            {
+                title: '넥소 전자칠판 활용 꿀팁! 화면 녹화부터 음성 포함 영상 공유까지 완벽 가이드',
+                youtubeUrl: 'https://www.youtube.com/watch?v=dnS25pizS0E',
+                category: '무선 연결·공유',
+                description: '화면 녹화, 음성 포함 저장, QR 공유까지 실제 현장에서 자주 쓰는 기능을 다룹니다.',
+                published: '2일 전',
+                duration: '3:49'
+            },
+            {
+                title: '수업 중 화면 분할 활용 팁 | 넥소 전자칠판 활용법',
+                youtubeUrl: 'https://www.youtube.com/watch?v=TB0f_jtVPvk',
+                category: '수업 활용',
+                description: '수업과 발표에서 화면 분할을 어떻게 쓰면 좋은지 짧고 실용적으로 보여줍니다.',
+                published: '11일 전',
+                duration: '2:28'
+            },
+            {
+                title: '넥소 전자칠판, 쉽게 깨질까 걱정된다면? | 강화유리 강도와 펜 보관 팁',
+                youtubeUrl: 'https://www.youtube.com/watch?v=JcPZKIIFnes',
+                category: '관리 팁',
+                description: '강화유리 내구성과 펜 보관처럼 장비 관리에서 자주 묻는 포인트를 정리했습니다.',
+                published: '10일 전',
+                duration: '1:55'
+            }
+        ];
+
+        const SHORTS_VIDEOS = [
+            { title: '전자칠판 처음 켰는데 뭐부터? 1분이면 끝! 📱', youtubeUrl: 'https://www.youtube.com/shorts/_Y3lzo4Kq_4', category: '빠른 시작', views: '조회수 238회' },
+            { title: '전자칠판 사용법, 넥소(NEXO) 하나로 종결! (채널 오픈) #shorts', youtubeUrl: 'https://www.youtube.com/shorts/DycCGxWEzeM', category: '빠른 시작', views: '조회수 386회' },
+            { title: 'NEXO KOREA | 메인 화면 앱 편집 및 즐겨찾기 설정 가이드', youtubeUrl: 'https://www.youtube.com/shorts/tRUiBVwodd8', category: '빠른 시작', views: '조회수 1.1천회' },
+            { title: '전자칠판 배경화면 & 런처 설정 완벽 가이드 (학원 로고 삽입까지!)', youtubeUrl: 'https://www.youtube.com/shorts/SFGrGv9rEIE', category: '빠른 시작', views: '조회수 359회' },
+            { title: '10초 만에 학원 전자칠판에 우리 로고 박는 법! (초간단 브랜딩)', youtubeUrl: 'https://www.youtube.com/shorts/6YfCnUXoQR4', category: '빠른 시작', views: '조회수 1.8천회' },
+            { title: '전자칠판 터치, 이거 하나면 끝! 싱글터치·멀티터치·지우개 완전정복 🖐️', youtubeUrl: 'https://www.youtube.com/shorts/pPHLDutXBns', category: '빠른 시작', views: '조회수 156회' },
+
+            { title: '넥소 전자칠판, 음성 포함 화면 녹화 & QR 공유!', youtubeUrl: 'https://www.youtube.com/shorts/QNNzm_CvmhQ', category: '무선 연결·공유', views: '조회수 134회' },
+            { title: '넥소 미러링 시연 완성', youtubeUrl: 'https://www.youtube.com/shorts/d-8JSlnSbV0', category: '무선 연결·공유', views: '조회수 135회' },
+            { title: '선 연결 없는 전자칠판? 3초 만에 무선 미러링 하는 법 ⚡️ #Shorts', youtubeUrl: 'https://www.youtube.com/shorts/hSFAHFgniVU', category: '무선 연결·공유', views: '조회수 2.1천회' },
+            { title: '선생님들이 진짜 좋아하는 기능 1위! 폰 쉐어 📱 #Shorts', youtubeUrl: 'https://www.youtube.com/shorts/bLcOVmdYWzM', category: '무선 연결·공유', views: '조회수 616회' },
+            { title: '수업 녹화, 아직도 핸드폰으로 하시나요? 😲 (넥소 전자칠판 꿀팁 대방출)', youtubeUrl: 'https://www.youtube.com/shorts/Ci1uy-5eEJg', category: '무선 연결·공유', views: '조회수 1.5천회' },
+
+            { title: '수업 중 화면 분할, 이렇게 활용하세요 | 넥소 전자칠판 활용팁', youtubeUrl: 'https://www.youtube.com/shorts/gKYrEE1WKQA', category: '수업 활용', views: '조회수 281회' },
+            { title: '아직도 화면 따로, 판서 따로? 1초 만에 끝내는 스마트 수업! 할래말래??', youtubeUrl: 'https://www.youtube.com/shorts/9EZRDCEK7fk', category: '수업 활용', views: '조회수 353회' },
+            { title: '구방정식, 아직도 머리로만 상상해? 🤯 1초 만에 3D로 보여주는 전자칠판 클래스! #Shorts', youtubeUrl: 'https://www.youtube.com/shorts/Ofl5GWPY2lQ', category: '수업 활용', views: '조회수 3.4천회' },
+            { title: '칠판한테 말을 걸면 생기는 일? 😲', youtubeUrl: 'https://www.youtube.com/shorts/FsphbXxgkak', category: '수업 활용', views: '조회수 463회' },
+            { title: '수학 쌤 필수 시청! PDF 문제 풀이 공간 부족할 때 해결법 (넥소칠판)', youtubeUrl: 'https://www.youtube.com/shorts/nKYE16PydzQ', category: '수업 활용', views: '조회수 3.1천회' },
+
+            { title: '전자칠판 쉽게 깨질까 걱정된다면? | 강화유리 강도와 펜 보관 팁 #shorts', youtubeUrl: 'https://www.youtube.com/shorts/a0NDDeFP6Js', category: '관리 팁', views: '조회수 247회' },
+            { title: '전자칠판 지문 자국, \'이것\' 하나면 새것처럼 변합니다 (다이소 꿀템) #shorts', youtubeUrl: 'https://www.youtube.com/shorts/YJJI_iTNKaA', category: '관리 팁', views: '조회수 2.7천회' },
+
+            { title: '싸다고 골랐다가 후회하는 전자칠판 TOP3 실수 😱 스펙 비교 필수!', youtubeUrl: 'https://www.youtube.com/shorts/KFa-9ivXIkw', category: '도입·구매', views: '조회수 322회' },
+            { title: '정부에서 전자칠판 최대 500만원 지원을 해 준다고??', youtubeUrl: 'https://www.youtube.com/shorts/t3_DWbt_mKI', category: '도입·구매', views: '조회수 470회' }
+        ];
+
+        const GUIDE_CATEGORY_ORDER = ['빠른 시작', '무선 연결·공유', '수업 활용', '관리 팁'];
+        const SHORTS_CATEGORY_ORDER = ['빠른 시작', '무선 연결·공유', '수업 활용', '관리 팁', '도입·구매'];
+        const CATEGORY_ICONS = {
+            '빠른 시작': 'rocket',
+            '무선 연결·공유': 'wifi',
+            '수업 활용': 'presentation',
+            '관리 팁': 'shield-check',
+            '도입·구매': 'briefcase-business'
+        };
+        const CATEGORY_DESCRIPTIONS = {
+            '빠른 시작': '전원을 켠 직후부터 기본 세팅까지, 실제 도입 초기에 바로 필요한 내용입니다.',
+            '무선 연결·공유': '노트북, 스마트폰, 녹화 파일 공유처럼 연결성과 전달에 집중한 영상입니다.',
+            '수업 활용': '실제 수업과 발표 환경에서 자주 쓰는 기능을 빠르게 익힐 수 있습니다.',
+            '관리 팁': '패널 보호, 보관, 유지 관리처럼 장기간 사용에 필요한 내용을 모았습니다.',
+            '도입·구매': '전자칠판 도입 전 비교 검토와 지원사업 정보처럼 구매 판단에 가까운 영상입니다.'
+        };
+
+        function extractVideoId(url) {
+            const match = (url || '').match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|shorts\/))([^?&]+)/);
+            return match ? match[1] : '';
+        }
+
+        function escapeHtml(str) {
+            return (str || '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;');
+        }
+
+        async function loadAdditionalVideos() {
+            const SUPABASE_URL = 'https://qwyeanxbtkzompzxndhk.supabase.co';
+            const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF3eWVhbnhidGt6b21wenhuZGhrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE1NTE5ODcsImV4cCI6MjA4NzEyNzk4N30.qj1dUEokDkvWN_Ukw1nkDqj_aSNwpgTZv7Qti9R5hro';
+            try {
+                const res = await fetch(`${SUPABASE_URL}/rest/v1/nexo_videos?is_published=eq.true&order=sort_order.asc,created_at.desc`, {
+                    headers: { 'apikey': SUPABASE_KEY }
+                });
+                if (!res.ok) return [];
+                const rows = await res.json();
+                return Array.isArray(rows) ? rows : [];
+            } catch (error) {
+                return [];
+            }
+        }
+
+        function inferVideoFormat(url) {
+            return /youtube\.com\/shorts\//i.test(url || '') ? 'shorts' : 'longform';
+        }
+
+        function suggestVideoCategory(title, url, format) {
+            const text = `${title || ''} ${url || ''}`.toLowerCase();
+
+            if (/(지원|구매|도입|비교|가격|정부|사업)/.test(text)) return '도입·구매';
+            if (/(미러링|공유|qr|녹화|무선|폰 쉐어|e share|eshare)/.test(text)) return '무선 연결·공유';
+            if (/(수업|판서|pdf|3d|화면 분할|발표)/.test(text)) return '수업 활용';
+            if (/(강화유리|지문|보관|관리|청소|깨질까)/.test(text)) return '관리 팁';
+            if (/(처음|설정|홈 화면|런처|앱 편집|기본|시작)/.test(text)) return '빠른 시작';
+            if (format === 'shorts') return '빠른 시작';
+            return '수업 활용';
+        }
+
+        function normalizeVideoCategory(category, title, url, format) {
+            const trimmed = (category || '').trim();
+            const legacyMap = {
+                '제품소개': '도입·구매',
+                '사용법': '빠른 시작',
+                '설치영상': '빠른 시작',
+                '외관': '빠른 시작',
+                '응용': '수업 활용'
+            };
+
+            if (GUIDE_CATEGORY_ORDER.includes(trimmed) || SHORTS_CATEGORY_ORDER.includes(trimmed)) {
+                return trimmed;
+            }
+
+            if (legacyMap[trimmed]) {
+                return legacyMap[trimmed];
+            }
+
+            return suggestVideoCategory(title, url, format);
+        }
+
+        function normalizePublicVideo(video) {
+            const url = video.youtube_url || video.youtubeUrl || '';
+            const format = inferVideoFormat(url);
+
+            return {
+                title: video.title || '추가 영상',
+                youtubeUrl: url,
+                category: normalizeVideoCategory(video.category, video.title, url, format),
+                description: video.description || '전자칠판 활용에 도움이 되는 영상을 확인해 보세요.',
+                published: video.published || '',
+                duration: video.duration || '',
+                views: video.views || '',
+                format
+            };
+        }
+
+        function mergeVideos(baseVideos, extraVideos, format) {
+            const merged = new Map();
+
+            baseVideos.forEach((video, index) => {
+                const key = extractVideoId(video.youtubeUrl) || `seed-${index}`;
+                merged.set(key, normalizePublicVideo(video));
+            });
+
+            extraVideos.forEach((video, index) => {
+                const normalized = normalizePublicVideo(video);
+                if (normalized.format !== format) return;
+                const key = extractVideoId(normalized.youtubeUrl) || `extra-${index}`;
+                if (!merged.has(key)) {
+                    merged.set(key, normalized);
+                }
+            });
+
+            return Array.from(merged.values());
+        }
+
+        function renderGuideSections(videos) {
+            const grouped = {};
+            videos.forEach((video) => {
+                if (!grouped[video.category]) grouped[video.category] = [];
+                grouped[video.category].push(video);
+            });
+
+            const container = document.getElementById('guideSections');
+            container.innerHTML = GUIDE_CATEGORY_ORDER
+                .filter((category) => grouped[category] && grouped[category].length > 0)
+                .map((category, index) => {
+                    const items = grouped[category].map((video) => {
+                        const videoId = extractVideoId(video.youtubeUrl);
+                        const badges = [
+                            video.duration ? `<span class="px-2 py-1 rounded-full bg-slate-900 text-slate-300 text-[11px] font-semibold">${escapeHtml(video.duration)}</span>` : '',
+                            video.published ? `<span class="px-2 py-1 rounded-full bg-slate-900 text-slate-300 text-[11px] font-semibold">${escapeHtml(video.published)}</span>` : ''
+                        ].filter(Boolean).join('');
+
+                        return `
+                            <article class="bg-slate-800 rounded-2xl overflow-hidden border border-slate-700 hover:border-nexo-cyan/50 transition-all duration-300">
+                                <div class="relative w-full" style="padding-bottom: 56.25%;">
+                                    <iframe
+                                        class="absolute inset-0 w-full h-full"
+                                        src="https://www.youtube.com/embed/${videoId}"
+                                        title="${escapeHtml(video.title)}"
+                                        frameborder="0"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                        allowfullscreen
+                                        loading="lazy"></iframe>
+                                </div>
+                                <div class="p-4 sm:p-5">
+                                    <div class="flex flex-wrap gap-2 mb-3">${badges}</div>
+                                    <h4 class="text-sm sm:text-base font-bold text-white mb-2">${escapeHtml(video.title)}</h4>
+                                    <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">${escapeHtml(video.description)}</p>
+                                    <div class="mt-4">
+                                        <a href="${escapeHtml(video.youtubeUrl)}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-sm text-nexo-cyan hover:text-white transition-colors">
+                                            유튜브에서 보기
+                                            <i data-lucide="external-link" class="w-4 h-4"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </article>
+                        `;
+                    }).join('');
+
+                    return `
+                        <div class="${index > 0 ? 'mt-12 pt-12 border-t border-slate-700' : ''}">
+                            <div class="mb-6 sm:mb-8">
+                                <h4 class="text-2xl sm:text-3xl font-bold text-white flex items-center gap-3 mb-3">
+                                    <i data-lucide="${CATEGORY_ICONS[category]}" class="w-6 h-6 text-nexo-cyan"></i>
+                                    ${category}
+                                </h4>
+                                <p class="text-sm sm:text-base text-slate-400 max-w-3xl video-copy">${CATEGORY_DESCRIPTIONS[category]}</p>
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+                                ${items}
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+        }
+
+        function renderShortsSections(videos) {
+            const grouped = {};
+            videos.forEach((video) => {
+                if (!grouped[video.category]) grouped[video.category] = [];
+                grouped[video.category].push(video);
+            });
+
+            const container = document.getElementById('shortsSections');
+            container.innerHTML = SHORTS_CATEGORY_ORDER
+                .filter((category) => grouped[category] && grouped[category].length > 0)
+                .map((category, index) => {
+                    const items = grouped[category].map((video) => {
+                        const videoId = extractVideoId(video.youtubeUrl);
+                        return `
+                            <a href="${escapeHtml(video.youtubeUrl)}" target="_blank" rel="noopener noreferrer" class="group bg-slate-800 rounded-2xl overflow-hidden border border-slate-700 hover:border-nexo-orange/50 hover:-translate-y-1 transition-all duration-300">
+                                <div class="relative aspect-[9/16] bg-slate-900 overflow-hidden">
+                                    <img src="https://i.ytimg.com/vi/${videoId}/hqdefault.jpg" alt="${escapeHtml(video.title)}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/10 to-transparent"></div>
+                                    <div class="absolute right-3 top-3 px-2 py-1 rounded-full bg-black/70 text-white text-[11px] font-semibold">Shorts</div>
+                                    <div class="absolute left-3 bottom-3 inline-flex items-center gap-2 px-3 py-2 rounded-full bg-nexo-orange text-white text-xs font-bold">
+                                        <i data-lucide="play" class="w-3.5 h-3.5 fill-current"></i>
+                                        바로 보기
+                                    </div>
+                                </div>
+                                <div class="p-4">
+                                    <div class="text-[11px] text-nexo-orange font-semibold mb-2">${escapeHtml(video.views)}</div>
+                                    <h5 class="text-sm font-bold text-white leading-relaxed">${escapeHtml(video.title)}</h5>
+                                </div>
+                            </a>
+                        `;
+                    }).join('');
+
+                    return `
+                        <div class="${index > 0 ? 'mt-12 pt-12 border-t border-slate-700' : ''}">
+                            <div class="mb-6 sm:mb-8">
+                                <h4 class="text-2xl sm:text-3xl font-bold text-white flex items-center gap-3 mb-3">
+                                    <i data-lucide="${CATEGORY_ICONS[category]}" class="w-6 h-6 text-nexo-orange"></i>
+                                    ${category}
+                                </h4>
+                                <p class="text-sm sm:text-base text-slate-400 max-w-3xl video-copy">${CATEGORY_DESCRIPTIONS[category]}</p>
+                            </div>
+                            <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4 sm:gap-5">
+                                ${items}
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+        }
+
+        (async function initVideoPage() {
+            const extraVideos = await loadAdditionalVideos();
+            renderGuideSections(mergeVideos(GUIDE_VIDEOS, extraVideos, 'longform'));
+            renderShortsSections(mergeVideos(SHORTS_VIDEOS, extraVideos, 'shorts'));
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+        })();
+    </script>
+
+    <script>
         if (typeof lucide !== 'undefined') {
             lucide.createIcons();
         }
     </script>
-    <!-- Supabase SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
     <script src="components/parse-field-news.js"></script>
     <script src="components/admin.js"></script>
     <div id="admin-placeholder"></div>
 </body>
 </html>
-
