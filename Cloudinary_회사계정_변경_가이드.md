@@ -22,7 +22,7 @@
 1. **Cloudinary 가입**
    - https://cloudinary.com 접속
    - "Sign Up" 클릭
-   - 회사 이메일로 가입: `nexo.korea.studio@gmail.com` 또는 `nexokorea@gmail.com`
+   - 회사 이메일로 가입: `nexo.korea.studio@gmail.com`
 
 2. **계정 확인**
    - 이메일 인증 완료
@@ -237,6 +237,5 @@ const CLOUDINARY_UPLOAD_PRESET = 'nexo-reviews-unsigned';
 
 **작성일**: 2024년 12월  
 **작성자**: NEXO KOREA 개발팀
-
 
 

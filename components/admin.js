@@ -1482,7 +1482,7 @@ function buildCafeCaseHtml({ payload, parsed, pendingImages = [] }) {
   parts.push(`<p>${completionLine}</p>`);
   parts.push(`<blockquote>💡 ${escapeCaseText(outroPoint)}</blockquote>`);
   parts.push('<hr>');
-  parts.push('<p>📞 <strong>설치 문의</strong> 032-569-5771 / nexokorea@gmail.com</p>');
+  parts.push('<p>📞 <strong>설치 문의</strong> 032-569-5771 / nexo.korea.studio@gmail.com</p>');
 
   return parts.filter(Boolean).join('\n');
 }
