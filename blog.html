@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>블로그·카페 | NEXO KOREA 소식 채널</title>
+    <meta name="description" content="NEXO KOREA 네이버 블로그와 카페. 전자칠판 설치 후기, 제품 활용 팁, 현장 이야기와 커뮤니티 소식을 확인하세요.">
+    <link rel="canonical" href="https://nexokorea.co.kr/blog.html">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="블로그·카페 - NEXO KOREA">
+    <meta property="og:description" content="전자칠판 설치 후기, 제품 활용 팁, 현장 이야기와 커뮤니티 소식.">
+    <meta property="og:url" content="https://nexokorea.co.kr/blog.html">
+    <meta property="og:site_name" content="NEXO KOREA">
+    <meta property="og:locale" content="ko_KR">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="블로그·카페 - NEXO KOREA">
+    <meta name="twitter:description" content="NEXO KOREA 외부 소식 채널을 확인하세요.">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1DJ2QLEH16"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-1DJ2QLEH16');
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="components/components.js" defer></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        nexo: {
+                            navy: '#0f172a',
+                            dark: '#020617',
+                            cyan: '#06b6d4',
+                            accent: '#22d3ee',
+                            orange: '#f97316',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Noto Sans KR"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 5px; }
+        ::-webkit-scrollbar-thumb:hover { background: #06b6d4; }
+        .glass-nav {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+    </style>
+    <link rel="stylesheet" href="theme.css">
+    <script>document.documentElement.setAttribute("data-theme", localStorage.getItem("nexo-theme") || "light");</script>
+</head>
+<body class="bg-nexo-navy text-white font-sans overflow-x-hidden">
+    <div id="header-placeholder"></div>
+
+    <main>
+        <section class="blog-cafe-section min-h-screen pt-32 pb-20">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6">
+                <div class="text-center mb-12 sm:mb-16">
+                    <p class="text-nexo-cyan font-bold tracking-[0.35em] text-xs sm:text-sm mb-4">BLOG & CAFE</p>
+                    <h1 class="blog-cafe-title text-4xl sm:text-5xl md:text-6xl font-black mb-6">블로그 / 카페</h1>
+                    <p class="blog-cafe-description text-base sm:text-lg max-w-2xl mx-auto leading-8">
+                        설치 후기, 제품 활용 팁, 현장 이야기와 커뮤니티 소식을 외부 채널에서 더 자세히 확인하세요.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+                    <a
+                        href="https://blog.naver.com/nexokorea"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="blog-cafe-card blog-cafe-card--blog group rounded-3xl p-7 sm:p-10 transition-all duration-300 hover:-translate-y-1"
+                    >
+                        <div class="flex items-center justify-between gap-4 mb-10">
+                            <div class="blog-cafe-icon blog-cafe-icon--blog w-16 h-16 rounded-2xl flex items-center justify-center">
+                                <i data-lucide="pen-square" class="w-8 h-8"></i>
+                            </div>
+                            <span class="blog-cafe-label blog-cafe-label--blog text-xs font-bold tracking-[0.25em]">NAVER BLOG</span>
+                        </div>
+                        <h2 class="blog-cafe-card-title text-3xl font-black mb-4 transition-colors">네이버 블로그</h2>
+                        <p class="blog-cafe-card-text leading-8 text-sm sm:text-base">
+                            전자칠판 설치 사례, 제품 리뷰, 수업·회의 활용 팁처럼 조금 더 자세한 읽을거리를 정리합니다.
+                        </p>
+                        <div class="blog-cafe-cta blog-cafe-cta--blog mt-10 inline-flex items-center gap-2 font-bold group-hover:gap-3 transition-all">
+                            블로그 방문하기
+                            <i data-lucide="arrow-up-right" class="w-5 h-5"></i>
+                        </div>
+                    </a>
+
+                    <a
+                        href="https://cafe.naver.com/greenlv3dr"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="blog-cafe-card blog-cafe-card--cafe group rounded-3xl p-7 sm:p-10 transition-all duration-300 hover:-translate-y-1"
+                    >
+                        <div class="flex items-center justify-between gap-4 mb-10">
+                            <div class="blog-cafe-icon blog-cafe-icon--cafe w-16 h-16 rounded-2xl flex items-center justify-center">
+                                <i data-lucide="messages-square" class="w-8 h-8"></i>
+                            </div>
+                            <span class="blog-cafe-label blog-cafe-label--cafe text-xs font-bold tracking-[0.25em]">NAVER CAFE</span>
+                        </div>
+                        <h2 class="blog-cafe-card-title text-3xl font-black mb-4 transition-colors">네이버 카페</h2>
+                        <p class="blog-cafe-card-text leading-8 text-sm sm:text-base">
+                            사용자 관점의 자료와 커뮤니티성 정보를 더 편하게 살펴볼 수 있는 채널입니다.
+                        </p>
+                        <div class="blog-cafe-cta blog-cafe-cta--cafe mt-10 inline-flex items-center gap-2 font-bold group-hover:gap-3 transition-all">
+                            카페 방문하기
+                            <i data-lucide="arrow-up-right" class="w-5 h-5"></i>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="nav-cards-placeholder"></div>
+    <div id="footer-placeholder"></div>
+
+    <script>
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <script src="components/parse-field-news.js"></script>
+    <script src="components/admin.js"></script>
+    <div id="admin-placeholder"></div>
+</body>
+</html>
