@@ -607,13 +607,28 @@ html:not([data-theme="dark"]) .min-h-80.bg-slate-900 {
 }
 
 /* 관리자 버튼 */
-html:not([data-theme="dark"]) #adminButton {
+html:not([data-theme="dark"]) #adminButton,
+html:not([data-theme="dark"]) #adminButtonFallback,
+#adminButton,
+#adminButtonFallback {
+    position: fixed !important;
+    right: 24px !important;
+    bottom: 24px !important;
+    z-index: 80 !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+}
+
+html:not([data-theme="dark"]) #adminButton,
+html:not([data-theme="dark"]) #adminButtonFallback {
     background: #e2e8f0 !important;
     border-color: #cbd5e1 !important;
     color: #475569 !important;
 }
 
-html:not([data-theme="dark"]) #adminButton:hover {
+html:not([data-theme="dark"]) #adminButton:hover,
+html:not([data-theme="dark"]) #adminButtonFallback:hover {
     background: #cbd5e1 !important;
 }
 

@@ -496,6 +496,7 @@ function setupForms() {
     category: fd.get('category'),
     version: fd.get('version') || null,
     description: fd.get('description') || null,
+    is_published: true,
   }));
 
   setupFormHandler('manualForm', 'nexo_manuals', (fd) => ({
@@ -503,6 +504,7 @@ function setupForms() {
     pdf_url: fd.get('pdf_url'),
     category: fd.get('category'),
     description: fd.get('description') || null,
+    is_published: true,
   }));
 
   const caseForm = document.getElementById('caseForm');

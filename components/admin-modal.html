@@ -1,7 +1,7 @@
 <!-- Admin Login Modal -->
 <div id="adminLoginModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/70 backdrop-blur-sm">
     <div class="relative w-full max-w-md mx-4 bg-slate-900 rounded-2xl border border-slate-700 shadow-2xl">
-        <button onclick="closeModal('adminLoginModal')" class="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors z-10">
+        <button onclick="closeModal('adminLoginModal')" data-admin-close="adminLoginModal" class="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors z-10">
             <i data-lucide="x" class="w-6 h-6"></i>
         </button>
         <div class="p-6 sm:p-8">
@@ -39,7 +39,7 @@
                 <div class="flex flex-wrap items-center gap-2 sm:gap-3">
                     <span id="adminUserEmail" class="max-w-full break-all text-xs text-slate-400 sm:text-sm"></span>
                     <button onclick="adminLogout()" class="text-xs text-slate-400 transition-colors hover:text-red-400 sm:text-sm">로그아웃</button>
-                    <button onclick="closeModal('adminPanelModal')" class="text-slate-400 hover:text-white transition-colors bg-slate-800 hover:bg-slate-700 rounded-full p-2">
+                    <button onclick="closeModal('adminPanelModal')" data-admin-close="adminPanelModal" class="text-slate-400 hover:text-white transition-colors bg-slate-800 hover:bg-slate-700 rounded-full p-2">
                         <i data-lucide="x" class="w-5 h-5"></i>
                     </button>
                 </div>
@@ -323,7 +323,7 @@
 
 <!-- Admin Floating Button -->
 <button id="adminButton" onclick="openAdminLogin()"
-        class="fixed bottom-6 right-6 z-40 w-12 h-12 bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white rounded-full shadow-lg flex items-center justify-center transition-all border border-slate-700">
+        class="fixed bottom-6 right-6 z-[80] w-12 h-12 bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white rounded-full shadow-lg flex items-center justify-center transition-all border border-slate-700">
     <i data-lucide="settings" class="w-5 h-5"></i>
 </button>
 

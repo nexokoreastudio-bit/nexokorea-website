@@ -150,10 +150,35 @@
             '미러링 및 원격제어': 'cast'
         };
 
-        const SUPABASE_URL = 'https://qwyeanxbtkzompzxndhk.supabase.co';
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF3eWVhbnhidGt6b21wenhuZGhrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE1NTE5ODcsImV4cCI6MjA4NzEyNzk4N30.qj1dUEokDkvWN_Ukw1nkDqj_aSNwpgTZv7Qti9R5hro';
+        const DEFAULT_TECH_DOCS = [
+            { title: 'UMARK', version: '주석 패치', category: '펌웨어 및 업그레이드', description: '주석 문제 해결 패치', download_url: 'http://nexonas.ipdisk.co.kr/publist/HDD1/%EC%97%85%EB%AC%B4%EC%9A%A9/00NO%2001_NX%EC%8B%9C%EB%A6%AC%EC%A6%88%20%EB%82%A0%EC%A7%9C%EB%B3%84%20%ED%8E%8C%EC%9B%A8%EC%96%B4/UMARK1224%20%EC%84%B8%EB%A1%9C%EB%B0%94%20%EC%A3%BC%EC%84%9D%EB%AC%B8%EC%A0%9C%20%ED%95%B4%EA%B2%B0/UMark_v3588_release_V21251223_12240904_21251223.apk', sort_order: 1 },
+            { title: 'Launcher', version: '시스템', category: '펌웨어 및 업그레이드', description: '시스템 런처', download_url: 'http://nexonas.ipdisk.co.kr/publist/HDD1/%EC%97%85%EB%AC%B4%EC%9A%A9/00NO%2001_NX%EC%8B%9C%EB%A6%AC%EC%A6%88%20%EB%82%A0%EC%A7%9C%EB%B3%84%20%ED%8E%8C%EC%9B%A8%EC%96%B4/NEXO_1128/NEXO_1128/Launcher-3588-1.0-11_28-release-nexo.apk', sort_order: 2 },
+            { title: 'WhiteBoard', version: '판서', category: '펌웨어 및 업그레이드', description: '판서 프로그램', download_url: 'http://nexonas.ipdisk.co.kr/publist/HDD1/%EC%97%85%EB%AC%B4%EC%9A%A9/00NO%2001_NX%EC%8B%9C%EB%A6%AC%EC%A6%88%20%EB%82%A0%EC%A7%9C%EB%B3%84%20%ED%8E%8C%EC%9B%A8%EC%96%B4/NEXO_1128/NEXO_1128/Nexo%20WhiteBoard_bateV4.3.7_2025_11_01-release.apk', sort_order: 3 },
+            { title: 'Setting', version: '설정', category: '펌웨어 및 업그레이드', description: '시스템 설정 앱', download_url: 'http://nexonas.ipdisk.co.kr/publist/HDD1/%EC%97%85%EB%AC%B4%EC%9A%A9/00NO%2001_NX%EC%8B%9C%EB%A6%AC%EC%A6%88%20%EB%82%A0%EC%A7%9C%EB%B3%84%20%ED%8E%8C%EC%9B%A8%EC%96%B4/NEXO_1128/NEXO_1128/Setting-3588-1.0-10_24-release.apk', sort_order: 4 },
+            { title: 'URecord', version: '녹화', category: '펌웨어 및 업그레이드', description: '화면 녹화 프로그램', download_url: 'http://nexonas.ipdisk.co.kr/publist/HDD1/%EC%97%85%EB%AC%B4%EC%9A%A9/00NO%2001_NX%EC%8B%9C%EB%A6%AC%EC%A6%88%20%EB%82%A0%EC%A7%9C%EB%B3%84%20%ED%8E%8C%EC%9B%A8%EC%96%B4/NEXO_1128/NEXO_1128/URecord_v3588_release_V21251121_20251122165537.apk', sort_order: 5 },
+            { title: '자동켜짐 해제', version: '이미지', category: '펌웨어 및 업그레이드', description: '자동 켜짐 설정 가이드', download_url: 'http://nexonas.ipdisk.co.kr/publist/HDD1/%EC%97%85%EB%AC%B4%EC%9A%A9/HSG(U%EC%8B%9C%EB%A6%AC%EC%A6%88)/SET-POWER.png', sort_order: 6 },
 
-        function escapeHtml(value) {
+            { title: 'APKPure', version: 'v3.17.65', category: '전자칠판용 앱', description: '앱 스토어 프로그램', download_url: 'http://nexonas.ipdisk.co.kr/publist/HDD1/%EC%97%85%EB%AC%B4%EC%9A%A9/%EC%A0%84%EC%9E%90%EC%B9%A0%ED%8C%90-%ED%8E%8C%EC%9B%A8%EC%96%B4/APKPure_v3.17.65_apkpure.com.apk', sort_order: 1 },
+            { title: 'UpnDown', version: 'App Store', category: '전자칠판용 앱', description: '앱 스토어 프로그램', download_url: 'http://nexonas.ipdisk.co.kr/publist/HDD1/%EC%97%85%EB%AC%B4%EC%9A%A9/UPtoDown/uptodown-app-store-6-50.apk', sort_order: 2 },
+            { title: 'Gboard', version: '한글 자판', category: '전자칠판용 앱', description: '구글 한글 키보드', download_url: 'http://nexonas.ipdisk.co.kr/publist/HDD1/%EA%B0%9C%EC%9D%B8%EB%B3%84/%EC%9E%A5%ED%98%95%ED%83%9C/%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%A8-%EC%A0%84%EC%9E%90%EC%B9%A0%ED%8C%90%EC%9A%A9/ADROID/Gboard%2010.9.03.387080390-release-armeabi-v7a%20(com.google.android.inputmethod.latin).apk', sort_order: 3 },
+            { title: '한글오피스 Viewer', version: null, category: '전자칠판용 앱', description: '한글 문서 뷰어', download_url: 'http://nexonas.ipdisk.co.kr/publist/HDD1/%EA%B0%9C%EC%9D%B8%EB%B3%84/%EC%9E%A5%ED%98%95%ED%83%9C/%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%A8-%EC%A0%84%EC%9E%90%EC%B9%A0%ED%8C%90%EC%9A%A9/ADROID/%ED%95%9C%EC%BB%B4%EC%98%A4%ED%94%BC%EC%8A%A4%20viewer%207.0.210503%20(com.tf.thinkdroid.viewer).apk', sort_order: 4 },
+            { title: 'Microsoft PowerPoint', version: null, category: '전자칠판용 앱', description: '파워포인트 뷰어', download_url: 'http://nexonas.ipdisk.co.kr/publist/HDD1/%EA%B0%9C%EC%9D%B8%EB%B3%84/%EC%9E%A5%ED%98%95%ED%83%9C/%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%A8-%EC%A0%84%EC%9E%90%EC%B9%A0%ED%8C%90%EC%9A%A9/ADROID/Microsoft%20PowerPoint_16.0.16227.20132_Apkpure.apk', sort_order: 5 },
+            { title: 'WPS Office Lite', version: null, category: '전자칠판용 앱', description: '오피스 뷰어', download_url: 'http://nexonas.ipdisk.co.kr/publist/HDD1/%EA%B0%9C%EC%9D%B8%EB%B3%84/%EC%9E%A5%ED%98%95%ED%83%9C/%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%A8-%EC%A0%84%EC%9E%90%EC%B9%A0%ED%8C%90%EC%9A%A9/ADROID/cn.wps.moffice_i18n_2022-06-30.apk', sort_order: 6 },
+            { title: 'Xodo PDF Reader', version: null, category: '전자칠판용 앱', description: 'PDF 뷰어 및 에디터', download_url: 'http://nexonas.ipdisk.co.kr/publist/HDD1/%EA%B0%9C%EC%9D%B8%EB%B3%84/%EC%9E%A5%ED%98%95%ED%83%9C/%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%A8-%EC%A0%84%EC%9E%90%EC%B9%A0%ED%8C%90%EC%9A%A9/ADROID/Xodo%20PDF%20Reader%20&%20Editor_8.5.0_Apkpure.apk', sort_order: 7 },
+
+            { title: '태비박스', version: 'TeBiBox', category: '교육 및 멀티미디어 앱', description: '교육용 멀티미디어 플레이어', download_url: 'http://nexonas.ipdisk.co.kr/publist/HDD1/%EC%97%85%EB%AC%B4%EC%9A%A9/01_%ED%85%8C%EB%B9%84%EB%B0%95%EC%8A%A4%20%20New%20Version/TeBiBOX_v6.0.001_20250217.apk', sort_order: 1 },
+            { title: 'YouTube Update', version: 'v20.11.43', category: '교육 및 멀티미디어 앱', description: '유튜브 앱 (최신 버전)', download_url: 'https://drive.google.com/uc?export=download&id=1Po_fsi3pXphWy4qSkSjw-EJabVzxlslt', sort_order: 2 },
+            { title: 'YouTube', version: 'v4.31', category: '교육 및 멀티미디어 앱', description: '유튜브 앱 (이전 버전)', download_url: 'http://nexonas.ipdisk.co.kr/publist/HDD1/%EA%B0%9C%EC%9D%B8%EB%B3%84/%EC%9E%A5%ED%98%95%ED%83%9C/%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%A8-%EC%A0%84%EC%9E%90%EC%B9%A0%ED%8C%90%EC%9A%A9/ADROID/youtube-for-android-tv-4-31-300.apk', sort_order: 3 },
+
+            { title: 'BytelloShare Client', version: null, category: '미러링 및 원격제어', description: '미러링 클라이언트', download_url: 'http://nexonas.ipdisk.co.kr/publist/HDD1/%EA%B0%9C%EC%9D%B8%EB%B3%84/%EC%9E%A5%ED%98%95%ED%83%9C/%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%A8-%EC%A0%84%EC%9E%90%EC%B9%A0%ED%8C%90%EC%9A%A9/ADROID/BytelloShare_Client_Android_5.8.0.3966-signed.apk', sort_order: 1 },
+            { title: 'RustDesk', version: 'v1.4.4', category: '미러링 및 원격제어', description: '원격 제어 프로그램', download_url: 'http://nexonas.ipdisk.co.kr/publist/HDD1/%EC%97%85%EB%AC%B4%EC%9A%A9/rustdesk-1.4.4-universal-signed.apk', sort_order: 2 },
+            { title: '미러링 방법 모음', version: 'ZIP', category: '미러링 및 원격제어', description: '미러링 가이드 자료', download_url: 'http://nexonas.ipdisk.co.kr/publist/HDD1/%EA%B0%9C%EC%9D%B8%EB%B3%84/%EC%9E%A5%ED%98%95%ED%83%9C/%EC%A0%84%EC%9E%90%EC%B9%A0%ED%8C%90%EA%B3%BC%20%EB%AF%B8%EB%9F%AC%EB%A7%81%20%EB%B0%A9%EB%B2%95/%EC%A0%84%EC%9E%90%EC%B9%A0%ED%8C%90%EA%B3%BC%20%EB%AF%B8%EB%9F%AC%EB%A7%81%20%EB%B0%A9%EB%B2%95.zip', sort_order: 3 }
+        ];
+
+        const RESOURCES_SUPABASE_URL = 'https://qwyeanxbtkzompzxndhk.supabase.co';
+        const RESOURCES_SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF3eWVhbnhidGt6b21wenhuZGhrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE1NTE5ODcsImV4cCI6MjA4NzEyNzk4N30.qj1dUEokDkvWN_Ukw1nkDqj_aSNwpgTZv7Qti9R5hro';
+
+        function escapeResourcesHtml(value) {
             return String(value ?? '')
                 .replace(/&/g, '&amp;')
                 .replace(/</g, '&lt;')
@@ -180,10 +205,10 @@
                     <div class="w-16 h-16 bg-nexo-cyan/20 rounded-xl flex items-center justify-center mb-4">
                         <i data-lucide="${icon}" class="w-8 h-8 text-nexo-cyan"></i>
                     </div>
-                    <h4 class="text-lg font-bold text-white mb-2">${escapeHtml(getTechDocTitle(item))}</h4>
-                    <p class="text-slate-400 text-sm mb-4">${escapeHtml(description)}</p>
+                    <h4 class="text-lg font-bold text-white mb-2">${escapeResourcesHtml(getTechDocTitle(item))}</h4>
+                    <p class="text-slate-400 text-sm mb-4">${escapeResourcesHtml(description)}</p>
                     ${hasDownload
-                        ? `<a href="${escapeHtml(downloadUrl)}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-nexo-cyan hover:text-white transition-colors">
+                        ? `<a href="${escapeResourcesHtml(downloadUrl)}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-nexo-cyan hover:text-white transition-colors">
                                 <i data-lucide="download" class="w-4 h-4"></i>
                                 다운로드
                            </a>`
@@ -202,7 +227,7 @@
                     <div class="w-16 h-16 bg-nexo-cyan/20 rounded-xl flex items-center justify-center mb-4">
                         <i data-lucide="${icon}" class="w-8 h-8 text-nexo-cyan"></i>
                     </div>
-                    <h4 class="text-lg font-bold text-white mb-2">${escapeHtml(categoryName)}</h4>
+                    <h4 class="text-lg font-bold text-white mb-2">${escapeResourcesHtml(categoryName)}</h4>
                     <p class="text-slate-400 text-sm mb-4">자료 준비 중입니다</p>
                     <span class="text-slate-500 text-sm">Coming Soon</span>
                 </div>
@@ -230,9 +255,9 @@
                     <section>
                         <h3 class="text-2xl font-bold text-white mb-2 flex items-center gap-3">
                             <i data-lucide="${category.icon}" class="w-6 h-6 text-nexo-cyan"></i>
-                            ${categoryIndex + 1}. ${escapeHtml(category.name)}
+                            ${categoryIndex + 1}. ${escapeResourcesHtml(category.name)}
                         </h3>
-                        <p class="text-slate-400 mb-6">${escapeHtml(category.description)}</p>
+                        <p class="text-slate-400 mb-6">${escapeResourcesHtml(category.description)}</p>
                         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 lg:gap-6">
                             ${cards}
                         </div>
@@ -245,11 +270,26 @@
             }
         }
 
+        function buildDocKey(item) {
+            return [item.category || '', item.title || '', item.version || ''].join('::').toLowerCase();
+        }
+
+        function mergeTechDocs(defaultDocs, remoteDocs) {
+            const merged = new Map();
+            defaultDocs.forEach(item => {
+                merged.set(buildDocKey(item), item);
+            });
+            remoteDocs.forEach(item => {
+                merged.set(buildDocKey(item), item);
+            });
+            return Array.from(merged.values());
+        }
+
         async function loadTechDocs() {
             const container = document.getElementById('techDocsSections');
             try {
-                const res = await fetch(`${SUPABASE_URL}/rest/v1/nexo_tech_docs?select=id,title,download_url,category,version,description,sort_order&is_published=eq.true&order=sort_order.asc,created_at.desc`, {
-                    headers: { apikey: SUPABASE_KEY }
+                const res = await fetch(`${RESOURCES_SUPABASE_URL}/rest/v1/nexo_tech_docs?select=id,title,download_url,category,version,description,sort_order&or=(is_published.is.null,is_published.eq.true)&order=sort_order.asc,created_at.desc`, {
+                    headers: { apikey: RESOURCES_SUPABASE_KEY }
                 });
 
                 if (!res.ok) {
@@ -257,15 +297,10 @@
                 }
 
                 const docs = await res.json();
-                renderTechDocSections(Array.isArray(docs) ? docs : []);
+                renderTechDocSections(mergeTechDocs(DEFAULT_TECH_DOCS, Array.isArray(docs) ? docs : []));
             } catch (error) {
                 console.error('[resources] failed to load tech docs', error);
-                container.innerHTML = `
-                    <div class="rounded-2xl border border-red-500/30 bg-red-500/10 px-6 py-8 text-center">
-                        <p class="text-lg font-bold text-white mb-2">기술자료를 불러오지 못했습니다.</p>
-                        <p class="text-slate-300">잠시 후 다시 시도해 주세요.</p>
-                    </div>
-                `;
+                renderTechDocSections(DEFAULT_TECH_DOCS);
             }
         }
 
@@ -276,5 +311,119 @@
     <script src="components/parse-field-news.js"></script>
     <script src="components/admin.js"></script>
     <div id="admin-placeholder"></div>
+    <script>
+        async function ensureAdminUiReady() {
+            if (!document.getElementById('adminLoginModal')) {
+                if (typeof loadAdminModal === 'function') {
+                    await loadAdminModal();
+                } else {
+                    const res = await fetch('components/admin-modal.html');
+                    if (!res.ok) throw new Error('admin modal load failed');
+                    const html = await res.text();
+                    const placeholder = document.getElementById('admin-placeholder');
+                    if (placeholder) {
+                        placeholder.innerHTML = html;
+                        if (typeof lucide !== 'undefined') {
+                            lucide.createIcons();
+                        }
+                        if (typeof initAdmin === 'function') {
+                            await initAdmin();
+                        }
+                    }
+                }
+            }
+
+            wireAdminModalActions();
+
+            const emailInput = document.getElementById('adminEmail');
+            if (emailInput) {
+                emailInput.value = 'admin@nexokorea.co.kr';
+            }
+
+            if (typeof openAdminLogin === 'function') {
+                openAdminLogin();
+            } else {
+                const loginModal = document.getElementById('adminLoginModal');
+                if (loginModal) {
+                    loginModal.classList.remove('hidden');
+                    loginModal.classList.add('flex');
+                    document.body.style.overflow = 'hidden';
+                }
+            }
+        }
+
+        function forceCloseModal(id) {
+            const modal = document.getElementById(id);
+            if (!modal) return;
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = '';
+        }
+
+        function wireAdminModalActions() {
+            const loginBtn = document.getElementById('loginBtn');
+            if (loginBtn && loginBtn.dataset.boundManualAdmin !== 'true') {
+                loginBtn.dataset.boundManualAdmin = 'true';
+                loginBtn.onclick = null;
+                loginBtn.addEventListener('click', async (event) => {
+                    event.preventDefault();
+                    if (typeof initAdmin === 'function') {
+                        await initAdmin();
+                    }
+                    if (typeof handleEmailLogin === 'function') {
+                        await handleEmailLogin();
+                    }
+                });
+            }
+
+            document.querySelectorAll('#adminLoginModal [data-admin-close], #adminPanelModal [data-admin-close]').forEach((button) => {
+                if (button.dataset.boundManualAdmin === 'true') return;
+                button.dataset.boundManualAdmin = 'true';
+                button.onclick = null;
+                button.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    const targetId = button.getAttribute('data-admin-close');
+                    if (typeof closeModal === 'function') {
+                        closeModal(targetId);
+                    } else {
+                        forceCloseModal(targetId);
+                    }
+                });
+            });
+        }
+
+        function bindAdminButton(button) {
+            if (!button || button.dataset.boundAdminOpen === 'true') return;
+            button.dataset.boundAdminOpen = 'true';
+            button.onclick = null;
+            button.addEventListener('click', async (event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                await ensureAdminUiReady();
+            });
+        }
+
+        window.addEventListener('load', () => {
+            window.setTimeout(async () => {
+                const existingButton = document.getElementById('adminButton');
+                if (existingButton) {
+                    bindAdminButton(existingButton);
+                    return;
+                }
+
+                const button = document.createElement('button');
+                button.id = 'adminButtonFallback';
+                button.type = 'button';
+                button.className = 'fixed bottom-6 right-6 z-[80] w-12 h-12 bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white rounded-full shadow-lg flex items-center justify-center transition-all border border-slate-700';
+                button.setAttribute('aria-label', '관리자 로그인 열기');
+                button.innerHTML = '<i data-lucide="settings" class="w-5 h-5"></i>';
+                document.body.appendChild(button);
+                bindAdminButton(button);
+                if (typeof lucide !== 'undefined') {
+                    lucide.createIcons();
+                }
+            }, 500);
+        }, { once: true });
+    </script>
 </body>
 </html>
